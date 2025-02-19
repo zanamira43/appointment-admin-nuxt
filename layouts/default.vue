@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen w--full">
-        <AppNavbar />
+       <AppNavbar />
         <div class="container mx-auto">
             <slot />
         </div>
