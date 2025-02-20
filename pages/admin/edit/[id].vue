@@ -8,7 +8,7 @@ const id = route.params.id;
       <DashboardPageHeader title="Edit Patient" subtitle="You can edit patient information" />
 
       <div class="mt-2">
-        <appointment-Form />
+        <AppAppointmentForm />
       </div>
     </div>
   </div>
