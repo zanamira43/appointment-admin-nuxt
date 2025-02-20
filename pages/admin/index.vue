@@ -73,7 +73,7 @@ const people = [
   <div>
     <div class="w-full h-auto">
       <div class="px-4 py-2">
-        <DashboardHeader title="Patient List" subtitle="List of all patients" />
+        <DashboardPageHeader title="Patient List" subtitle="List of all patients" />
 
         <div class="mt-2">
           <UTable :columns="selectedColumns" :rows="people" />
