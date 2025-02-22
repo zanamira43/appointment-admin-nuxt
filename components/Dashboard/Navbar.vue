@@ -11,8 +11,8 @@ const items = [
   ],
   [
     {
-      label: "Settings",
-      icon: "i-heroicons-cog-8-tooth",
+      label: "Profile",
+      icon: "i-heroicons-user-circle",
     },
   ],
 

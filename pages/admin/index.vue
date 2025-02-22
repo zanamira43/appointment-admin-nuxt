@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const admin = ref("admin")
 const columns = [{
   key: 'name',
   label: 'Name'
@@ -68,6 +69,7 @@ const items = (row: any) => [
 const selected = ref([people[1]])
 </script>
 <template>
+  <NuxtLayout name="admin">
   <div class="w-full h-auto">
     <div class="px-4 py-2">
       <DashboardPageHeader title="Patient List" subtitle="List of all patients" />
@@ -87,4 +89,5 @@ const selected = ref([people[1]])
       </div>
     </div>
   </div>
+  </NuxtLayout>
 </template>

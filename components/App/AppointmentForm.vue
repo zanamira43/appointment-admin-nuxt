@@ -1,4 +1,9 @@
 <script setup lang="ts">
+
+const props = defineProps<{
+  formTitle?: string
+}>()
+
 const submitForm = (e: any) => {
   e.preventDefault();
   console.log("form submitted");
@@ -19,7 +24,7 @@ const form = reactive({
   <UCard class="max-w-3xl mx-auto -mt-10">
     <template #header>
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-        Make an Appointment
+        {{ formTitle }}
       </h2>
     </template>
 
@@ -37,7 +42,7 @@ const form = reactive({
       <UFormGroup label="Gender" name="gender" required>
         <USelect
           v-model="form.gender"
-          :options="['Male', 'Female', 'Other']"
+          :options="['male', 'female', 'other']"
           icon="i-heroicons-users"
         />
       </UFormGroup>
@@ -55,25 +60,18 @@ const form = reactive({
           />
         </UFormGroup>
 
-        <!-- Phone Number -->
-        <UFormGroup label="Phone Number" name="phone" required>
+        <!-- Profession -->
+        <UFormGroup label="Profession" name="profession" required>
           <UInput
-            v-model="form.phone"
-            type="tel"
-            placeholder="+1 234 567 890"
-            icon="i-heroicons-phone"
+            v-model="form.profession"
+            placeholder="Lawyer"
+            icon="i-heroicons-briefcase"
           />
         </UFormGroup>
+
       </div>
 
-      <!-- Profession -->
-      <UFormGroup label="Profession" name="profession" required>
-        <UInput
-          v-model="form.profession"
-          placeholder="Lawyer"
-          icon="i-heroicons-briefcase"
-        />
-      </UFormGroup>
+      
 
       <!-- Address -->
       <UFormGroup label="Address" name="address" required>
@@ -83,6 +81,16 @@ const form = reactive({
           icon="i-heroicons-home"
         />
       </UFormGroup>
+
+       <!-- Phone Number -->
+       <UFormGroup label="Phone Number" name="phone" required>
+          <UInput
+            v-model="form.phone"
+            type="tel"
+            placeholder="+1 234 567 890"
+            icon="i-heroicons-phone"
+          />
+        </UFormGroup>
 
       <!-- Submit Button -->
       <div class="flex justify-end">

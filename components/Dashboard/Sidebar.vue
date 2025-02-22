@@ -7,14 +7,14 @@ const links = [
       to: "/admin",
     },
     {
-      label: "Vertical Navigation",
-      icon: "i-heroicons-chart-bar",
-      to: "/",
+      label: "New Patient",
+      icon: "i-heroicons-plus-solid",
+      to: "/admin/new-patient/",
     },
     {
-      label: "Command Palette",
-      icon: "i-heroicons-command-line",
-      to: "/",
+      label: "Users",
+      icon: "i-heroicons-users-solid",
+      to: "/admin/users",
     },
   ],
 ];
