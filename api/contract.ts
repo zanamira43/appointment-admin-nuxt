@@ -6,7 +6,7 @@ const c = initContract();
 export const contract = c.router({
   getPatients: {
     method: 'GET',
-    path: '/patients',
+    path: '/api/patients',
     responses: {
       200: c.type<Patient[]>(),
     },

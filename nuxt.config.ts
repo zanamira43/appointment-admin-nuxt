@@ -15,5 +15,6 @@ export default defineNuxtConfig({
     public: {  
       APIURL: process.env.API_URL
     }
-  }
+  },
+  plugins: ['~/plugins/vue-query.ts', '~/plugins/api-client.ts'],
 })

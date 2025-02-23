@@ -4,7 +4,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const { $apiQueryClient } = useNuxtApp();
+
+const { data } = $apiQueryClient.getPatients.useQuery();
+
+console.log(data);
+
 useHead({
   title: "Appointments System",
   meta: [
