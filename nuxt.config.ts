@@ -5,9 +5,15 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', '@pinia/nuxt'],
 
-  ui:{
-    global: true,
-    primary: 'orange',
-    gray: 'cool' 
+  // ui:{
+  //   global: true,
+  //   primary: 'orange',
+  //   gray: 'cool' 
+  // },
+
+  runtimeConfig: {  
+    public: {  
+      APIURL: process.env.API_URL
+    }
   }
 })

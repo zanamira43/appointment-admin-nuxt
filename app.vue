@@ -4,9 +4,7 @@
   </div>
 </template>
 
-
 <script setup>
-
 useHead({
   title: "Appointments System",
   meta: [
