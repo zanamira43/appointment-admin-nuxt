@@ -1,93 +1,75 @@
 <script setup lang="ts">
-const admin = ref("admin")
-const columns = [{
-  key: 'name',
-  label: 'Name'
-}, {
-  key: 'title',
-  label: 'Title'
-}, {
-  key: 'email',
-  label: 'Email'
-}, {
-  key: 'role',
-  label: 'Role'
-}, {
-  key: 'actions'
-}]
+import usePatient from "~/composable/usePatient";
+const admin = ref("admin");
 
-const people = [{
-  id: 1,
-  name: 'Lindsay Walton',
-  title: 'Front-end Developer',
-  email: 'lindsay.walton@example.com',
-  role: 'Member'
-}, {
-  id: 2,
-  name: 'Courtney Henry',
-  title: 'Designer',
-  email: 'courtney.henry@example.com',
-  role: 'Admin'
-}, {
-  id: 3,
-  name: 'Tom Cook',
-  title: 'Director of Product',
-  email: 'tom.cook@example.com',
-  role: 'Member'
-}, {
-  id: 4,
-  name: 'Whitney Francis',
-  title: 'Copywriter',
-  email: 'whitney.francis@example.com',
-  role: 'Admin'
-}, {
-  id: 5,
-  name: 'Leonard Krasner',
-  title: 'Senior Designer',
-  email: 'leonard.krasner@example.com',
-  role: 'Owner'
-}, {
-  id: 6,
-  name: 'Floyd Miles',
-  title: 'Principal Designer',
-  email: 'floyd.miles@example.com',
-  role: 'Member'
-}]
+const { patients, isLoading } = await usePatient();
+
+const columns = [
+  {
+    key: "id",
+    label: "ID",
+  },
+  {
+    key: "name",
+    label: "Name",
+  },
+  {
+    key: "gender",
+    label: "Gender",
+  },
+  {
+    key: "age",
+    label: "Age",
+  },
+  {
+    key: "phone_number",
+    label: "Phone Number",
+  },
+];
 
 const items = (row: any) => [
-  [{
-   label: 'Details',
-   icon: 'i-heroicons-view-columns-20-solid'
-  }],
-  [{
-    label: 'Edit',
-    icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => console.log('Edit', row.id)
-  }]
-]
-
-const selected = ref([people[1]])
+  {
+    label: "Edit",
+    icon: "heroicons:pencil-square-20-solid",
+    click: () => {
+      navigateTo(`/admin/edit/${row.id}`);
+    },
+  },
+  {
+    label: "Delete",
+    icon: "heroicons:trash-20-solid",
+    click: () => {
+      console.log("Delete");
+    },
+  },
+];
 </script>
 <template>
   <NuxtLayout name="admin">
-  <div class="w-full h-auto">
-    <div class="px-4 py-2">
-      <DashboardPageHeader title="Patient List" subtitle="List of all patients" />
+    <div class="w-full h-auto">
+      <div class="px-4 py-2">
+        <DashboardPageHeader title="Patient List" subtitle="List of all patients" />
 
-      <div class="mt-2">
-        <UTable v-model="selected" :rows="people" :columns="columns">
-          <template #name-data="{ row }">
-            <span :class="[selected.find(person => person.id === row.id) && 'text-primary-500 dark:text-primary-400']">{{ row.name }}</span>
-          </template>
+        <div class="mt-2">
+          <UTable :rows="patients?.body" :columns="columns" :loading="isLoading">
+            <template #id-data="{ row }">
+              <NuxtLink :to="`/admin/edit/${row.id}`">
+                {{ row.id }}
+              </NuxtLink>
+            </template>
 
-          <template #actions-data="{ row }">
-            <UDropdown :items="items(row)">
-              <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-            </UDropdown>
-          </template>
-        </UTable>
+            <template #actions-data="{ row }">
+              <UDropdown :items="items(row)">
+                <UButton
+                  color="gray"
+                  variant="ghost"
+                  icon="heroicons:ellipsis-horizontal"
+                />
+              </UDropdown>
+            </template>
+          </UTable>
+        </div>
       </div>
     </div>
-  </div>
   </NuxtLayout>
 </template>

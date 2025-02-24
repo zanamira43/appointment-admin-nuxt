@@ -1,5 +1,5 @@
 import {initQueryClient} from "@ts-rest/vue-query"
-import { contract } from '~/api/contract'
+import { contract } from '~/contracts/patient'
 
 
 export default defineNuxtPlugin(() => {

@@ -59,13 +59,13 @@ const items = [
 
       <!-- Search Bar -->
       <UForm class="relative flex flex-1 justify-start items-center">
-        <UFormGrou class="w-[500px]">
+        <UFormGroup class="w-[500px]">
           <UInput
             placeholder="Search..."
             icon="heroicons:magnifying-glass"
             iconPosition="left"
           />
-        </UFormGrou>
+        </UFormGroup>
       </UForm>
 
       <div class="flex items-center gap-x-4 lg:gap-x-6">
