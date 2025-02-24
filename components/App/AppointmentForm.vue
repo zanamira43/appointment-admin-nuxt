@@ -1,24 +1,29 @@
 <script setup lang="ts">
+import useCreatePatient from "~/composable/useCreatePatient";
+import type { NewPatient } from "~/types";
 
 const props = defineProps<{
-  formTitle?: string
-}>()
-
-const submitForm = (e: any) => {
-  e.preventDefault();
-  console.log("form submitted");
-};
+  formTitle?: string;
+}>();
 
 const loading = ref(false);
 
-const form = reactive({
-  name: "",
-  gender: "",
-  age: "",
-  phone: "",
-  profession: "",
-  address: "",
+const form = reactive<NewPatient>({
+  name: "Allen Brown",
+  gender: "male",
+  age: 39,
+  phone_number: "(555) 321-8888",
+  profession: "Farmer",
+  address: "654 Farmer Street, Springfield, IL",
 });
+
+const { mutate, isLoading } = await useCreatePatient();
+const submitForm = async () => {
+  loading.value = isLoading.value;
+  await mutate({
+    body: form,
+  });
+};
 </script>
 <template>
   <UCard class="max-w-3xl mx-auto -mt-10">
@@ -68,10 +73,7 @@ const form = reactive({
             icon="i-heroicons-briefcase"
           />
         </UFormGroup>
-
       </div>
-
-      
 
       <!-- Address -->
       <UFormGroup label="Address" name="address" required>
@@ -82,15 +84,15 @@ const form = reactive({
         />
       </UFormGroup>
 
-       <!-- Phone Number -->
-       <UFormGroup label="Phone Number" name="phone" required>
-          <UInput
-            v-model="form.phone"
-            type="tel"
-            placeholder="+1 234 567 890"
-            icon="i-heroicons-phone"
-          />
-        </UFormGroup>
+      <!-- Phone Number -->
+      <UFormGroup label="Phone Number" name="phone" required>
+        <UInput
+          v-model="form.phone_number"
+          type="tel"
+          placeholder="+1 234 567 890"
+          icon="i-heroicons-phone"
+        />
+      </UFormGroup>
 
       <!-- Submit Button -->
       <div class="flex justify-end">

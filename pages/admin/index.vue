@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import usePatient from "~/composable/usePatient";
-const admin = ref("admin");
+import type { Patient } from "~/types";
+import useGetPatient from "~/composable/useGetPatient";
 
-const { patients, isLoading } = await usePatient();
+const { patients, isLoading } = await useGetPatient();
 
 const columns = [
   {
@@ -25,23 +25,36 @@ const columns = [
     key: "phone_number",
     label: "Phone Number",
   },
+
+  {
+    key: "actions",
+    label: "Actions",
+  },
 ];
 
-const items = (row: any) => [
-  {
-    label: "Edit",
-    icon: "heroicons:pencil-square-20-solid",
-    click: () => {
-      navigateTo(`/admin/edit/${row.id}`);
+const items = (row: Patient) => [
+  [
+    {
+      label: "Edit",
+      icon: "heroicons:pencil-square-20-solid",
+      iconClass: "text-blue-600",
+      class: "text-blue-500",
+      click: () => {
+        navigateTo(`/admin/edit/${row.id}`);
+      },
     },
-  },
-  {
-    label: "Delete",
-    icon: "heroicons:trash-20-solid",
-    click: () => {
-      console.log("Delete");
+  ],
+  [
+    {
+      label: "Delete",
+      icon: "heroicons:trash-20-solid",
+      iconClass: "text-red-600",
+      class: "text-red-500",
+      click: () => {
+        console.log("Delete");
+      },
     },
-  },
+  ],
 ];
 </script>
 <template>
@@ -63,7 +76,7 @@ const items = (row: any) => [
                 <UButton
                   color="gray"
                   variant="ghost"
-                  icon="heroicons:ellipsis-horizontal"
+                  icon="i-heroicons-ellipsis-horizontal-20-solid"
                 />
               </UDropdown>
             </template>

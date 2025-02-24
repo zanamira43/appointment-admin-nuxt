@@ -10,3 +10,12 @@ export interface Patient{
   created_at: Date,
   updated_at: Date
 }
+
+export interface NewPatient{
+  name: string,
+  gender: string,
+  age: number,
+  profession: string,
+  address: string,
+  phone_number: string,
+}
