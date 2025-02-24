@@ -1,28 +1,16 @@
 <script setup lang="ts">
-import useCreatePatient from "~/composable/useCreatePatient";
 import type { NewPatient } from "~/types";
 
 const props = defineProps<{
   formTitle?: string;
+  loading?: boolean;
+  form: NewPatient;
 }>();
 
-const loading = ref(false);
+const emits = defineEmits(["submitForm"]);
 
-const form = reactive<NewPatient>({
-  name: "Allen Brown",
-  gender: "male",
-  age: 39,
-  phone_number: "(555) 321-8888",
-  profession: "Farmer",
-  address: "654 Farmer Street, Springfield, IL",
-});
-
-const { mutate, isLoading } = await useCreatePatient();
 const submitForm = async () => {
-  loading.value = isLoading.value;
-  await mutate({
-    body: form,
-  });
+  emits("submitForm", props.form);
 };
 </script>
 <template>
