@@ -23,9 +23,9 @@ export const contract = c.router({
     summary: 'Get all patient list',
   },
 
-  getPatient: {
+  getPatientbyId: {
     method: 'GET',
-    path: '/api/patient/:id',
+    path: '/api/patients/:id',
     responses: {
       200: c.type<Patient>(),
     },
@@ -33,25 +33,3 @@ export const contract = c.router({
   },
 
 });
-
-// export interface Patient{
-//   id: number,
-//   slug: string,
-//   name: string,
-//   gender: string,
-//   age: number,
-//   profession: string,
-//   address: string,
-//   phone_number: string,
-//   created_at: Date,
-//   updated_at: Date
-// }
-
-// export interface NewPatient{
-//   name: string,
-//   gender: string,
-//   age: number,
-//   profession: string,
-//   address: string,
-//   phone_number: string,
-// }
