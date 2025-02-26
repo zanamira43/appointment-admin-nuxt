@@ -21,6 +21,7 @@ export const contract = c.router({
       200: c.type<Patient[]>(),
     },
     summary: 'Get all patient list',
+    
   },
 
   getPatientbyId: {
@@ -36,7 +37,7 @@ export const contract = c.router({
     method: 'PUT',
     path: '/api/patients/:id',
     responses: {
-      200: c.type<NewPatient>(),
+      200: c.type<Patient>(),
     },
     body: c.type<Patient>(),
     summary: 'Update patient',
@@ -45,6 +46,7 @@ export const contract = c.router({
   deletePatient: {
     method: "DELETE",
     path: '/api/patients/:id',
+    pathParams: c.type<{ id: string }>(),
     responses: {
       200: c.type<Patient>(),
     },

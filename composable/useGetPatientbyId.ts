@@ -13,6 +13,6 @@ export default  async function (id: any) {
 
   return {
     patient,
-    isLoading
+    isLoading,
   }
 }

@@ -7,8 +7,6 @@ export default async () => {
     mutationKey: ["deletePatient"],
     onSuccess: () => {
       console.log("Patient deleted successfully");
-      // navigate to patients page
-      navigateTo("/admin");
     },
     onError: (error: any) => {
       console.log("Error deleting patient", error);
