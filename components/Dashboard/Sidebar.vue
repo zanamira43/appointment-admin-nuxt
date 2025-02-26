@@ -6,11 +6,11 @@ const links = [
       icon: "i-heroicons-home",
       to: "/admin",
     },
-    {
-      label: "New Patient",
-      icon: "i-heroicons-plus-solid",
-      to: "/admin/new-patient/",
-    },
+    // {
+    //   label: "New Patient",
+    //   icon: "i-heroicons-plus-solid",
+    //   to: "/admin/new-patient/",
+    // },
     {
       label: "Users",
       icon: "i-heroicons-users-solid",

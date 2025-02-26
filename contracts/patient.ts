@@ -36,13 +36,14 @@ export const contract = c.router({
     method: 'PUT',
     path: '/api/patients/:id',
     responses: {
-      200: c.type<Patient>(),
+      200: c.type<NewPatient>(),
     },
     body: c.type<Patient>(),
     summary: 'Update patient',
   },
+  
   deletePatient: {
-    method: 'DELETE',
+    method: "DELETE",
     path: '/api/patients/:id',
     responses: {
       200: c.type<Patient>(),

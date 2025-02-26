@@ -5,7 +5,6 @@ const props = defineProps<{
   formTitle?: string;
   loading?: boolean;
   btnLable?: string;
-  btnColor?: string;
   form: NewPatient;
 }>();
 
@@ -86,7 +85,7 @@ const submitForm = async () => {
 
       <!-- Submit Button -->
       <div class="flex justify-end">
-        <UButton type="submit" :color="btnColor" :loading="loading" :label="btnLable" />
+        <UButton type="submit" color="black" :loading="loading" :label="btnLable" />
       </div>
     </UForm>
   </UCard>

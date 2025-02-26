@@ -4,7 +4,6 @@ export default async function () {
   const { mutate, isLoading } = await $apiQueryClient.createPatient.useMutation({
     mutationKey: ["createPatient"],
     onSuccess: () => {
-  
       console.log("Patient created successfully");
       navigateTo("/");
     },

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Patient } from "~/types";
 import useGetPatient from "~/composable/useGetPatient";
+import useDeletePatient from "~/composable/useDeletePatient";
 
 const { patients, isLoading } = await useGetPatient();
 
@@ -51,18 +52,36 @@ const items = (row: Patient) => [
       iconClass: "text-red-600",
       class: "text-red-500",
       click: () => {
-        console.log("Delete");
+        delModal.value = true;
+        delId.value = row.id;
       },
     },
   ],
 ];
+
+const delModal = ref(false);
+const delId = ref(0);
+const { mutate } = await useDeletePatient();
+const deletePatient = async () => {
+  if (!delId.value) return;
+  await mutate({
+    params: {
+      id: delId.value,
+    },
+  });
+  delModal.value = false;
+  delId.value = 0;
+  window.location.reload();
+};
 </script>
 <template>
   <NuxtLayout name="admin">
     <div class="w-full h-auto">
       <div class="px-4 py-2">
+        <!-- page header -->
         <DashboardPageHeader title="Patient List" subtitle="List of all patients" />
 
+        <!-- patient table  -->
         <div class="mt-2">
           <UTable :rows="patients?.body" :columns="columns" :loading="isLoading">
             <template #id-data="{ row }">
@@ -82,6 +101,28 @@ const items = (row: Patient) => [
             </template>
           </UTable>
         </div>
+
+        <UModal v-model="delModal">
+          <div>
+            <UCard divide="none">
+              <!-- <template #header> -->
+              <h1 class="text-2xl font-bold text-center">Delete Patient</h1>
+              <!-- </template> -->
+              <p class="text-center">Are you sure you want to delete this patient?</p>
+              <template #footer>
+                <div class="flex justify-end gap-2">
+                  <UButton
+                    label="Cancel"
+                    color="gray"
+                    variant="outline"
+                    @click="delModal = false"
+                  />
+                  <UButton label="Delete" color="red" @click="deletePatient" />
+                </div>
+              </template>
+            </UCard>
+          </div>
+        </UModal>
       </div>
     </div>
   </NuxtLayout>

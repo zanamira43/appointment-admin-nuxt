@@ -4,10 +4,10 @@ import useGetPatientbyId from "~/composable/useGetPatientbyId";
 import type { NewPatient, Patient } from "~/types";
 
 const route = useRoute();
-const id = route.params.id;
+const id = ref(route.params.id);
 
 const { mutate, isLoading } = await useUpdatePatient();
-const { patient } = await useGetPatientbyId(id);
+const { patient } = await useGetPatientbyId(id.value);
 
 const updatePatientForm = reactive<NewPatient>({
   name: "",
@@ -18,8 +18,15 @@ const updatePatientForm = reactive<NewPatient>({
   address: "",
 });
 
-const submitForm = async (id: number) => {
-  console.log(id);
+const handleUpdate = async () => {
+  console.log(id.value);
+
+  await mutate({
+    params: {
+      id: id.value as string,
+    },
+    body: updatePatientForm as Patient,
+  });
 };
 </script>
 <template>
@@ -37,8 +44,7 @@ const submitForm = async (id: number) => {
             formTitle="Edit Patient"
             :loading="isLoading"
             btnLable="Update"
-            btnColor="primary"
-            @submit="submitForm"
+            @submit="handleUpdate"
           />
 
           <pre>

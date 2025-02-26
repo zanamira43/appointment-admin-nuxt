@@ -7,7 +7,7 @@ export default  async function() {
     onSuccess: () => {
   
       console.log("Patient updated successfully");
-      navigateTo("/");
+      navigateTo("/admin");
     },
     onError: (error) => {
       console.log("Error update patient", error);

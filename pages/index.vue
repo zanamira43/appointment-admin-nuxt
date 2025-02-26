@@ -19,6 +19,7 @@ const submitForm = async (form: NewPatient) => {
     body: form,
   });
   isLoading.value = false;
+  window.location.reload();
 };
 </script>
 <template>
@@ -35,7 +36,6 @@ const submitForm = async (form: NewPatient) => {
         :loading="isLoading"
         :form="patientForm"
         btnLable="Send"
-        btnColor="black"
       />
     </div>
   </NuxtLayout>
