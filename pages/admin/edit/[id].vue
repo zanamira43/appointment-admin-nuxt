@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import useUpdatePatient from "~/composable/useUpdatePatient";
 import useGetPatientbyId from "~/composable/useGetPatientbyId";
-import type { NewPatient } from "~/types";
+import type { NewPatient, Patient } from "~/types";
 
-const name = ref("admin");
 const route = useRoute();
 const id = route.params.id;
 
+const { mutate, isLoading } = await useUpdatePatient();
 const { patient } = await useGetPatientbyId(id);
 
-const form = reactive<NewPatient>({
+const updatePatientForm = reactive<NewPatient>({
   name: "",
   gender: "",
   age: 0,
@@ -16,6 +17,10 @@ const form = reactive<NewPatient>({
   profession: "",
   address: "",
 });
+
+const submitForm = async (id: number) => {
+  console.log(id);
+};
 </script>
 <template>
   <NuxtLayout name="admin">
@@ -27,12 +32,18 @@ const form = reactive<NewPatient>({
         />
 
         <div class="mt-20">
-          <AppAppointmentForm :form="form" />
+          <AppAppointmentForm
+            :form="updatePatientForm"
+            formTitle="Edit Patient"
+            :loading="isLoading"
+            btnLable="Update"
+            btnColor="primary"
+            @submit="submitForm"
+          />
 
           <pre>
-           {{ patient }}
-           </pre
-          >
+            {{ patient }}
+          </pre>
         </div>
       </div>
     </div>

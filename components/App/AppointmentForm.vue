@@ -4,6 +4,8 @@ import type { NewPatient } from "~/types";
 const props = defineProps<{
   formTitle?: string;
   loading?: boolean;
+  btnLable?: string;
+  btnColor?: string;
   form: NewPatient;
 }>();
 
@@ -84,7 +86,7 @@ const submitForm = async () => {
 
       <!-- Submit Button -->
       <div class="flex justify-end">
-        <UButton type="submit" color="primary" :loading="loading" label="Send" />
+        <UButton type="submit" :color="btnColor" :loading="loading" :label="btnLable" />
       </div>
     </UForm>
   </UCard>

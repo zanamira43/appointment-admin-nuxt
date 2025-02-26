@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import useCreatePatient from "~/composable/useCreatePatient";
+
 import type { NewPatient } from "~/types";
 
 const { mutate, isLoading } = await useCreatePatient();
@@ -33,6 +34,8 @@ const submitForm = async (form: NewPatient) => {
         @submitForm="submitForm"
         :loading="isLoading"
         :form="patientForm"
+        btnLable="Send"
+        btnColor="black"
       />
     </div>
   </NuxtLayout>

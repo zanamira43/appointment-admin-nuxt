@@ -23,6 +23,10 @@ const items = [
     },
   ],
 ];
+
+const form = reactive({
+  search: "",
+});
 </script>
 <template>
   <div
@@ -58,12 +62,13 @@ const items = [
       </form> -->
 
       <!-- Search Bar -->
-      <UForm class="relative flex flex-1 justify-start items-center">
+      <UForm :state="form" class="relative flex flex-1 justify-start items-center">
         <UFormGroup class="w-[500px]">
           <UInput
             placeholder="Search..."
             icon="heroicons:magnifying-glass"
             iconPosition="left"
+            v-model="form.search"
           />
         </UFormGroup>
       </UForm>

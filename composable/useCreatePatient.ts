@@ -2,7 +2,7 @@ export default async function () {
 
   const { $apiQueryClient } = useNuxtApp();
   const { mutate, isLoading } = await $apiQueryClient.createPatient.useMutation({
-
+    mutationKey: ["createPatient"],
     onSuccess: () => {
   
       console.log("Patient created successfully");

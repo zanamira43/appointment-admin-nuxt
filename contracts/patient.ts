@@ -32,4 +32,22 @@ export const contract = c.router({
     summary: 'Get single patient',
   },
 
+  updatePatient: {
+    method: 'PUT',
+    path: '/api/patients/:id',
+    responses: {
+      200: c.type<Patient>(),
+    },
+    body: c.type<Patient>(),
+    summary: 'Update patient',
+  },
+  deletePatient: {
+    method: 'DELETE',
+    path: '/api/patients/:id',
+    responses: {
+      200: c.type<Patient>(),
+    },
+    summary: 'Delete patient',
+  },
+
 });
