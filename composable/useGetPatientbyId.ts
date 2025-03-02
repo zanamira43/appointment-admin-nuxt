@@ -1,18 +1,22 @@
-export default  async function (id: any) {
+import { apiQueryClient } from "~/api/client";
+import {useQuery} from "@tanstack/vue-query"
 
-  const { $apiQueryClient } = useNuxtApp();
-  const { data: patient, isLoading } = await $apiQueryClient.getPatientbyId.useQuery(
-    ["getPatientbyId", id],
-    () => ({
-      params: {
-        id
-      }
-    })
-  );
-
+export default function (id: number) {
+  
+  const {data: patient, isLoading, refetch} = useQuery({
+    queryKey: ['getPatientbyId', id],
+    queryFn: async () => {
+     return  await apiQueryClient.getPatientbyId({
+        params: {
+          id: id as number
+        }
+      })
+    }
+  })
 
   return {
     patient,
     isLoading,
+    refetch
   }
 }

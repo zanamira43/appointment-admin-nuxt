@@ -4,9 +4,18 @@ import useGetPatientbyId from "~/composable/useGetPatientbyId";
 import type { NewPatient, Patient } from "~/types";
 
 const route = useRoute();
-const id = ref(route.params.id);
+const id = ref(parseInt(route.params.id as string));
+const { patient, refetch } = useGetPatientbyId(id.value as number);
+onMounted(async () => {
+  await refetch();
+  if (patient.value?.body) {
+    Object.assign(updatePatientForm, patient.value?.body);
+    console.log(updatePatientForm);
+  }
+});
 
-const updatePatientForm = reactive<NewPatient>({
+const updatePatientForm = reactive<any>({
+  slug: "",
   name: "",
   gender: "",
   age: 0,
@@ -15,26 +24,13 @@ const updatePatientForm = reactive<NewPatient>({
   address: "",
 });
 
-const { patient, isLoading } = await useGetPatientbyId(id.value);
-
-watch(patient, () => {
-  updatePatientForm.name = patient.value?.body.name as string;
-  updatePatientForm.gender = patient.value?.body.gender as string;
-  updatePatientForm.age = patient.value?.body.age as number;
-  updatePatientForm.phone_number = patient.value?.body.phone_number as string;
-  updatePatientForm.profession = patient.value?.body.profession as string;
-  updatePatientForm.address = patient.value?.body.address as string;
-});
-
-const { mutate } = await useUpdatePatient();
+const { mutate } = useUpdatePatient();
+// const { refetch } = useGetPatientbyId(id.value as number);
 // update patient function
 const handleUpdate = async () => {
-  await mutate({
-    params: {
-      id: id.value as string,
-    },
-    body: updatePatientForm as Patient,
-  });
+  await mutate({ id: id.value, updatePatientForm });
+  await refetch();
+  await window.location.reload();
 };
 </script>
 <template>
@@ -47,17 +43,17 @@ const handleUpdate = async () => {
         />
 
         <div class="mt-20">
-          <div v-if="isLoading" class="flex justify-center items-center mt-9">
+          <!-- <div v-if="isLoading" class="flex justify-center items-center mt-9">
             <Icon name="mdi:loading" size="3em" />
-          </div>
-          <div v-else>
-            <AppAppointmentForm
-              :form="updatePatientForm"
-              formTitle="Edit Patient"
-              btnLable="Update"
-              @submitForm="handleUpdate"
-            />
-          </div>
+          </div> -->
+          <!-- <div v-else> -->
+          <AppAppointmentForm
+            :form="updatePatientForm"
+            formTitle="Edit Patient"
+            btnLable="Update"
+            @submitForm="handleUpdate"
+          />
+          <!-- </div> -->
         </div>
       </div>
     </div>

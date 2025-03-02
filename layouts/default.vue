@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen w--full">
+  <div class="min-h-screen w-full">
     <AppNavbar />
-    <div class="container mx-auto">
+    <div class="container mx-auto px-4">
       <slot />
     </div>
   </div>

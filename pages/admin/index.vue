@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import type { Patient } from "~/types";
-import useGetPatient from "~/composable/useGetPatient";
+import useGetPatients from "~/composable/useGetPatients";
 import useDeletePatient from "~/composable/useDeletePatient";
 
-const { patients, isLoading } = await useGetPatient();
+const { patients, isLoading, refetch } = useGetPatients();
+
+onMounted(() => {
+  refetch();
+});
 
 const columns = [
   {
@@ -61,17 +65,15 @@ const items = (row: Patient) => [
 
 const delModal = ref(false);
 const delId = ref(0);
-const { mutate } = await useDeletePatient();
+const { mutate } = useDeletePatient();
 const deletePatient = async () => {
   if (!delId.value) return;
-  await mutate({
-    params: {
-      id: delId.value,
-    },
-  });
+
+  await mutate(delId.value);
   delModal.value = false;
   delId.value = 0;
-  window.location.reload();
+  await window.location.reload();
+  await refetch();
 };
 </script>
 <template>
@@ -83,11 +85,15 @@ const deletePatient = async () => {
 
         <!-- patient table  -->
         <div class="mt-2">
-          <UTable :rows="patients?.body" :columns="columns" :loading="isLoading">
+          <UTable
+            :rows="patients?.body as Patient []"
+            :columns="columns"
+            :loading="isLoading"
+          >
             <template #id-data="{ row }">
-              <NuxtLink :to="`/admin/edit/${row.id}`">
+              <!-- <NuxtLink :to="`/admin/edit/${row.id}`">
                 {{ row.id }}
-              </NuxtLink>
+              </NuxtLink> -->
             </template>
 
             <template #actions-data="{ row }">

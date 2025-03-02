@@ -1,11 +1,19 @@
-// import { useMutation } from "@tanstack/vue-query";
-export default async () => {
+import {apiQueryClient} from '~/api/client'
+import { useMutation } from "@tanstack/vue-query";
 
-  const { $apiQueryClient } = useNuxtApp();
- 
-  const { mutate} = await $apiQueryClient.deletePatient.useMutation({
+export default  () => { 
+
+  const { mutate} = useMutation({
     mutationKey: ["deletePatient"],
-    onSuccess: () => {
+    mutationFn: async (id: number) => {
+      const {} = await apiQueryClient.deletePatient({
+        params: {
+          id: id,
+        },
+      });
+    },
+    onSuccess: async () => {
+    
       console.log("Patient deleted successfully");
     },
     onError: (error: any) => {

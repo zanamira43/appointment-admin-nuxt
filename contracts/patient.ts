@@ -3,17 +3,7 @@ import type { Patient, NewPatient} from '~/types';
 
 const c = initContract();
 
-export const contract = c.router({
-  createPatient: {
-    method: 'POST',
-    path: '/api/patients',
-    responses: {
-      200: c.type<NewPatient>(),
-    },
-    body: c.type<NewPatient>(),
-    
-    summary: 'Create a new patient',
-  },
+export const patientContract = c.router({
   getPatients: {
     method: 'GET',
     path: '/api/patients',
@@ -24,9 +14,21 @@ export const contract = c.router({
     
   },
 
+  createPatient: {
+    method: 'POST',
+    path: '/api/patients',
+    responses: {
+      200: c.type<NewPatient>(),
+    },
+    body: c.type<NewPatient>(),
+    
+    summary: 'Create a new patient',
+  },
+ 
   getPatientbyId: {
     method: 'GET',
     path: '/api/patients/:id',
+    pathParams: c.type<{ id: number }>(), 
     responses: {
       200: c.type<Patient>(),
     },
@@ -36,17 +38,18 @@ export const contract = c.router({
   updatePatient: {
     method: 'PUT',
     path: '/api/patients/:id',
+    pathParams: c.type<{ id: number }>(),
     responses: {
       200: c.type<Patient>(),
     },
-    body: c.type<Patient>(),
+    body: c.type<any>(),
     summary: 'Update patient',
   },
   
   deletePatient: {
     method: "DELETE",
     path: '/api/patients/:id',
-    pathParams: c.type<{ id: string }>(),
+    pathParams: c.type<{ id: number }>(),
     responses: {
       200: c.type<Patient>(),
     },

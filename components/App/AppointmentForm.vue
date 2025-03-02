@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { NewPatient } from "~/types";
+import type { NewPatient, Patient } from "~/types";
 
 const props = defineProps<{
   formTitle?: string;
   loading?: boolean;
   btnLable?: string;
-  form: NewPatient;
+  form: NewPatient | Patient;
 }>();
 
 const emits = defineEmits(["submitForm"]);

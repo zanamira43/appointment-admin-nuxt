@@ -1,8 +1,16 @@
-export default async function () {
+import { apiQueryClient } from "~/api/client";
+import { useMutation } from '@tanstack/vue-query';
+import type { NewPatient } from "~/types";
+export default function () {
 
-  const { $apiQueryClient } = useNuxtApp();
-  const { mutate, isLoading } = await $apiQueryClient.createPatient.useMutation({
+ 
+  const { mutate, isLoading } = useMutation({
     mutationKey: ["createPatient"],
+    mutationFn: async (data: NewPatient) => {
+       await apiQueryClient.createPatient({
+        body: data
+      }) 
+    },
     onSuccess: () => {
       console.log("Patient created successfully");
       navigateTo("/");

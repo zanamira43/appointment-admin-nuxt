@@ -1,25 +1,20 @@
 <script setup lang="ts">
 import useCreatePatient from "~/composable/useCreatePatient";
-
 import type { NewPatient } from "~/types";
 
-const { mutate, isLoading } = await useCreatePatient();
-
 const patientForm = reactive<NewPatient>({
-  name: "",
-  gender: "",
-  age: 0,
-  phone_number: "",
-  profession: "",
-  address: "",
+  name: "Ashly Brown",
+  gender: "female",
+  age: 42,
+  profession: "Lawyer",
+  address: "02 Cedar Blvd, Miami, FL",
+  phone_number: "(555) 567-8801",
 });
-const submitForm = async (form: NewPatient) => {
-  isLoading.value = true;
-  await mutate({
-    body: form,
-  });
-  isLoading.value = false;
-  window.location.reload();
+
+const { mutate, isLoading } = useCreatePatient();
+const submitForm = async () => {
+  await mutate(patientForm);
+  await window.location.reload();
 };
 </script>
 <template>

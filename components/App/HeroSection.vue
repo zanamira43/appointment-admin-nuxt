@@ -11,7 +11,7 @@ defineProps({
 });
 </script>
 <template>
-  <div class="relative isolate px-6 pt-5 lg:px-8">
+  <div class="relative isolate px-6 lg:px-8">
     <div
       class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
       aria-hidden="true"
@@ -40,14 +40,14 @@ defineProps({
         "
       ></div>
     </div>
-    <div class="mx-auto max-w-2xl py-10 md:py-20 lg:py-24">
+    <div class="mx-auto max-w-2xl py-10 md:py-10 lg:py-16">
       <div class="text-center">
         <h1
           class="lg:text-5xl md:text-4xl sm:text-3xl text-2xl font-semibold tracking-tight text-balance text-gray-900"
         >
           {{ title }}
         </h1>
-        <p class="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
+        <p class="mt-3 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
           {{ subtitle }}
         </p>
       </div>
