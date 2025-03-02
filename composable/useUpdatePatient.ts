@@ -4,16 +4,25 @@ import {useMutation} from "@tanstack/vue-query";
 
 // upate patient composable
 export default  function() {
-  
-  const { mutate } = useMutation({
+
+  const validationError = ref<string | null>(null);
+
+  const { mutate, isLoading } = useMutation({
     mutationKey: ["updatePatient"],
     mutationFn: async (varialbles : {id: number, updatePatientForm: any}) => {
-      return  await apiQueryClient.updatePatient({
+      const response =  await apiQueryClient.updatePatient({
         params: {
           id: varialbles.id as number,
         },
         body: varialbles.updatePatientForm,
       });
+
+      if(response.status === 400) {
+        validationError.value = response.body
+        throw new Error(response.body);
+      }
+
+      return response.body
     },
     onSuccess: () => {
       console.log("Patient updated successfully");
@@ -26,5 +35,7 @@ export default  function() {
 
   return { 
     mutate,
+    isLoading,
+    validationError
   };
 };

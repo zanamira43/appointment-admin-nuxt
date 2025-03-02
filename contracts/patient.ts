@@ -19,6 +19,7 @@ export const patientContract = c.router({
     path: '/api/patients',
     responses: {
       200: c.type<NewPatient>(),
+      400: c.type<string>(),
     },
     body: c.type<NewPatient>(),
     
@@ -41,6 +42,7 @@ export const patientContract = c.router({
     pathParams: c.type<{ id: number }>(),
     responses: {
       200: c.type<Patient>(),
+      400: c.type<string>(),
     },
     body: c.type<any>(),
     summary: 'Update patient',

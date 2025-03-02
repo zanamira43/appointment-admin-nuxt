@@ -3,19 +3,25 @@ import useCreatePatient from "~/composable/useCreatePatient";
 import type { NewPatient } from "~/types";
 
 const patientForm = reactive<NewPatient>({
-  name: "Ashly Brown",
-  gender: "female",
-  age: 42,
-  profession: "Lawyer",
-  address: "02 Cedar Blvd, Miami, FL",
-  phone_number: "(555) 567-8801",
+  name: "",
+  gender: "",
+  age: 0,
+  profession: "",
+  address: "",
+  phone_number: "",
 });
 
-const { mutate, isLoading } = useCreatePatient();
+const { mutate, isLoading, validationError } = useCreatePatient();
 const submitForm = async () => {
   await mutate(patientForm);
-  await window.location.reload();
+  if (validationError.value) {
+    return;
+  }
 };
+
+setTimeout(() => {
+  validationError.value = null;
+}, 5000);
 </script>
 <template>
   <NuxtLayout>
@@ -30,6 +36,7 @@ const submitForm = async () => {
         @submitForm="submitForm"
         :loading="isLoading"
         :form="patientForm"
+        :validationError="validationError as string"
         btnLable="Send"
       />
     </div>

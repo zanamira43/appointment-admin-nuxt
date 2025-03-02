@@ -15,6 +15,10 @@ const columns = [
     label: "ID",
   },
   {
+    key: "slug",
+    label: "Code",
+  },
+  {
     key: "name",
     label: "Name",
   },

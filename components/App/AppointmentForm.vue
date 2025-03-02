@@ -6,6 +6,7 @@ const props = defineProps<{
   loading?: boolean;
   btnLable?: string;
   form: NewPatient | Patient;
+  validationError?: string;
 }>();
 
 const emits = defineEmits(["submitForm"]);
@@ -22,7 +23,7 @@ const submitForm = async () => {
       </h2>
     </template>
 
-    <UForm :state="form" @submit="submitForm" class="space-y-6">
+    <UForm :state="form" @submit.prevent="submitForm" class="space-y-6">
       <!-- Name Input -->
       <UFormGroup label="Full Name" name="name" required>
         <UInput
@@ -47,8 +48,6 @@ const submitForm = async () => {
           <UInput
             v-model="form.age"
             type="number"
-            min="18"
-            max="100"
             placeholder="30"
             icon="i-heroicons-identification"
           />
@@ -82,6 +81,15 @@ const submitForm = async () => {
           icon="i-heroicons-phone"
         />
       </UFormGroup>
+
+      <!-- Error Alert -->
+      <UAlert
+        v-if="validationError"
+        :title="validationError"
+        color="red"
+        variant="outline"
+        class="mb-4"
+      />
 
       <!-- Submit Button -->
       <div class="flex justify-end">

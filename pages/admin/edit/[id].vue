@@ -10,12 +10,10 @@ onMounted(async () => {
   await refetch();
   if (patient.value?.body) {
     Object.assign(updatePatientForm, patient.value?.body);
-    console.log(updatePatientForm);
   }
 });
 
 const updatePatientForm = reactive<any>({
-  slug: "",
   name: "",
   gender: "",
   age: 0,
@@ -24,13 +22,19 @@ const updatePatientForm = reactive<any>({
   address: "",
 });
 
-const { mutate } = useUpdatePatient();
-// const { refetch } = useGetPatientbyId(id.value as number);
+const { mutate, isLoading, validationError } = useUpdatePatient();
 // update patient function
 const handleUpdate = async () => {
   await mutate({ id: id.value, updatePatientForm });
+  if (validationError.value) {
+    return;
+  }
+
   await refetch();
-  await window.location.reload();
+
+  setTimeout(() => {
+    validationError.value = null;
+  }, 5000);
 };
 </script>
 <template>
@@ -48,8 +52,10 @@ const handleUpdate = async () => {
           </div> -->
           <!-- <div v-else> -->
           <AppAppointmentForm
-            :form="updatePatientForm"
             formTitle="Edit Patient"
+            :form="updatePatientForm"
+            :validationError="validationError as string"
+            :loading="isLoading"
             btnLable="Update"
             @submitForm="handleUpdate"
           />
