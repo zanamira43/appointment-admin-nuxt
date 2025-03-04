@@ -3,7 +3,19 @@ import type { Patient } from "~/types";
 import useGetPatients from "~/composable/useGetPatients";
 import useDeletePatient from "~/composable/useDeletePatient";
 
+const searchStore = useSearchStore();
+
 const { patients, isLoading, refetch } = useGetPatients();
+
+const PatientLists = computed(() => {
+  const body = patients.value?.body as Patient[];
+  if (searchStore.query) {
+    return body.filter((patient: Patient) => {
+      return patient.slug.includes(searchStore.query);
+    });
+  }
+  return patients.value?.body;
+});
 
 onMounted(() => {
   refetch();
@@ -90,7 +102,7 @@ const deletePatient = async () => {
         <!-- patient table  -->
         <div class="mt-2">
           <UTable
-            :rows="patients?.body as Patient []"
+            :rows="PatientLists as Patient []"
             :columns="columns"
             :loading="isLoading"
           >
