@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { NewPatient, Patient } from "~/types";
+import type { FormSubmitEvent } from "#ui/types";
+import  { type PatientFormSchema,  patientSchema  } from '~/validation/patientvalidation';
 
 const props = defineProps<{
   formTitle?: string;
@@ -9,9 +11,11 @@ const props = defineProps<{
   validationError?: string;
 }>();
 
+
+
 const emits = defineEmits(["submitForm"]);
 
-const submitForm = async () => {
+const submitForm = async (event: FormSubmitEvent<PatientFormSchema>) => {
   emits("submitForm", props.form);
 };
 </script>
@@ -23,9 +27,14 @@ const submitForm = async () => {
       </h2>
     </template>
 
-    <UForm :state="form" @submit.prevent="submitForm" class="space-y-6">
+    <UForm
+      :state="form"
+      :schema="patientSchema"
+      @submit.prevent="submitForm"
+      class="space-y-6"
+    >
       <!-- Name Input -->
-      <UFormGroup label="Full Name" name="name" required>
+      <UFormGroup label="Full Name" name="name" required eager-validation>
         <UInput
           v-model="form.name"
           placeholder="John Doe"
