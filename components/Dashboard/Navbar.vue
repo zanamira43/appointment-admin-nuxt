@@ -24,8 +24,15 @@ const items = [
   ],
 ];
 
-const form = reactive({
-  search: "",
+// get search store
+const searchStore = useSearchStore();
+
+const searchQuery = ref("");
+
+searchQuery.value = searchStore.query;
+
+watch(searchQuery, (newSearch) => {
+  searchStore.SetSearch(newSearch);
 });
 </script>
 <template>
@@ -44,41 +51,23 @@ const form = reactive({
     <!-- Separator -->
     <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
 
-    <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 w-full">
-      <!-- <form class="relative flex flex-1">
-        <label for="search-field" class="sr-only">Search</label>
-        <Icon
-          name="heroicons:magnifying-glass"
-          class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-          aria-hidden="true"
-        />
-        <input
-          id="search-field"
-          class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-          placeholder="Search..."
-          type="search"
-          name="search"
-        />
-      </form> -->
-
+    <div
+      class="flex flex-1 justify-between items-center gap-x-4 self-stretch lg:gap-x-6 w-full"
+    >
       <!-- Search Bar -->
-      <UForm :state="form" class="relative flex flex-1 justify-start items-center">
-        <UFormGroup class="w-[500px]">
-          <UInput
-            placeholder="Search..."
-            icon="heroicons:magnifying-glass"
-            iconPosition="left"
-            v-model="form.search"
-          />
-        </UFormGroup>
-      </UForm>
+      <!-- <UForm :state="form" class="relative flex flex-1 justify-start items-center"> -->
+      <UFormGroup class="w-[500px]">
+        <UInput
+          placeholder="Search..."
+          icon="heroicons:magnifying-glass"
+          iconPosition="left"
+          v-model="searchQuery"
+          size="lg"
+        />
+      </UFormGroup>
+      <!-- </UForm> -->
 
       <div class="flex items-center gap-x-4 lg:gap-x-6">
-        <!-- <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-          <span class="sr-only">View notifications</span>
-          <Icon name="heroicons:bell" class="h-6 w-6" aria-hidden="true" />
-        </button> -->
-
         <UButton
           icon="i-heroicons-bell-20-solid"
           color="gray"
