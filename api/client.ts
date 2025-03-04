@@ -1,14 +1,14 @@
+import { contract } from '~/contracts/contracts';
 import {initClient } from "@ts-rest/core"
-import { patientContract } from '~/contracts/patient'
 
 
   // use base url form runtime config
 const config = useRuntimeConfig()
   // Create a client instance
-export const apiQueryClient = initClient(patientContract, {
+export const apiQueryClient = initClient(contract, {
     baseUrl: config.public.APIURL,
     baseHeaders: {
-      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
     // credentials: 'include',
   })

@@ -5,7 +5,7 @@ export default  function (){
   const {data: patients, isLoading, refetch } = useQuery({
     queryKey: ["getPatients"],
     queryFn: async () => { 
-     return await apiQueryClient.getPatients()
+     return await apiQueryClient.patient.getPatients()
      },
     retry: 2
 

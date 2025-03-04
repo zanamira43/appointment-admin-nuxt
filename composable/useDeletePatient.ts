@@ -6,7 +6,7 @@ export default  () => {
   const { mutate} = useMutation({
     mutationKey: ["deletePatient"],
     mutationFn: async (id: number) => {
-      const {} = await apiQueryClient.deletePatient({
+      const {} = await apiQueryClient.patient.deletePatient({
         params: {
           id: id,
         },

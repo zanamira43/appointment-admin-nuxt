@@ -10,7 +10,7 @@ export default  function() {
   const { mutate, isLoading } = useMutation({
     mutationKey: ["updatePatient"],
     mutationFn: async (varialbles : {id: number, updatePatientForm: any}) => {
-      const response =  await apiQueryClient.updatePatient({
+      const response =  await apiQueryClient.patient.updatePatient({
         params: {
           id: varialbles.id as number,
         },

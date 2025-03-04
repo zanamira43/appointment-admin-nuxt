@@ -13,8 +13,7 @@ export default function () {
     mutationKey: ["createPatient"],
 
     mutationFn: async (data: NewPatient) => {
-
-      const response = await apiQueryClient.createPatient({
+      const response = await apiQueryClient.patient.createPatient({
         body: data
       })
 

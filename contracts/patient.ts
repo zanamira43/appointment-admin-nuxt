@@ -13,7 +13,6 @@ export const patientContract = c.router({
     summary: 'Get all patient list',
     
   },
-
   createPatient: {
     method: 'POST',
     path: '/api/patients',
@@ -57,5 +56,4 @@ export const patientContract = c.router({
     },
     summary: 'Delete patient',
   },
-
 });
