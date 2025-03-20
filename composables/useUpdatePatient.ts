@@ -1,13 +1,13 @@
 import {apiQueryClient} from '~/api/client'
-import {useMutation} from "@tanstack/vue-query";
+import {useMutation, useQueryClient} from "@tanstack/vue-query";
 
 
 // upate patient composable
 export default  function() {
-
+  const queryClient = useQueryClient();
   const validationError = ref<string | null>(null);
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading, isSuccess: isPatientUpdated } = useMutation({
     mutationKey: ["updatePatient"],
     mutationFn: async (varialbles : {id: number, updatePatientForm: any}) => {
       const response =  await apiQueryClient.patient.updatePatient({
@@ -24,7 +24,8 @@ export default  function() {
 
       return response.body
     },
-    onSuccess: () => {
+    onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries(["getPatientbyId", variables.id]);
       console.log("Patient updated successfully");
     },
     onError: (error: any) => {
@@ -36,6 +37,7 @@ export default  function() {
   return { 
     mutate,
     isLoading,
-    validationError
+    validationError,
+    isPatientUpdated
   };
 };

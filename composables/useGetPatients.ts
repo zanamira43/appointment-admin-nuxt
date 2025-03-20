@@ -2,7 +2,7 @@ import { apiQueryClient } from "~/api/client";
 import {useQuery} from "@tanstack/vue-query"
 
 export default  function (){
-  const {data: patients, isLoading, refetch } = useQuery({
+  const {data: patients, isLoading, refetch: fetchPatients } = useQuery({
     queryKey: ["getPatients"],
     queryFn: async () => { 
      return await apiQueryClient.patient.getPatients()
@@ -14,7 +14,7 @@ export default  function (){
   return {
     patients,
     isLoading,
-    refetch
+    fetchPatients
   };
 
 }

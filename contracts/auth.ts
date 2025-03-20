@@ -9,7 +9,7 @@ export const authContract = c.router({
     path: '/api/login',
     body: c.type<{ email: string; password: string }>(),
     responses: {
-      200: c.type<{ accessToken: string }>(),
+      200: c.type<{ jwt: string }>(),
       401: c.type<{ message: string }>(),
     }
   }

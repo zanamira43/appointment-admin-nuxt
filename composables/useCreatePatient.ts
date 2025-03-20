@@ -2,6 +2,8 @@ import { apiQueryClient } from "~/api/client";
 import { useMutation } from '@tanstack/vue-query';
 import type { NewPatient } from "~/types";
 
+import  { type PatientFormSchema } from  '~/validation/patientvalidation'
+
 
 
 
@@ -9,12 +11,12 @@ export default function () {
 
   const validationError = ref<string | null>(null);
   
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading, isSuccess: isPatientCreated } = useMutation({
     mutationKey: ["createPatient"],
 
-    mutationFn: async (data: NewPatient) => {
+    mutationFn: async (data: PatientFormSchema) => {
       const response = await apiQueryClient.patient.createPatient({
-        body: data
+        body: data as NewPatient
       })
 
       if(response.status === 400) {
@@ -36,6 +38,7 @@ export default function () {
   return {
    mutate,
    isLoading,
+   isPatientCreated,
    validationError
   };
 

@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import useUpdatePatient from "~/composable/useUpdatePatient";
-import useGetPatientbyId from "~/composable/useGetPatientbyId";
-import type { NewPatient, Patient } from "~/types";
+import useUpdatePatient from "~/composables/useUpdatePatient";
+import useGetPatientbyId from "~/composables/useGetPatientbyId";
 
 const route = useRoute();
-const id = ref(parseInt(route.params.id as string));
-const { patient, refetch } = useGetPatientbyId(id.value as number);
+const id: Ref<number> = ref(parseInt(route.params.id as string));
+const { patient, fetchPatient } = useGetPatientbyId(id.value as number);
 onMounted(async () => {
-  await refetch();
+  await fetchPatient();
   if (patient.value?.body) {
     Object.assign(updatePatientForm, patient.value?.body);
   }
 });
 
-const updatePatientForm = reactive<any>({
+const updatePatientForm = reactive<{
+  name: string;
+  gender: string;
+  age: number;
+  phone_number: string;
+  profession: string;
+  address: string;
+}>({
   name: "",
   gender: "",
   age: 0,
@@ -22,15 +28,24 @@ const updatePatientForm = reactive<any>({
   address: "",
 });
 
-const { mutate, isLoading, validationError } = useUpdatePatient();
+const toast = useToast();
+const { mutate, isLoading, validationError, isPatientUpdated } = useUpdatePatient();
 // update patient function
 const handleUpdate = async () => {
   await mutate({ id: id.value, updatePatientForm });
+  if (isPatientUpdated) {
+    toast.add({
+      title: "Patient Updated Successfully",
+      color: "green",
+      icon: "i-heroicons-check-circle",
+    });
+
+    fetchPatient();
+  }
+
   if (validationError.value) {
     return;
   }
-
-  await refetch();
 
   setTimeout(() => {
     validationError.value = null;

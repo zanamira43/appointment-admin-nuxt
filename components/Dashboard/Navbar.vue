@@ -55,7 +55,6 @@ watch(searchQuery, (newSearch) => {
       class="flex flex-1 justify-between items-center gap-x-4 self-stretch lg:gap-x-6 w-full"
     >
       <!-- Search Bar -->
-      <!-- <UForm :state="form" class="relative flex flex-1 justify-start items-center"> -->
       <UFormGroup class="w-[500px]">
         <UInput
           placeholder="Search..."
@@ -65,7 +64,6 @@ watch(searchQuery, (newSearch) => {
           size="lg"
         />
       </UFormGroup>
-      <!-- </UForm> -->
 
       <div class="flex items-center gap-x-4 lg:gap-x-6">
         <UButton

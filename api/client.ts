@@ -10,7 +10,7 @@ export const apiQueryClient = initClient(contract, {
     baseHeaders: {
       Accept: 'application/json',
     },
-    // credentials: 'include',
+    credentials: 'include',
   })
 
 

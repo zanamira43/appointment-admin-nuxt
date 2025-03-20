@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import useCreatePatient from "~/composable/useCreatePatient";
+import useCreatePatient from "~/composables/useCreatePatient";
 import type { NewPatient } from "~/types";
 
+const toast = useToast();
 const patientForm = reactive<NewPatient>({
   name: "",
   gender: "",
@@ -11,11 +12,29 @@ const patientForm = reactive<NewPatient>({
   phone_number: "",
 });
 
-const { mutate, isLoading, validationError } = useCreatePatient();
+const { mutate, isLoading, validationError, isPatientCreated } = useCreatePatient();
 const submitForm = async () => {
-  await mutate(patientForm);
-  if (validationError.value) {
-    return;
+  try {
+    await mutate(patientForm);
+    if (validationError.value) {
+      return;
+    }
+    if (isPatientCreated) {
+      toast.add({
+        title: "Patient Created Successfully",
+        color: "green",
+        icon: "i-heroicons-check-circle",
+      });
+    }
+
+    patientForm.name = "";
+    patientForm.gender = "";
+    patientForm.age = 0;
+    patientForm.profession = "";
+    patientForm.address = "";
+    patientForm.phone_number = "";
+  } catch (error) {
+    console.log(error);
   }
 };
 

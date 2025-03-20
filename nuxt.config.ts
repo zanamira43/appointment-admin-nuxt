@@ -5,17 +5,12 @@ export default defineNuxtConfig({
   ssr: false,
   modules: [
     '@nuxt/ui', 
-    '@nuxtjs/tailwindcss', 
+    // '@nuxtjs/tailwindcss', 
     '@nuxt/icon', 
     '@pinia/nuxt', 
     '@vee-validate/nuxt'
   ],
-
-  // ui:{
-  //   global: true,
-  //   primary: 'orange',
-  //   gray: 'cool' 
-  // },
+  css: [`~/assets/css/main.css`],
 
   runtimeConfig: {  
     public: {  

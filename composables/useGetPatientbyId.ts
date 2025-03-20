@@ -3,7 +3,7 @@ import {useQuery} from "@tanstack/vue-query"
 
 export default function (id: number) {
   
-  const {data: patient, isLoading, refetch} = useQuery({
+  const {data: patient, isLoading, refetch: fetchPatient} = useQuery({
     queryKey: ['getPatientbyId', id],
     queryFn: async () => {
      return  await apiQueryClient.patient.getPatientbyId({
@@ -17,6 +17,6 @@ export default function (id: number) {
   return {
     patient,
     isLoading,
-    refetch
+    fetchPatient
   }
 }

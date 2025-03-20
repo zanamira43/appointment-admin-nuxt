@@ -1,4 +1,4 @@
-export interface Patient{
+export type Patient ={
   id: number,
   slug: string,
   name: string,
@@ -11,7 +11,7 @@ export interface Patient{
   updated_at: Date
 }
 
-export interface NewPatient{
+export type NewPatient = {
   name: string,
   gender: string,
   age: number,
