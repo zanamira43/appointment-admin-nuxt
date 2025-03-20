@@ -1,14 +1,12 @@
 <template>
-  <div>
+  <UApp>
     <NuxtPage />
-
-    <UNotifications />
-  </div>
+  </UApp>
 </template>
 
 <script setup lang="ts">
 useHead({
-  title: "Appointments System",
+  title: "Therapy Appointments Sys",
   meta: [
     {
       name: "description",

@@ -34,75 +34,81 @@ const submitForm = async (event: FormSubmitEvent<PatientFormSchema>) => {
       class="space-y-6"
     >
       <!-- Name Input -->
-      <UFormGroup label="Full Name" name="name" required eager-validation>
+      <UFormField label="Full Name" name="name" required eager-validation>
         <UInput
           v-model="form.name"
           placeholder="John Doe"
           icon="i-heroicons-user-circle"
+          class="w-full"
         />
-      </UFormGroup>
+      </UFormField>
 
       <!-- Gender Select -->
-      <UFormGroup label="Gender" name="gender" required>
+      <UFormField label="Gender" name="gender" required>
         <USelect
           v-model="form.gender"
-          :options="['male', 'female', 'other']"
+          :items="['male', 'female', 'other']"
           icon="i-heroicons-users"
+          class="w-full"
         />
-      </UFormGroup>
+      </UFormField>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Age Input -->
-        <UFormGroup label="Age" name="age" required>
+        <UFormField label="Age" name="age" required>
           <UInput
             v-model="form.age"
             type="number"
             placeholder="30"
             icon="i-heroicons-identification"
+            class="w-full"
           />
-        </UFormGroup>
+        </UFormField>
 
         <!-- Profession -->
-        <UFormGroup label="Profession" name="profession" required>
+        <UFormField label="Profession" name="profession" required>
           <UInput
             v-model="form.profession"
             placeholder="Lawyer"
             icon="i-heroicons-briefcase"
+            class="w-full"
           />
-        </UFormGroup>
+        </UFormField>
       </div>
 
       <!-- Address -->
-      <UFormGroup label="Address" name="address" required>
+      <UFormField label="Address" name="address" required>
         <UTextarea
           v-model="form.address"
           placeholder="123 Main Street, City, Country"
           icon="i-heroicons-home"
+          class="w-full"
         />
-      </UFormGroup>
+      </UFormField>
 
       <!-- Phone Number -->
-      <UFormGroup label="Phone Number" name="phone" required>
+      <UFormField label="Phone Number" name="phone" required>
         <UInput
           v-model="form.phone_number"
           type="tel"
           placeholder="+1 234 567 890"
           icon="i-heroicons-phone"
+          class="w-full"
         />
-      </UFormGroup>
+      </UFormField>
 
       <!-- Error Alert -->
       <UAlert
         v-if="validationError"
         :title="validationError"
-        color="red"
+        color="error"
         variant="outline"
         class="mb-4"
       />
 
       <!-- Submit Button -->
       <div class="flex justify-end">
-        <UButton type="submit" color="black" :loading="loading" :label="btnLable" />
+        <UButton type="submit" color="neutral" :loading="loading" :label="btnLable" />
       </div>
     </UForm>
   </UCard>

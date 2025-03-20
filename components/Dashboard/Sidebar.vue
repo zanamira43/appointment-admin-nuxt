@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const links = [
+const items = ref([
   [
     {
       label: "Dashboard",
@@ -17,10 +17,11 @@ const links = [
       to: "/admin/users",
     },
   ],
-];
+]);
 </script>
 <template>
   <!-- Static sidebar for desktop -->
+  <!-- src="https://avatars.githubusercontent.com/u/739984?v=4" -->
   <div
     class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col *:bg-gray-900"
   >
@@ -29,23 +30,19 @@ const links = [
       class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4"
     >
       <div class="flex mt-8 shrink-0 justify-center items-center">
-        <UAvatar
-          src="https://avatars.githubusercontent.com/u/739984?v=4"
-          alt="Avatar"
-          size="2xl"
-        />
+        <UAvatar src="/consultant.png" alt="Avatar" size="2xl" class="p-1" />
       </div>
 
-      <UDivider />
+      <USeparator />
 
       <div class="mt-10">
-        <UVerticalNavigation :links="links">
-          <template #default="{ link }">
+        <UNavigationMenu orientation="vertical" :items="items">
+          <!-- <template #default="{ item }">
             <span class="group-hover:text-gray-500 text-gray-500 relative py-1">
-              {{ link.label }}</span
+              {{ item.label }}</span
             >
-          </template>
-        </UVerticalNavigation>
+          </template> -->
+        </UNavigationMenu>
       </div>
     </div>
   </div>

@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { h, resolveComponent } from "vue";
 import type { Patient } from "~/types";
 import useGetPatients from "~/composables/useGetPatients";
 import useDeletePatient from "~/composables/useDeletePatient";
+
+const UButton = resolveComponent("UButton");
+const UDropdownMenu = resolveComponent("UDropdownMenu");
 
 const searchStore = useSearchStore();
 const searchQuery = ref("");
@@ -43,8 +47,6 @@ onMounted(async () => {
   }
 });
 
-// const patientOpttts = [{ label: "-----", value: "" }, ...patientOptions.value];
-
 // watch search query any changes
 watch(
   () => searchQuery.value,
@@ -59,54 +61,70 @@ watch(
   }
 );
 
-const sort = ref({
-  column: "id",
-  direction: "desc",
-});
-
 const columns = [
   {
-    type: "text",
-    key: "id",
-    label: "ID",
-    sortable: true,
+    accessorKey: "id",
+    header: "ID",
+    cell: ({ row }: any) => `#${row.getValue("id")}`,
   },
   {
-    key: "slug",
-    label: "Code",
+    accessorKey: "slug",
+    header: "Code",
   },
   {
-    key: "name",
-    label: "Name",
+    accessorKey: "name",
+    header: "Name",
   },
   {
-    key: "gender",
-    label: "Gender",
+    accessorKey: "gender",
+    header: "Gender",
   },
   {
-    key: "age",
-    label: "Age",
+    accessorKey: "age",
+    header: "Age",
   },
   {
-    key: "phone_number",
-    label: "Phone Number",
+    accessorKey: "phone_number",
+    header: "Phone Number",
   },
 
   {
-    key: "actions",
-    label: "Actions",
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }: any) => {
+      return h(
+        "div",
+        { class: "text-center" },
+        h(
+          UDropdownMenu,
+          {
+            content: {
+              align: "end",
+            },
+            items: getRowItems(row),
+          },
+          () =>
+            h(UButton, {
+              icon: "i-lucide-ellipsis-vertical",
+              color: "neutral",
+              variant: "ghost",
+              class: "ml-auto",
+            })
+        )
+      );
+    },
   },
 ];
 
-const items = (row: Patient) => [
+const getRowItems = (row: any) => [
   [
     {
       label: "Edit",
       icon: "heroicons:pencil-square-20-solid",
       iconClass: "text-blue-600",
       class: "text-blue-500",
-      click: () => {
-        navigateTo(`/admin/edit/${row.id}`);
+      onSelect() {
+        navigateTo(`/admin/edit/${row.original.id}`);
       },
     },
   ],
@@ -116,9 +134,9 @@ const items = (row: Patient) => [
       icon: "heroicons:trash-20-solid",
       iconClass: "text-red-600",
       class: "text-red-500",
-      click: () => {
+      onSelect() {
         delModal.value = true;
-        delId.value = row.id;
+        delId.value = row.original.id;
       },
     },
   ],
@@ -135,7 +153,7 @@ const deletePatient = async () => {
   if (isPatientDeleted) {
     await toast.add({
       description: "Patient Deleted Successfully",
-      color: "green",
+      color: "success",
       icon: "i-heroicons-check-circle",
     });
     delModal.value = false;
@@ -152,7 +170,7 @@ const deletePatient = async () => {
         <DashboardPageHeader title="Patient List" subtitle="List of all patients">
           <div class="flex items-center justify-between gap-4">
             <UButton
-              color="black"
+              color="neutral"
               label="All"
               size="sm"
               class="mr-2 p-2"
@@ -161,11 +179,11 @@ const deletePatient = async () => {
             <USelectMenu
               id="searchPatient"
               :searchable="true"
-              v-model="searchQuery"
-              :options="patientOptions"
+              arrow
+              placeholder="Search by Code"
+              v-model:search-term="searchQuery"
+              :items="patientOptions"
               size="lg"
-              option-attribute="label"
-              value-attribute="value"
               clear-search-on-close
               class="w-[200px]"
               :search-attributes="['label', 'value']"
@@ -179,50 +197,27 @@ const deletePatient = async () => {
 
         <!-- patient table  -->
         <div class="mt-2">
-          <UTable
-            :sort="sort as any"
-            :rows="PatientLists as Patient []"
-            :columns="columns"
-            :loading="isLoading"
-          >
-            <template #id-data="{ row }">
-              <!-- <NuxtLink :to="`/admin/edit/${row.id}`">
-                {{ row.id }}
-              </NuxtLink> -->
-            </template>
-
-            <template #actions-data="{ row }">
-              <UDropdown :items="items(row)">
-                <UButton
-                  color="gray"
-                  variant="ghost"
-                  icon="i-heroicons-ellipsis-horizontal-20-solid"
-                />
-              </UDropdown>
-            </template>
-          </UTable>
+          <UTable :data="PatientLists" :columns="columns" :loading="isLoading"> </UTable>
         </div>
 
-        <UModal v-model="delModal">
-          <div>
-            <UCard divide="none">
-              <!-- <template #header> -->
+        <UModal v-model:open="delModal">
+          <template #body>
+            <div class="flex flex-col justify-center items-center gap-2">
               <h1 class="text-2xl font-bold text-center">Delete Patient</h1>
-              <!-- </template> -->
               <p class="text-center">Are you sure you want to delete this patient?</p>
-              <template #footer>
-                <div class="flex justify-end gap-2">
-                  <UButton
-                    label="Cancel"
-                    color="gray"
-                    variant="outline"
-                    @click="delModal = false"
-                  />
-                  <UButton label="Delete" color="red" @click="deletePatient" />
-                </div>
-              </template>
-            </UCard>
-          </div>
+            </div>
+          </template>
+          <template #footer>
+            <div class="flex justify-start items-start gap-2">
+              <UButton
+                label="Cancel"
+                color="neutral"
+                variant="outline"
+                @click="delModal = false"
+              />
+              <UButton label="Delete" color="error" @click="deletePatient" />
+            </div>
+          </template>
         </UModal>
       </div>
     </div>

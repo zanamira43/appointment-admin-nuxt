@@ -22,7 +22,7 @@ const submitForm = async () => {
     if (isPatientCreated) {
       toast.add({
         title: "Patient Created Successfully",
-        color: "green",
+        color: "success",
         icon: "i-heroicons-check-circle",
       });
     }

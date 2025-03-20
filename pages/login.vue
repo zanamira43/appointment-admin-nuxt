@@ -22,14 +22,14 @@ const login = async () => {
         </template>
 
         <div class="space-y-5">
-          <UFormGroup label="Email" name="email" required>
-            <UInput v-model="email" />
-          </UFormGroup>
-          <UFormGroup label="Password" name="password" required>
-            <UInput v-model="password" type="password" />
-          </UFormGroup>
+          <UFormField label="Email" name="email" required>
+            <UInput v-model="email" class="w-full" />
+          </UFormField>
+          <UFormField label="Password" name="password" required>
+            <UInput v-model="password" type="password" class="w-full" />
+          </UFormField>
 
-          <UButton @click="login" color="black" block class="mt-5"> Login </UButton>
+          <UButton @click="login" color="neutral" block class="mt-5"> Login </UButton>
         </div>
       </UCard>
     </div>

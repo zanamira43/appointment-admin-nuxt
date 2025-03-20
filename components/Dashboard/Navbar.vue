@@ -55,7 +55,7 @@ watch(searchQuery, (newSearch) => {
       class="flex flex-1 justify-between items-center gap-x-4 self-stretch lg:gap-x-6 w-full"
     >
       <!-- Search Bar -->
-      <UFormGroup class="w-[500px]">
+      <UFormField class="w-[500px]">
         <UInput
           placeholder="Search..."
           icon="heroicons:magnifying-glass"
@@ -63,7 +63,7 @@ watch(searchQuery, (newSearch) => {
           v-model="searchQuery"
           size="lg"
         />
-      </UFormGroup>
+      </UFormField>
 
       <div class="flex items-center gap-x-4 lg:gap-x-6">
         <UButton
@@ -79,7 +79,7 @@ watch(searchQuery, (newSearch) => {
 
         <!-- Profile dropdown -->
 
-        <UDropdown
+        <UDropdownMenu
           :items="items"
           :ui="{ item: { disabled: 'cursor-text select-text' } }"
           :popper="{ placement: 'bottom-start' }"
@@ -103,7 +103,7 @@ watch(searchQuery, (newSearch) => {
               class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
             />
           </template>
-        </UDropdown>
+        </UDropdownMenu>
       </div>
     </div>
   </div>
