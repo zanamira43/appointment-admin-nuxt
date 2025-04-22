@@ -5,20 +5,18 @@ const password = ref("");
 const authStore = useAuthStore();
 
 const login = async () => {
-  await authStore.login(email.value, password.value);
-  console.log("logged In");
+  authStore.login(email.value, password.value);
 };
 </script>
 <template>
-  <NuxtLayout>
-    <AppHeroSection
-      title="Manage Your System"
-      subtitle="Admin user can access the system form here."
-    />
+  <main class="flex items-center justify-center h-screen bg-gray-100">
     <div class="w-full px-2 mx-auto">
       <UCard class="max-w-md mx-auto">
         <template #header>
           <h1 class="text-2xl font-bold text-center">Login</h1>
+          <p class="text-sm text-center text-gray-500 mt-1">
+            Please enter your email and password to login.
+          </p>
         </template>
 
         <div class="space-y-5">
@@ -33,5 +31,5 @@ const login = async () => {
         </div>
       </UCard>
     </div>
-  </NuxtLayout>
+  </main>
 </template>

@@ -6,7 +6,7 @@ const c = initContract();
 export const patientContract = c.router({
   getPatients: {
     method: 'GET',
-    path: '/api/patients',
+    path: '/patients',
     responses: {
       200: c.type<Patient[]>(),
     },
@@ -15,7 +15,7 @@ export const patientContract = c.router({
   },
   createPatient: {
     method: 'POST',
-    path: '/api/patients',
+    path: '/patients',
     responses: {
       200: c.type<NewPatient>(),
       400: c.type<string>(),
@@ -27,7 +27,7 @@ export const patientContract = c.router({
  
   getPatientbyId: {
     method: 'GET',
-    path: '/api/patients/:id',
+    path: '/patients/:id',
     pathParams: c.type<{ id: number }>(), 
     responses: {
       200: c.type<Patient>(),
@@ -37,7 +37,7 @@ export const patientContract = c.router({
 
   updatePatient: {
     method: 'PUT',
-    path: '/api/patients/:id',
+    path: '/patients/:id',
     pathParams: c.type<{ id: number }>(),
     responses: {
       200: c.type<Patient>(),
@@ -49,7 +49,7 @@ export const patientContract = c.router({
   
   deletePatient: {
     method: "DELETE",
-    path: '/api/patients/:id',
+    path: '/patients/:id',
     pathParams: c.type<{ id: number }>(),
     responses: {
       200: c.type<Patient>(),

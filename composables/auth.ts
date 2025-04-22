@@ -9,4 +9,6 @@ export const useAuthLogin = async (body:  AuthenticationFormSchema) => {
     if (status === 200) {
       return response
     }
+
+    throw 'Login failed'
 }
