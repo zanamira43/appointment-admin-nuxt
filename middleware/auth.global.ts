@@ -1,21 +1,21 @@
-export default defineNuxtRouteMiddleware(async (to, _from) => {
-  
-  const authStore = useAuthStore()
-  
+export default defineNuxtRouteMiddleware(async(to, _from) => {
+  const authStore = storeToRefs(useAuthStore());
+
   // If this is the first navigation or page refresh
   if (import.meta.client) {
-    console.log("Auth not ready, fetching user first...")
-    // Wait for auth check to complete
-    await authStore.fetchUser()
+    console.log(authStore.isLoggedIn)
+    
+    if (authStore.isLoggedIn && to.path !== '/login') {
+       return
+    }
 
-    if (to.path === '/login' && authStore.isLoggedIn) {
-      return navigateTo('/')
-    }
     // Now check login status
-    if (to.path !== '/login' && !authStore.isLoggedIn) {
+    if (!authStore.isLoggedIn && to.path !== '/login') {
       console.log("Not logged in, redirecting to login")
-      return navigateTo('/login')
+      return await navigateTo('/login')
     }
+
+    return
 
   }
   

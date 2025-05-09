@@ -7,17 +7,18 @@ interface Store {
   isLoggedIn: boolean
 }
  
- 
+
 export const useAuthStore = defineStore("authStore", {
   state: (): Store => ({
     isLoggedIn: false,
   }),
-
+  
   actions: {
     async fetchUser() {
       const userStore = useMyUserStore()
+      const router = useRouter()
       try {
-
+        
         const {status, body} = await apiQueryClient.auth.userInfo();
         if (status === 200 && body.user) {
           userStore.setUser({
@@ -28,21 +29,24 @@ export const useAuthStore = defineStore("authStore", {
             created_at: body.user?.created_at,
             updated_at: body.user?.updated_at,
           })
-
+          
           this.isLoggedIn = true
-        } else {
+        }else{
           this.isLoggedIn = false
+          router.replace('/login')
         }
       }catch(e){
         this.isLoggedIn = false
         console.error('Failed to fetch user:', e);
+        router.replace('/login')
       }
     },
-
+    
     async fetchUserOnBrowserReload(){
       await this.fetchUser()
     },
     async login(email: string, password: string ) {
+      
       const router = useRouter()
       const toast = useToast()
       try {
@@ -55,6 +59,23 @@ export const useAuthStore = defineStore("authStore", {
           description: 'Login failed',
         })
       }
+    }, 
+    async logout(){
+      const router = useRouter() 
+      
+      try {
+
+        const {status} = await apiQueryClient.auth.logout()
+        if(status === 200){
+           this.isLoggedIn = false
+           router.replace('/login')
+        }
+      }catch(e){
+        console.error(e)
+      }
+     
     }
   }
+
+  
 });

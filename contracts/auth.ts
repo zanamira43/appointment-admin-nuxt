@@ -31,5 +31,14 @@ export const authContract = c.router({
       200: c.type<{ jwt: string }>(),
       401: c.type<{ message: string }>(),
     }
+  },
+  // logout
+  logout: {
+    method: 'POST',
+    path: '/user/logout',
+    body: c.noBody(),
+    responses: {
+      200: c.type(),
+    }
   }
 })

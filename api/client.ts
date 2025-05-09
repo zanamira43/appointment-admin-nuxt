@@ -3,12 +3,12 @@ import {initClient, tsRestFetchApi, type ApiFetcherArgs } from "@ts-rest/core"
 
 
 // Import the contract you want to use
-const APIUrl = import.meta.env.API_URL
+const APIUrl = import.meta.env.VITE_API_BASE_URL
 
 
   // Create a client instance
 export const apiQueryClient = initClient(contract, {
-    baseUrl: 'http://localhost:8000/api',
+    baseUrl: APIUrl,
     validateResponse: false,
     baseHeaders: {
       Accept: 'application/json',

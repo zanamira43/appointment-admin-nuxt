@@ -1,5 +1,6 @@
 <script setup>
 const sidebarOpen = ref(false);
+const authStore = useAuthStore();
 
 const items = [
   [
@@ -20,6 +21,9 @@ const items = [
     {
       label: "Sign out",
       icon: "i-heroicons-arrow-left-on-rectangle",
+      onSelect() {
+        authStore.logout();
+      },
     },
   ],
 ];
