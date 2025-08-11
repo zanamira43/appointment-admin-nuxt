@@ -8,6 +8,7 @@ export type userInfo = {
   first_name: string,
   last_name: string,
   email: string,
+  phone_number: string,
   created_at: string,
   updated_at: string,
 }
@@ -26,7 +27,7 @@ export const authContract = c.router({
   login: {
     method: 'POST',
     path: '/login',
-    body: c.type<{ email: string; password: string }>(),
+    body: c.type<{ phone_number: string; password: string }>(),
     responses: {
       200: c.type<{ jwt: string }>(),
       401: c.type<{ message: string }>(),

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const email = ref("");
+const phone_number = ref("");
 const password = ref("");
 
 const authStore = useAuthStore();
 
 const login = async () => {
-  authStore.login(email.value, password.value);
+  authStore.login(phone_number.value, password.value);
 };
 </script>
 <template>
@@ -20,8 +20,8 @@ const login = async () => {
         </template>
 
         <div class="space-y-5">
-          <UFormField label="Email" name="email" required>
-            <UInput v-model="email" class="w-full" />
+          <UFormField label="Phone Number" name="phone" required>
+            <UInput v-model="phone_number" class="w-full" />
           </UFormField>
           <UFormField label="Password" name="password" required>
             <UInput v-model="password" type="password" class="w-full" />

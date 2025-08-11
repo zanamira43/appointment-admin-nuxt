@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("authStore", {
             first_name: body.user?.first_name,
             last_name: body.user?.last_name,
             email: body.user?.email,
+            phone_number: body.user?.phone_number,
             created_at: body.user?.created_at,
             updated_at: body.user?.updated_at,
           })
@@ -45,12 +46,12 @@ export const useAuthStore = defineStore("authStore", {
     async fetchUserOnBrowserReload(){
       await this.fetchUser()
     },
-    async login(email: string, password: string ) {
+    async login(phone_number: string, password: string ) {
       
       const router = useRouter()
       const toast = useToast()
       try {
-        await useAuthLogin({email,  password})
+        await useAuthLogin({phone_number ,  password})
         await this.fetchUser()
         router.replace('/')
       }catch(e){

@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/vue-query'
 import {apiQueryClient} from '~/api/client'
 import type { AuthenticationFormSchema } from '~/validation/authentication'
 
