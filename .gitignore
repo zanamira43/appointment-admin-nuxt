@@ -26,3 +26,6 @@ logs
 
 project-diagram.drawio.xml
 plan.txt
+
+localhost-key.pem
+localhost.pem
