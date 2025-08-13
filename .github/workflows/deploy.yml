@@ -1,0 +1,34 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo (optional)
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd /var/www/rawezhkaraso-admin
+            # ensure correct permissions and fetch latest
+            git fetch --all
+            git reset --hard origin/main
+            # install deps (production)
+            npm i --production=false
+            # build
+            npm run build
+            # restart (pm2)
+            pm2 startOrRestart ecosystem.config.js --env production || pm2 restart nuxt-app || pm2 start "node .output/server/index.mjs" --name nuxt-app
+            pm2 save
