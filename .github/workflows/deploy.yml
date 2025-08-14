@@ -38,5 +38,5 @@ jobs:
             # build
             npm run build
             # restart (pm2)
-            pm2 startOrRestart ecosystem.config.js --env production || pm2 restart rawezhkaraso-dmin || pm2 start "node .output/server/index.mjs" --name nuxt-app
+            pm2 startOrRestart ecosystem.config.js --env production || pm2 restart rawezhkaraso-admin || pm2 start "node .output/server/index.mjs" --name nuxt-app
             pm2 save
