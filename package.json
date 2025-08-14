@@ -10,12 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/icon": "^1.15.0",
+    "@nuxt/icon": "^2.0.0",
     "@nuxt/ui": "^3.3.0",
     "@pinia/nuxt": "^0.11.2",
     "@tanstack/vue-query": "^5.83.1",
     "@ts-rest/core": "^3.52.1",
-    "@types/node": "^24.2.0",
+    "@types/node": "^24.2.1",
     "@vee-validate/nuxt": "^4.15.1",
     "@vee-validate/yup": "^4.15.1",
     "@vee-validate/zod": "^4.15.1",
@@ -25,6 +25,6 @@
     "vue": "^3.5.18",
     "vue-router": "^4.5.1",
     "yup": "^1.7.0",
-    "zod": "^3.25.0"
+    "zod": "^3.25.76"
   }
 }
