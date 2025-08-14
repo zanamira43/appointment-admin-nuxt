@@ -32,9 +32,9 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
             # Optional: explicitly use a node version (if needed)
-            use node 22
+            use node 22.18.0
 
-            npm i --production=false
+            npm i --omit=dev
             # build
             npm run build
             # restart (pm2)
