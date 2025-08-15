@@ -65,7 +65,7 @@ const handleUpdate = async () => {
             <Icon name="mdi:loading" size="3em" />
           </div> -->
           <!-- <div v-else> -->
-          <AppAppointmentForm
+          <AdminPatientAppointmentForm
             formTitle="Edit Patient"
             :form="updatePatientForm"
             :validationError="validationError as string"

@@ -6,11 +6,11 @@ const items = ref([
       icon: "i-heroicons-home",
       to: "/admin",
     },
-    // {
-    //   label: "New Patient",
-    //   icon: "i-heroicons-plus-solid",
-    //   to: "/admin/new-patient/",
-    // },
+    {
+      label: "Patients",
+      icon: "healthicons:outpatient",
+      to: "/admin/patients",
+    },
     {
       label: "Users",
       icon: "i-heroicons-users-solid",
@@ -30,7 +30,7 @@ const items = ref([
       class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4"
     >
       <div class="flex mt-8 shrink-0 justify-center items-center">
-        <UAvatar src="/consultant.png" alt="Avatar" size="2xl" class="p-1" />
+        <UAvatar src="/live-organization.jpeg" alt="Avatar" size="2xl" class="p-1" />
       </div>
 
       <USeparator />

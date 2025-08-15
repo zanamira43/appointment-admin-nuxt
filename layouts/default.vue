@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-row h-screen w-full">
-    <DashboardSidebar />
+    <AdminSidebar />
 
     <div class="lg:pl-72 w-full">
       <!-- navbar -->
-      <DashboardNavbar />
+      <AdminNavbar />
 
       <!-- admin content -->
       <div>

@@ -88,7 +88,8 @@ watch(searchQuery, (newSearch) => {
           :ui="{ item: { disabled: 'cursor-text select-text' } }"
           :popper="{ placement: 'bottom-start' }"
         >
-          <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" />
+          <!-- <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" /> -->
+          <UAvatar class="border border-gray-200" src="/live-organization.jpeg" />
 
           <template #account="{ item }">
             <div class="text-left">

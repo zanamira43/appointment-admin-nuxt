@@ -43,14 +43,9 @@ setTimeout(() => {
 }, 5000);
 </script>
 <template>
-  <NuxtLayout name="form">
-    <AppHeroSection
-      title="An Appointment System"
-      subtitle="You can have meeting with your a therapist by sending your information."
-    />
-
+  <NuxtLayout>
     <div class="w-full px-2 mx-auto">
-      <AppAppointmentForm
+      <AdminPatientAppointmentForm
         formTitle="Make an Appointment"
         @submitForm="submitForm"
         :form="patientForm"
