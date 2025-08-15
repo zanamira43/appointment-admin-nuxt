@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useCreatePatient from "~/composables/useCreatePatient";
+import { useCreatePatient } from "~/composables/patients";
 import type { NewPatient } from "~/types";
 
 const toast = useToast();
@@ -12,7 +12,7 @@ const patientForm = reactive<NewPatient>({
   phone_number: "",
 });
 
-const { mutate, isLoading, validationError, isPatientCreated } = useCreatePatient();
+const { mutate, validationError, isPatientCreated } = useCreatePatient();
 const submitForm = async () => {
   try {
     await mutate(patientForm);
@@ -53,7 +53,6 @@ setTimeout(() => {
       <AppAppointmentForm
         formTitle="Make an Appointment"
         @submitForm="submitForm"
-        :loading="isLoading"
         :form="patientForm"
         :validationError="validationError as string"
         btnLable="Send"

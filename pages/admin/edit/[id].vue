@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import useUpdatePatient from "~/composables/useUpdatePatient";
-import useGetPatientbyId from "~/composables/useGetPatientbyId";
+import { useUpdatePatient, useGetPatientbyId } from "~/composables/patients";
 
 const route = useRoute();
 const id: Ref<number> = ref(parseInt(route.params.id as string));
@@ -36,7 +35,7 @@ const handleUpdate = async () => {
   if (isPatientUpdated) {
     toast.add({
       title: "Patient Updated Successfully",
-      color: "green",
+      color: "success",
       icon: "i-heroicons-check-circle",
     });
 

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
 import type { Patient } from "~/types";
-import useGetPatients from "~/composables/useGetPatients";
-import useDeletePatient from "~/composables/useDeletePatient";
+import { useGetPatients, useDeletePatient } from "~/composables/patients";
 
 const UButton = resolveComponent("UButton");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
@@ -12,8 +11,8 @@ const searchQuery = ref("");
 
 const { patients, isLoading, fetchPatients } = useGetPatients();
 
-const PatientLists = computed(() => {
-  const body = patients.value?.body as Patient[];
+const PatientLists = computed<Patient[] | undefined>(() => {
+  const body = (patients.value?.body ?? []) as Patient[];
   if (searchStore.query) {
     return body.filter((patient: Patient) => {
       return (
@@ -23,7 +22,7 @@ const PatientLists = computed(() => {
       );
     });
   }
-  return patients.value?.body;
+  return Array.isArray(patients.value?.body) ? (patients.value.body as Patient[]) : [];
 });
 
 const patientOptions: Ref<{ label: string; value: string }[]> = ref([
@@ -35,8 +34,8 @@ const patientOptions: Ref<{ label: string; value: string }[]> = ref([
 
 onMounted(async () => {
   await fetchPatients();
-  if (PatientLists.value) {
-    patientOptions.value = PatientLists.value!.map<{ label: string; value: string }>(
+  if (Array.isArray(PatientLists.value)) {
+    patientOptions.value = PatientLists.value.map<{ label: string; value: string }>(
       (patient: any) => {
         return {
           label: patient.slug,
