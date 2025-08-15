@@ -53,7 +53,7 @@ const handleUpdate = async () => {
 };
 </script>
 <template>
-  <NuxtLayout name="admin">
+  <NuxtLayout>
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <DashboardPageHeader

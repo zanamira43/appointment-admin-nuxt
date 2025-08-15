@@ -1,63 +1,35 @@
 <script setup lang="ts">
-import useCreatePatient from "~/composables/useCreatePatient";
-import type { NewPatient } from "~/types";
+const phone_number = ref("");
+const password = ref("");
 
-const toast = useToast();
-const patientForm = reactive<NewPatient>({
-  name: "",
-  gender: "",
-  age: 0,
-  profession: "",
-  address: "",
-  phone_number: "",
-});
+const authStore = useAuthStore();
 
-const { mutate, isLoading, validationError, isPatientCreated } = useCreatePatient();
-const submitForm = async () => {
-  try {
-    await mutate(patientForm);
-    if (validationError.value) {
-      return;
-    }
-    if (isPatientCreated) {
-      toast.add({
-        title: "Patient Created Successfully",
-        color: "success",
-        icon: "i-heroicons-check-circle",
-      });
-    }
-
-    patientForm.name = "";
-    patientForm.gender = "";
-    patientForm.age = 0;
-    patientForm.profession = "";
-    patientForm.address = "";
-    patientForm.phone_number = "";
-  } catch (error) {
-    console.log(error);
-  }
+const login = async () => {
+  authStore.login(phone_number.value, password.value);
 };
-
-setTimeout(() => {
-  validationError.value = null;
-}, 5000);
 </script>
 <template>
-  <NuxtLayout>
-    <AppHeroSection
-      title="An Appointment System"
-      subtitle="You can have meeting with your a therapist by sending your information."
-    />
-
+  <main class="flex items-center justify-center h-screen bg-gray-100">
     <div class="w-full px-2 mx-auto">
-      <AppAppointmentForm
-        formTitle="Make an Appointment"
-        @submitForm="submitForm"
-        :loading="isLoading"
-        :form="patientForm"
-        :validationError="validationError as string"
-        btnLable="Send"
-      />
+      <UCard class="max-w-md mx-auto">
+        <template #header>
+          <h1 class="text-2xl font-bold text-center">Login</h1>
+          <p class="text-sm text-center text-gray-500 mt-1">
+            Please enter your email and password to login.
+          </p>
+        </template>
+
+        <div class="space-y-5">
+          <UFormField label="Phone Number" name="phone" required>
+            <UInput v-model="phone_number" class="w-full" />
+          </UFormField>
+          <UFormField label="Password" name="password" required>
+            <UInput v-model="password" type="password" class="w-full" />
+          </UFormField>
+
+          <UButton @click="login" color="neutral" block class="mt-5"> Login </UButton>
+        </div>
+      </UCard>
     </div>
-  </NuxtLayout>
+  </main>
 </template>

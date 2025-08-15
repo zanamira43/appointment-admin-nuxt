@@ -163,7 +163,7 @@ const deletePatient = async () => {
 };
 </script>
 <template>
-  <NuxtLayout name="admin">
+  <NuxtLayout>
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <!-- page header -->

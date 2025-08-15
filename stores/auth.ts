@@ -34,12 +34,12 @@ export const useAuthStore = defineStore("authStore", {
           this.isLoggedIn = true
         }else{
           this.isLoggedIn = false
-          router.replace('/login')
+          router.replace('/')
         }
       }catch(e){
         this.isLoggedIn = false
         console.error('Failed to fetch user:', e);
-        router.replace('/login')
+        router.replace('/')
       }
     },
     
@@ -53,7 +53,7 @@ export const useAuthStore = defineStore("authStore", {
       try {
         await useAuthLogin({phone_number ,  password})
         await this.fetchUser()
-        router.replace('/')
+        router.replace('/admin')
       }catch(e){
         toast.add({
           color: 'error', 
@@ -69,7 +69,7 @@ export const useAuthStore = defineStore("authStore", {
         const {status} = await apiQueryClient.auth.logout()
         if(status === 200){
            this.isLoggedIn = false
-           router.replace('/login')
+           router.replace('/')
         }
       }catch(e){
         console.error(e)
