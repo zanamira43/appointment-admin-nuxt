@@ -95,7 +95,13 @@ export default defineNuxtConfig({
     workbox: {
       // common sensible defaults; adjust to your needs
       navigateFallback: '/',
-      globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+      globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2, jpeg, jpg}'],
+      globIgnores: ['**/.*', '**/node_modules/**'],
+      cleanupOutdatedCaches: true,
+      skipWaiting: true,
+      clientsClaim: true,
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+      // runtime caching rules
       runtimeCaching: [
         {
           urlPattern: ({ request }) => request.destination === 'image',
