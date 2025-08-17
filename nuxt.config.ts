@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     includeAssets: [
       // add any additional static assets you want precached
       'favicon.ico',
-      'apple-touch-icon.png',
+      'apple-touch-icon.jpeg',
       'robots.txt'
     ],
     manifest: {
@@ -112,9 +112,28 @@ export default defineNuxtConfig({
           }
         },
         {
-          urlPattern: ({ url }) => url.origin === self.location.origin && url.pathname.startsWith('/api'),
+          urlPattern: ({ url }) => url.origin === location.origin && url.pathname.startsWith('/api'),
           handler: 'NetworkFirst',
           options: { cacheName: 'api', networkTimeoutSeconds: 3 }
+        },
+        {
+          // Cache external HTTPS images (CDNs, etc.)
+          urlPattern: ({ url }) => url.protocol === 'https:' && url.pathname.match(/\.(png|jpg|jpeg|svg|gif|webp)$/i),
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'external-images',
+            expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 7 } // 7 days
+          }
+        },
+        {
+          // Cache external HTTPS APIs with CORS
+          urlPattern: ({ url }) => url.protocol === 'https:' && url.origin !== location.origin,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'external-apis',
+            networkTimeoutSeconds: 5,
+            expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 2 } // 2 hours
+          }
         }
       ]
     },
