@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useCreatePatient } from "~/composables/patients";
-import type { NewPatient } from "~/types";
+import type { INewPatient } from "~/types/IPatient";
 
 const toast = useToast();
-const patientForm = reactive<NewPatient>({
+const patientForm = reactive<INewPatient>({
   name: "",
   gender: "",
   age: 0,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NewPatient, Patient } from "~/types";
+import type { IPatient, INewPatient } from "~/types/IPatient";
 import type { FormSubmitEvent } from "#ui/types";
 import  { type PatientFormSchema,  patientSchema  } from '~/validation/patientvalidation';
 
@@ -7,7 +7,7 @@ const props = defineProps<{
   formTitle?: string;
   loading?: boolean;
   btnLable?: string;
-  form: NewPatient | Patient;
+  form: INewPatient | IPatient;
   validationError?: string;
 }>();
 

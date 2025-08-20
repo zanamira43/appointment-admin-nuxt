@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
-import type { Patient } from "~/types";
+import type { IPatient } from "~/types/IPatient";
 import { useGetPatients, useDeletePatient } from "~/composables/patients";
 
 const UButton = resolveComponent("UButton");
@@ -11,10 +11,10 @@ const searchQuery = ref("");
 
 const { patients, isLoading, fetchPatients } = useGetPatients();
 
-const PatientLists = computed<Patient[] | undefined>(() => {
-  const body = (patients.value?.body ?? []) as Patient[];
+const PatientLists = computed<IPatient[] | undefined>(() => {
+  const body = (patients.value?.body ?? []) as IPatient[];
   if (searchStore.query) {
-    return body.filter((patient: Patient) => {
+    return body.filter((patient: IPatient) => {
       return (
         patient.slug.includes(searchStore.query) ||
         patient.phone_number.includes(searchStore.query) ||
@@ -22,7 +22,7 @@ const PatientLists = computed<Patient[] | undefined>(() => {
       );
     });
   }
-  return Array.isArray(patients.value?.body) ? (patients.value.body as Patient[]) : [];
+  return Array.isArray(patients.value?.body) ? (patients.value.body as IPatient[]) : [];
 });
 
 const patientOptions: Ref<{ label: string; value: string }[]> = ref([

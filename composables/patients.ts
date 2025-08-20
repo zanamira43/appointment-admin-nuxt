@@ -1,19 +1,18 @@
 import { apiQueryClient } from "~/api/client";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
-import type { NewPatient } from "~/types";
+import type { INewPatient, IUpdatePatient } from "~/types/IPatient";
 
-import  { type PatientFormSchema } from  '~/validation/patientvalidation'
 
+export const GET_PATIENTS_QUERY_KEY = "getPatients";
+export const GET_PATIENT_QUERY_KEY = "getPatient";
 // create new patient composable
 export const useCreatePatient = () => {
   const validationError = ref<string | null>(null);
   
   const { mutate, isSuccess: isPatientCreated } = useMutation({
-    mutationKey: ["createPatient"],
-
-    mutationFn: async (data: PatientFormSchema) => {
+    mutationFn: async (data: INewPatient) => {
       const response = await apiQueryClient.patient.createPatient({
-        body: data as NewPatient
+        body: data
       })
 
       if(response.status === 400) {
@@ -42,7 +41,7 @@ export const useCreatePatient = () => {
 // use get All Patients composable
 export const useGetPatients = () => {
   const { data: patients, isLoading, refetch: fetchPatients } = useQuery({
-    queryKey: ["getPatients"],
+    queryKey: [GET_PATIENTS_QUERY_KEY],
     queryFn: async () => {
       return await apiQueryClient.patient.getPatients();
     },
@@ -59,14 +58,15 @@ export const useGetPatients = () => {
 // use get Patient by ID composable
 export const useGetPatientbyId =  (id: number) => {
   const {data: patient, isLoading, refetch: fetchPatient} = useQuery({
-    queryKey: ['getPatientbyId', id],
+    queryKey: [GET_PATIENT_QUERY_KEY, id],
     queryFn: async () => {
      return  await apiQueryClient.patient.getPatientbyId({
         params: {
           id: id as number
         }
       })
-    }
+    },
+    enabled: !!id
   })
 
   return {
@@ -82,12 +82,12 @@ export const useUpdatePatient = () => {
   const validationError = ref<string | null>(null);
 
   const { mutate, isSuccess: isPatientUpdated } = useMutation({
-    mutationFn: async (varialbles : {id: number, updatePatientForm: any}) => {
+    mutationFn: async (varialbles : IUpdatePatient) => {
       const response =  await apiQueryClient.patient.updatePatient({
         params: {
           id: varialbles.id as number,
         },
-        body: varialbles.updatePatientForm,
+        body: varialbles,
       });
 
       if(response.status === 400) {
@@ -98,7 +98,7 @@ export const useUpdatePatient = () => {
       return response.body
     },
     onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ["getPatientbyId", variables.id] });
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_QUERY_KEY, variables.id] });
       console.log("Patient updated successfully");
     },
     onError: (error: any) => {
@@ -120,17 +120,16 @@ export const useUpdatePatient = () => {
 export const useDeletePatient =  () => { 
   const queryClient = useQueryClient();
   
-  const { mutate, isSuccess: isPatientDeleted } = useMutation({
-    mutationKey: ["deletePatient"],
+  const { mutate, isSuccess: isPatientDeleted, isPending: isDeletePatientLoading } = useMutation({
     mutationFn: async (id: number) => {
-      const {} = await apiQueryClient.patient.deletePatient({
+     return  await apiQueryClient.patient.deletePatient({
         params: {
           id: id,
         },
       });
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({queryKey: ["getPatients"]});
+      await queryClient.invalidateQueries({queryKey: [GET_PATIENTS_QUERY_KEY]});
       console.log("Patient deleted successfully");
     },
     onError: (error: any) => {
@@ -141,7 +140,8 @@ export const useDeletePatient =  () => {
 
   return { 
     mutate,
-    isPatientDeleted
+    isPatientDeleted,
+    isDeletePatientLoading
   }
 
 }

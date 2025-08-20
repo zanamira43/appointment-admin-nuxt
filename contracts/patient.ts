@@ -1,5 +1,5 @@
 import { initContract } from '@ts-rest/core';
-import type { Patient, NewPatient} from '~/types';
+import type { IPatient, INewPatient, IAllPatient, IUpdatePatient} from '~/types/IPatient';
 
 const c = initContract();
 
@@ -8,7 +8,7 @@ export const patientContract = c.router({
     method: 'GET',
     path: '/patients',
     responses: {
-      200: c.type<Patient[]>(),
+      200: c.type<IAllPatient>(),
     },
     summary: 'Get all patient list',
     
@@ -17,10 +17,10 @@ export const patientContract = c.router({
     method: 'POST',
     path: '/patients',
     responses: {
-      200: c.type<NewPatient>(),
+      200: c.type(),
       400: c.type<string>(),
     },
-    body: c.type<NewPatient>(),
+    body: c.type<INewPatient>(),
     
     summary: 'Create a new patient',
   },
@@ -30,7 +30,7 @@ export const patientContract = c.router({
     path: '/patients/:id',
     pathParams: c.type<{ id: number }>(), 
     responses: {
-      200: c.type<Patient>(),
+      200: c.type<IPatient>(),
     },
     summary: 'Get single patient',
   },
@@ -40,10 +40,10 @@ export const patientContract = c.router({
     path: '/patients/:id',
     pathParams: c.type<{ id: number }>(),
     responses: {
-      200: c.type<Patient>(),
+      200: c.type<IPatient>(),
       400: c.type<string>(),
     },
-    body: c.type<any>(),
+    body: c.type<IUpdatePatient>(),
     summary: 'Update patient',
   },
   
@@ -52,7 +52,7 @@ export const patientContract = c.router({
     path: '/patients/:id',
     pathParams: c.type<{ id: number }>(),
     responses: {
-      200: c.type<Patient>(),
+      200: c.type<{message: string}>(),
     },
     summary: 'Delete patient',
   },

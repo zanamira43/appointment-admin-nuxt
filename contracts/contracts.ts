@@ -3,11 +3,14 @@ import {initContract} from '@ts-rest/core'
 import {patientContract} from './patient'
 import {userContract} from './user'
 import { authContract } from './auth'
-
+import { sessionContract } from './session'
+import { paymnentContract } from './payment'
 
 const c = initContract()
 export const contract = c.router({
-  patient: patientContract,
+  auth: authContract,
   user: userContract,
-  auth: authContract
+  patient: patientContract,
+  session: sessionContract,
+  payment: paymnentContract,
 })
