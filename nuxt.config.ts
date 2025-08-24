@@ -104,35 +104,28 @@ export default defineNuxtConfig({
       // runtime caching rules
       runtimeCaching: [
         {
-          urlPattern: ({ request }) => request.destination === 'image',
+          urlPattern: /^https:\/\/fonts\.googleapis\.com/,
           handler: 'CacheFirst',
           options: {
-            cacheName: 'images',
-            expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 }
+            cacheName: 'google-fonts-cache',
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
           }
         },
         {
-          urlPattern: ({ url }) => url.origin === location.origin && url.pathname.startsWith('/api'),
-          handler: 'NetworkFirst',
-          options: { cacheName: 'api', networkTimeoutSeconds: 3 }
-        },
-        {
-          // Cache external HTTPS images (CDNs, etc.)
-          urlPattern: ({ url }) => url.protocol === 'https:' && url.pathname.match(/\.(png|jpg|jpeg|svg|gif|webp)$/i),
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'external-images',
-            expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 7 } // 7 days
-          }
-        },
-        {
-          // Cache external HTTPS APIs with CORS
-          urlPattern: ({ url }) => url.protocol === 'https:' && url.origin !== location.origin,
+          urlPattern: /^https:\/\/api\.rawezhkaraso\.com\/v1/,
           handler: 'NetworkFirst',
           options: {
-            cacheName: 'external-apis',
-            networkTimeoutSeconds: 5,
-            expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 2 } // 2 hours
+            cacheName: 'api-cache',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 60 // 1 hour
+            }
           }
         }
       ]
