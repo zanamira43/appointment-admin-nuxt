@@ -15,7 +15,7 @@ const login = async () => {
         <template #header>
           <h1 class="text-2xl font-bold text-center">Login</h1>
           <p class="text-sm text-center text-gray-500 mt-1">
-            Please enter your email and password to login.
+            Please enter your Phone Number and password to login.
           </p>
         </template>
 
