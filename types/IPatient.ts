@@ -3,17 +3,27 @@ import type { ISession } from "./ISession"
 
 
 export type IAllPatient ={
-  id: number,
-  slug: string,
-  name: string,
-  gender: string,
-  age: number,
-  profession: string,
-  address: string,
-  phone_number: string,
-  created_at: Date,
-  updated_at: Date
-}[];
+  data: [
+    id: number,
+    slug: string,
+    name: string,
+    gender: string,
+    age: number,
+    profession: string,
+    address: string,
+    phone_number: string,
+    created_at: Date,
+    updated_at: Date
+  ]
+
+  page?: number;
+  limit?: number;
+  total: number;
+  total_pages?: number;
+  has_next?: boolean;
+  has_prev?: boolean;
+
+};
 
 export type IPatient ={
   id: number,
@@ -42,7 +52,6 @@ export type INewPatient = {
 
 
 export type IUpdatePatient = {
-  id: number,
   slug: string,
   name: string,
   gender: string,

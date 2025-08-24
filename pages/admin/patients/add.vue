@@ -1,57 +1,99 @@
 <script setup lang="ts">
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 import { useCreatePatient } from "~/composables/patients";
 import type { INewPatient } from "~/types/IPatient";
 
 const toast = useToast();
-const patientForm = reactive<INewPatient>({
-  name: "",
-  gender: "",
-  age: 0,
-  profession: "",
-  address: "",
-  phone_number: "",
+const { mutate } = useCreatePatient();
+
+// Validation schema
+const schema = yup.object({
+  name: yup.string().required("Name is required"),
+  phone_number: yup.string().required("Phone number is required"),
+  age: yup.number().min(1, "Age must be a positive number").required("Age is required"),
+  gender: yup.string().required("Gender is required"),
+  profession: yup.string().required("Profession is required"),
+  address: yup.string().required("Address is required"),
 });
 
-const { mutate, validationError, isPatientCreated } = useCreatePatient();
-const submitForm = async () => {
-  try {
-    await mutate(patientForm);
-    if (validationError.value) {
-      return;
-    }
-    if (isPatientCreated) {
-      toast.add({
-        title: "Patient Created Successfully",
-        color: "success",
-        icon: "i-heroicons-check-circle",
-      });
-    }
+const { handleSubmit, values } = useForm<INewPatient>({
+  validationSchema: schema,
+  initialValues: {
+    name: "",
+    phone_number: "",
+    age: 0,
+    gender: "",
+    profession: "",
+    address: "",
+  },
+});
 
-    patientForm.name = "";
-    patientForm.gender = "";
-    patientForm.age = 0;
-    patientForm.profession = "";
-    patientForm.address = "";
-    patientForm.phone_number = "";
+const submitForm = handleSubmit(async () => {
+  try {
+    await mutate(values, {
+      onSuccess: () => {
+        toast.add({
+          title: "Patient Created Successfully",
+          color: "success",
+          icon: "i-heroicons-check-circle",
+        });
+
+        values.name = "";
+        values.gender = "";
+        values.age = 0;
+        values.profession = "";
+        values.address = "";
+        values.phone_number = "";
+
+        navigateTo("/admin/patients");
+      },
+    });
   } catch (error) {
     console.log(error);
   }
-};
-
-setTimeout(() => {
-  validationError.value = null;
-}, 5000);
+});
 </script>
+
 <template>
   <NuxtLayout>
-    <div class="w-full px-2 mx-auto">
-      <AdminPatientAppointmentForm
-        formTitle="Make an Appointment"
-        @submitForm="submitForm"
-        :form="patientForm"
-        :validationError="validationError as string"
-        btnLable="Send"
-      />
+    <div class="w-full mx-auto">
+      <UCard>
+        <template #header>
+          <h2 class="text-2xl font-semibold">Add Patient</h2>
+        </template>
+
+        <form class="w-full">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-5">
+            <FormInput label="Name" name="name" class="w-full" />
+            <FormInput label="Phone Number" name="phone_number" class="w-full" />
+            <FormInput type="number" label="Age" name="age" class="w-full" :min="0" />
+            <FormSelect
+              label="Gender"
+              name="gender"
+              :items="['Male', 'Female', 'Other']"
+              class="w-full h-[32px]"
+              icon="i-heroicons-users"
+            />
+
+            <FormInput label="Profession" name="profession" class="w-full" />
+            <FormInput label="Address" name="address" class="w-full" />
+          </div>
+        </form>
+        <template #footer>
+          <div class="flex justify-end gap-2">
+            <UButton
+              type="button"
+              @click="
+                async () => {
+                  await submitForm();
+                }
+              "
+              >Save</UButton
+            >
+          </div>
+        </template>
+      </UCard>
     </div>
   </NuxtLayout>
 </template>

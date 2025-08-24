@@ -2,6 +2,7 @@ import { apiQueryClient } from "~/api/client";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import type { INewPatient, IUpdatePatient } from "~/types/IPatient";
 
+const toast = useToast();
 
 export const GET_PATIENTS_QUERY_KEY = "getPatients";
 export const GET_PATIENT_QUERY_KEY = "getPatient";
@@ -9,7 +10,7 @@ export const GET_PATIENT_QUERY_KEY = "getPatient";
 export const useCreatePatient = () => {
   const validationError = ref<string | null>(null);
   
-  const { mutate, isSuccess: isPatientCreated } = useMutation({
+  const { mutate, isPending} = useMutation({
     mutationFn: async (data: INewPatient) => {
       const response = await apiQueryClient.patient.createPatient({
         body: data
@@ -28,13 +29,17 @@ export const useCreatePatient = () => {
     },
     onError: (error: any) => {
       console.log("Error creating patient", error);
+      toast.add({
+        title: 'Error creating patient',
+        color: 'warning',
+        icon: 'i-heroicons-x-circle',
+      })
     },
   });
 
   return {
    mutate,
-   isPatientCreated,
-   validationError
+   isPending
   };
 }
 
@@ -43,7 +48,10 @@ export const useGetPatients = () => {
   const { data: patients, isLoading, refetch: fetchPatients } = useQuery({
     queryKey: [GET_PATIENTS_QUERY_KEY],
     queryFn: async () => {
-      return await apiQueryClient.patient.getPatients();
+      const res =  await apiQueryClient.patient.getPatients();
+      if(res.status === 200) {
+          return res.body
+      }
     },
     retry: 2
   });
@@ -79,26 +87,24 @@ export const useGetPatientbyId =  (id: number) => {
 // use update Patient composable
 export const useUpdatePatient = () => {
   const queryClient = useQueryClient();
-  const validationError = ref<string | null>(null);
 
-  const { mutate, isSuccess: isPatientUpdated } = useMutation({
-    mutationFn: async (varialbles : IUpdatePatient) => {
+  const { mutate,  isPending} = useMutation({
+    mutationFn: async ({id, data}:{id: number, data: IUpdatePatient}) => {
       const response =  await apiQueryClient.patient.updatePatient({
         params: {
-          id: varialbles.id as number,
+          id: id,
         },
-        body: varialbles,
+        body: data,
       });
 
       if(response.status === 400) {
-        validationError.value = response.body
         throw new Error(response.body);
       }
 
       return response.body
     },
-    onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_QUERY_KEY, variables.id] });
+    onSuccess: async (id) => {
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_QUERY_KEY, id] });
       console.log("Patient updated successfully");
     },
     onError: (error: any) => {
@@ -109,9 +115,7 @@ export const useUpdatePatient = () => {
 
   return { 
     mutate,
-    isLoading: false, // Assuming you want to handle loading state separately
-    validationError,
-    isPatientUpdated
+    isPending
   };
 };
 

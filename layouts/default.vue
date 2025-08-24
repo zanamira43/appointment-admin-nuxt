@@ -7,7 +7,7 @@
       <AdminNavbar />
 
       <!-- admin content -->
-      <div>
+      <div class="mt-10 px-5">
         <slot />
       </div>
     </div>

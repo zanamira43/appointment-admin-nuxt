@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
-import type { IPatient } from "~/types/IPatient";
+import type { TableColumn, TableRow } from "@nuxt/ui";
+import type { IAllPatient, IPatient } from "~/types/IPatient";
 import { useGetPatients, useDeletePatient } from "~/composables/patients";
 
 const UButton = resolveComponent("UButton");
@@ -11,10 +12,10 @@ const searchQuery = ref("");
 
 const { patients, isLoading, fetchPatients } = useGetPatients();
 
-const PatientLists = computed<IPatient[] | undefined>(() => {
-  const body = (patients.value?.body ?? []) as IPatient[];
+const PatientLists = computed<IAllPatient | any>(() => {
+  const body = patients.value?.data ?? [];
   if (searchStore.query) {
-    return body.filter((patient: IPatient) => {
+    return body.filter((patient: any) => {
       return (
         patient.slug.includes(searchStore.query) ||
         patient.phone_number.includes(searchStore.query) ||
@@ -22,7 +23,7 @@ const PatientLists = computed<IPatient[] | undefined>(() => {
       );
     });
   }
-  return Array.isArray(patients.value?.body) ? (patients.value.body as IPatient[]) : [];
+  return body;
 });
 
 const patientOptions: Ref<{ label: string; value: string }[]> = ref([
@@ -60,7 +61,7 @@ watch(
   }
 );
 
-const columns = [
+const columns: TableColumn<IAllPatient>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -123,7 +124,7 @@ const getRowItems = (row: any) => [
       iconClass: "text-blue-600",
       class: "text-blue-500",
       onSelect() {
-        navigateTo(`/admin/edit/${row.original.id}`);
+        navigateTo(`/admin/patients/${row.original.id}`);
       },
     },
   ],
@@ -160,6 +161,12 @@ const deletePatient = async () => {
     fetchPatients();
   }
 };
+
+function handleClick(row: any) {
+  // navigateTo(`/admin/patients/${row.getValue("id")}`)
+
+  console.log(row.id);
+}
 </script>
 <template>
   <NuxtLayout>
@@ -204,7 +211,15 @@ const deletePatient = async () => {
 
         <!-- patient table  -->
         <div class="mt-2">
-          <UTable :data="PatientLists" :columns="columns" :loading="isLoading"> </UTable>
+          <UTable
+            sticky
+            loading-color="primary"
+            loading-animation="carousel"
+            :data="PatientLists"
+            :columns="columns"
+            :loading="isLoading"
+          >
+          </UTable>
         </div>
 
         <UModal v-model:open="delModal">
