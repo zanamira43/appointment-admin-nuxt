@@ -3,6 +3,7 @@ import { h, resolveComponent } from "vue";
 import type { TableColumn, TableRow } from "@nuxt/ui";
 import type { IAllPatient, IPatient } from "~/types/IPatient";
 import { useGetPatients, useDeletePatient } from "~/composables/patients";
+import { ro } from "@nuxt/ui/runtime/locale/index.js";
 
 const UButton = resolveComponent("UButton");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
@@ -162,10 +163,18 @@ const deletePatient = async () => {
   }
 };
 
-function handleClick(row: any) {
-  // navigateTo(`/admin/patients/${row.getValue("id")}`)
-
-  console.log(row.id);
+const rowSelection = ref<Record<string, boolean>>({});
+const lastClickTime = ref<number | null>(null);
+function handleClick(row: TableRow<IAllPatient>, e?: Event) {
+  const rowValue = row.getValue("id");
+  const now = Date.now();
+  if (lastClickTime.value && now - lastClickTime.value <= 360) {
+    lastClickTime.value = null;
+    navigateTo(`/admin/patients/${rowValue}`);
+  } else {
+    // Store current time for the next click
+    lastClickTime.value = now;
+  }
 }
 </script>
 <template>
@@ -218,6 +227,8 @@ function handleClick(row: any) {
             :data="PatientLists"
             :columns="columns"
             :loading="isLoading"
+            :row-selection="rowSelection"
+            @select="handleClick"
           >
           </UTable>
         </div>
