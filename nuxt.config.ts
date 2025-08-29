@@ -32,7 +32,8 @@ export default defineNuxtConfig({
       // add any additional static assets you want precached
       'favicon.ico',
       'apple-touch-icon.jpeg',
-      'robots.txt'
+      'robots.txt',
+      'index.html'
     ],
     manifest: {
       "name": "RawezhkarAso",
