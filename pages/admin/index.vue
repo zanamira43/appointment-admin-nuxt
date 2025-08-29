@@ -2,35 +2,35 @@
 <template>
   <NuxtLayout>
     <div class="h-screen w-full">
-      <div class="container mx-auto">
+      <div class="mx-auto">
         <div class="flex flex-col justify-center items-center">
-          <div class="p-6 space-y-4">
-            <h1 class="text-2xl font-semibold">Razhwekar Aso</h1>
+          <div class="p-3 space-y-4 w-full">
+            <h1 class="text-2xl font-bold">{{ $t("rawezhkar_aso") }}</h1>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <UCard>
-                <template #header>Patients</template>
-                <p>Manage patients and their information.</p>
+              <UCard class="w-full">
+                <template #header>{{ $t("patient") }}</template>
+                <p>{{ $t("Manage patients and their information.") }}</p>
                 <template #footer>
-                  <UButton to="/admin/patients">Go to Patients</UButton>
+                  <UButton to="/admin/patients">{{ $t("view") }}</UButton>
                 </template>
               </UCard>
               <UCard>
-                <template #header>Sessions</template>
-                <p>Browse all sessions.</p>
+                <template #header>{{ $t("session") }}</template>
+                <p>{{ $t("Browse all sessions.") }}</p>
                 <template #footer>
-                  <UButton to="/admin/patients">Open via Patient</UButton>
+                  <UButton to="/admin/patients">{{ $t("view") }}</UButton>
                 </template>
               </UCard>
               <UCard>
-                <template #header>Payments</template>
-                <p>Track all payments.</p>
+                <template #header>{{ $t("payment") }}</template>
+                <p>{{ $t("Track all payments.") }}</p>
                 <template #footer>
-                  <UButton to="/admin/patients">Open via Patient</UButton>
+                  <UButton to="/admin/patients">{{ $t("view") }}</UButton>
                 </template>
               </UCard>
             </div>
           </div>
-          <div class="mt-5 border rounded-md border-gray-300 p-5 shadow">
+          <div class="mt-5 border rounded-md border-gray-300 shadow">
             <NuxtImg src="/live-organization.jpeg" class="h-[300px] w-full" />
           </div>
         </div>

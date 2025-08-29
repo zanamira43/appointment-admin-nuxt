@@ -3,7 +3,6 @@ import { h, resolveComponent } from "vue";
 import type { TableColumn, TableRow } from "@nuxt/ui";
 import type { IAllPatient, IPatient } from "~/types/IPatient";
 import { useGetPatients, useDeletePatient } from "~/composables/patients";
-import { ro } from "@nuxt/ui/runtime/locale/index.js";
 
 const UButton = resolveComponent("UButton");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
@@ -65,37 +64,37 @@ watch(
 const columns: TableColumn<IAllPatient>[] = [
   {
     accessorKey: "id",
-    header: "ID",
+    header: $t("id"),
     cell: ({ row }: any) => `#${row.getValue("id")}`,
   },
   {
     accessorKey: "slug",
-    header: "Code",
+    header: $t("code"),
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: $t("name"),
   },
   {
     accessorKey: "gender",
-    header: "Gender",
+    header: $t("gender"),
   },
   {
     accessorKey: "age",
-    header: "Age",
+    header: $t("age"),
   },
   {
     accessorKey: "phone_number",
-    header: "Phone Number",
+    header: $t("phone_number"),
   },
 
   {
     id: "actions",
-    header: "Actions",
+    header: $t("actions"),
     cell: ({ row }: any) => {
       return h(
         "div",
-        { class: "text-center" },
+        { class: "" },
         h(
           UDropdownMenu,
           {
@@ -120,7 +119,7 @@ const columns: TableColumn<IAllPatient>[] = [
 const getRowItems = (row: any) => [
   [
     {
-      label: "Edit",
+      label: $t("edit"),
       icon: "heroicons:pencil-square-20-solid",
       iconClass: "text-blue-600",
       class: "text-blue-500",
@@ -131,7 +130,7 @@ const getRowItems = (row: any) => [
   ],
   [
     {
-      label: "Delete",
+      label: $t("delete"),
       icon: "heroicons:trash-20-solid",
       iconClass: "text-red-600",
       class: "text-red-500",
@@ -153,7 +152,7 @@ const deletePatient = async () => {
   await mutate(delId.value);
   if (isPatientDeleted) {
     await toast.add({
-      description: "Patient Deleted Successfully",
+      description: $t("patient_deleted_successfully"),
       color: "success",
       icon: "i-heroicons-check-circle",
     });
@@ -182,11 +181,11 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <!-- page header -->
-        <AdminPageHeader title="Patient List" subtitle="List of all patients">
+        <AdminPageHeader :title="$t('patient')" :subtitle="$t('list_of_all_patients')">
           <div class="flex items-center justify-between gap-4">
             <UButton
               color="neutral"
-              label="All"
+              :label="$t('all')"
               size="sm"
               class="mr-2 p-2"
               @click="searchStore.query = ''"
@@ -195,7 +194,7 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
               id="searchPatient"
               :searchable="true"
               arrow
-              placeholder="Search by Code"
+              :placeholder="$t('search_by_code')"
               v-model:search-term="searchQuery"
               :items="patientOptions"
               size="lg"
@@ -204,13 +203,13 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
               :search-attributes="['label', 'value']"
             >
               <template #empty>
-                <div class="text-center">No Patient Found</div>
+                <div class="text-center text-red-500">{{ $t("no_results_found") }}</div>
               </template>
             </USelectMenu>
 
             <UButton
               color="primary"
-              label="Add Patient"
+              :label="$t('add')"
               icon="i-heroicons-plus-20-solid"
               class="ml-auto"
               @click="navigateTo('/admin/patients/add')"
@@ -236,19 +235,13 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
         <UModal v-model:open="delModal">
           <template #body>
             <div class="flex flex-col justify-center items-center gap-2">
-              <h1 class="text-2xl font-bold text-center">Delete Patient</h1>
-              <p class="text-center">Are you sure you want to delete this patient?</p>
+              <h1 class="text-2xl font-bold text-center">{{ $t("delete_patient") }}</h1>
+              <p class="text-center">{{ $t("are_you_sure_to_delete") }}</p>
             </div>
           </template>
           <template #footer>
             <div class="flex justify-start items-start gap-2">
-              <UButton
-                label="Cancel"
-                color="neutral"
-                variant="outline"
-                @click="delModal = false"
-              />
-              <UButton label="Delete" color="error" @click="deletePatient" />
+              <UButton :label="$t('yes')" color="error" @click="deletePatient" />
             </div>
           </template>
         </UModal>

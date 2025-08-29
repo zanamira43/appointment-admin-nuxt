@@ -6,12 +6,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
   modules: [
-    '@nuxt/ui',
-    '@nuxt/icon',
-    '@pinia/nuxt',
-    '@vee-validate/nuxt',
-    '@nuxt/image',
-    '@vite-pwa/nuxt'
+   '@nuxt/ui',
+   '@nuxt/icon',
+   '@pinia/nuxt',
+   '@vee-validate/nuxt',
+   '@nuxt/image',
+   '@vite-pwa/nuxt',
+   '@nuxtjs/i18n',
+   "@nuxtjs/google-fonts",
   ],
   css: [`~/assets/css/main.css`],
   
@@ -138,5 +140,28 @@ export default defineNuxtConfig({
       enabled: true, // enables SW in dev for local testing
       type: 'module'
     }
-  }
+  },
+
+
+ // i18n configuration for Kurdish language
+  i18n: {
+    locales: [
+      {
+        code: 'ckb',
+        name: 'کوردی سۆرانی',
+        file: 'ckb.json',
+        dir: 'rtl' // Sorani Kurdish
+      }
+    ],
+    defaultLocale: 'ckb',
+    langDir: 'locales/',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root'
+
+    },
+    vueI18n: './i18n.config.ts',
+  },
 })

@@ -2,17 +2,17 @@
 const items = ref([
   [
     {
-      label: "Dashboard",
+      label: $t("dashboard"),
       icon: "i-heroicons-home",
       to: "/admin",
     },
     {
-      label: "Patients",
+      label: $t("patient"),
       icon: "healthicons:outpatient",
       to: "/admin/patients",
     },
     {
-      label: "Users",
+      label: $t("user"),
       icon: "i-heroicons-users-solid",
       to: "/admin/users",
     },
@@ -36,12 +36,7 @@ const items = ref([
       <USeparator />
 
       <div class="mt-10">
-        <UNavigationMenu orientation="vertical" :items="items">
-          <!-- <template #default="{ item }">
-            <span class="group-hover:text-gray-500 text-gray-500 relative py-1">
-              {{ item.label }}</span
-            >
-          </template> -->
+        <UNavigationMenu orientation="vertical" :items="items" class="text-xl">
         </UNavigationMenu>
       </div>
     </div>

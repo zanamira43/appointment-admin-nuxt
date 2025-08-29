@@ -9,12 +9,15 @@ const { mutate } = useCreatePatient();
 
 // Validation schema
 const schema = yup.object({
-  name: yup.string().required("Name is required"),
-  phone_number: yup.string().required("Phone number is required"),
-  age: yup.number().min(1, "Age must be a positive number").required("Age is required"),
-  gender: yup.string().required("Gender is required"),
-  profession: yup.string().required("Profession is required"),
-  address: yup.string().required("Address is required"),
+  name: yup.string().required(`${$t("Name is required")}`),
+  phone_number: yup.string().required(`${$t("Phone number is required")}`),
+  age: yup
+    .number()
+    .min(1, `${$t("Age must be a positive number")}`)
+    .required(`${$t("Age is required")}`),
+  gender: yup.string().required(`${$t("Gender is required")}`),
+  profession: yup.string().required(`${$t("Profession is required")}`),
+  address: yup.string().required(`${$t("Address is required")}`),
 });
 
 const { handleSubmit, values } = useForm<INewPatient>({
@@ -60,24 +63,30 @@ const submitForm = handleSubmit(async () => {
     <div class="w-full mx-auto">
       <UCard>
         <template #header>
-          <h2 class="text-2xl font-semibold">Add Patient</h2>
+          <h2 class="text-2xl font-semibold">{{ $t("add_patient") }}</h2>
         </template>
 
         <form class="w-full">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-5">
-            <FormInput label="Name" name="name" class="w-full" />
-            <FormInput label="Phone Number" name="phone_number" class="w-full" />
-            <FormInput type="number" label="Age" name="age" class="w-full" :min="0" />
+            <FormInput :label="$t('name')" name="name" class="w-full" />
+            <FormInput :label="$t('phone_number')" name="phone_number" class="w-full" />
+            <FormInput
+              type="number"
+              :label="$t('age')"
+              name="age"
+              class="w-full"
+              :min="0"
+            />
             <FormSelect
-              label="Gender"
+              :label="$t('gender')"
               name="gender"
               :items="['Male', 'Female', 'Other']"
               class="w-full h-[32px]"
               icon="i-heroicons-users"
             />
 
-            <FormInput label="Profession" name="profession" class="w-full" />
-            <FormInput label="Address" name="address" class="w-full" />
+            <FormInput :label="$t('profession')" name="profession" class="w-full" />
+            <FormInput :label="$t('address')" name="address" class="w-full" />
           </div>
         </form>
         <template #footer>
@@ -89,7 +98,7 @@ const submitForm = handleSubmit(async () => {
                   await submitForm();
                 }
               "
-              >Save</UButton
+              >{{ $t("save") }}</UButton
             >
           </div>
         </template>

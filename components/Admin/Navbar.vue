@@ -6,20 +6,20 @@ const items = [
   [
     {
       label: "ben@example.com",
-      slot: "account",
+      slot: $t("account"),
       disabled: true,
     },
   ],
   [
     {
-      label: "Profile",
+      label: $t("profile"),
       icon: "i-heroicons-user-circle",
     },
   ],
 
   [
     {
-      label: "Sign out",
+      label: $t("logout"),
       icon: "i-heroicons-arrow-left-on-rectangle",
       onSelect() {
         authStore.logout();
@@ -41,14 +41,13 @@ watch(searchQuery, (newSearch) => {
 </script>
 <template>
   <div
-    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
+    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 w-full"
   >
     <button
       type="button"
       class="-m-2.5 p-2.5 text-gray-700 lg:hidden"
       @click="sidebarOpen = true"
     >
-      <span class="sr-only">Open sidebar</span>
       <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
     </button>
 
@@ -61,7 +60,7 @@ watch(searchQuery, (newSearch) => {
       <!-- Search Bar -->
       <UFormField class="w-[500px]">
         <UInput
-          placeholder="Search..."
+          :placeholder="` ${$t('search')} ...`"
           icon="heroicons:magnifying-glass"
           iconPosition="left"
           v-model="searchQuery"
@@ -93,7 +92,7 @@ watch(searchQuery, (newSearch) => {
 
           <template #account="{ item }">
             <div class="text-left">
-              <p>Signed in as</p>
+              <p>{{ $t("account") }}</p>
               <p class="truncate font-medium text-gray-900 dark:text-white">
                 {{ item.label }}
               </p>

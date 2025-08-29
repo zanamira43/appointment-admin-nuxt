@@ -3,6 +3,10 @@ import {useAuthLogin} from '~/composables/auth'
 import { apiQueryClient } from '~/api/client'
 
 
+
+
+
+
 interface Store {
   isLoggedIn: boolean
 }
@@ -50,6 +54,8 @@ export const useAuthStore = defineStore("authStore", {
       
       const router = useRouter()
       const toast = useToast()
+      const { $i18n } = useNuxtApp() // ✅ Call here instead of top-level
+      const t = $i18n.t
       try {
         await useAuthLogin({phone_number ,  password})
         await this.fetchUser()
@@ -57,7 +63,10 @@ export const useAuthStore = defineStore("authStore", {
       }catch(e){
         toast.add({
           color: 'error', 
-          description: 'Login failed',
+          description: t('wrong_credentials'),
+          ui: {
+            description: 'text-xl'
+          }
         })
       }
     }, 
