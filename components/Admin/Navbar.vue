@@ -2,6 +2,8 @@
 const sidebarOpen = ref(false);
 const { first_name, last_name } = useMyUserStore();
 
+const authStore = useAuthStore();
+
 const items = [
   [
     {
