@@ -1,7 +1,8 @@
 <template>
   <UApp :locale="locale">
+    <VitePwaManifest />
+    <!-- <PwaReload /> -->
     <NuxtPage />
-    <PwaReload />
   </UApp>
 </template>
 

@@ -97,7 +97,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       // common sensible defaults; adjust to your needs
-      navigateFallback: '/index.html',
+      navigateFallback: '/',
       globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2, jpeg, jpg}'],
       globIgnores: ['**/.*', '**/node_modules/**'],
       cleanupOutdatedCaches: true,
