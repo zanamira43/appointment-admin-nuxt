@@ -1,11 +1,11 @@
 <script setup>
 const sidebarOpen = ref(false);
-const authStore = useAuthStore();
+const { first_name, last_name } = useMyUserStore();
 
 const items = [
   [
     {
-      label: "ben@example.com",
+      label: first_name + " " + last_name,
       slot: $t("account"),
       disabled: true,
     },
@@ -14,6 +14,7 @@ const items = [
     {
       label: $t("profile"),
       icon: "i-heroicons-user-circle",
+      to: "/admin/profile",
     },
   ],
 

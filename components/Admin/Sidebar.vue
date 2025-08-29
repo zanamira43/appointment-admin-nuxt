@@ -11,11 +11,11 @@ const items = ref([
       icon: "healthicons:outpatient",
       to: "/admin/patients",
     },
-    {
-      label: $t("user"),
-      icon: "i-heroicons-users-solid",
-      to: "/admin/users",
-    },
+    // {
+    //   label: $t("user"),
+    //   icon: "i-heroicons-users-solid",
+    //   to: "/admin/users",
+    // },
   ],
 ]);
 </script>

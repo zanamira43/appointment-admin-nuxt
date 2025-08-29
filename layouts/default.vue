@@ -8,7 +8,7 @@ const isRTL = computed(() => ["ckb"].includes(lang));
   <div class="flex flex-row h-screen w-full">
     <AdminSidebar />
 
-    <div :class="`w-full ${isRTL ? 'md:pr-72' : 'md:pl-72'} `">
+    <div :class="`w-full ${isRTL ? 'lg:pr-72' : 'lg:pl-72'} `">
       <!-- navbar -->
       <AdminNavbar />
 
