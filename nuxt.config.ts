@@ -97,7 +97,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       // common sensible defaults; adjust to your needs
-      navigateFallback: '/',
+      navigateFallback: '/index.html',
       globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2, jpeg, jpg}'],
       globIgnores: ['**/.*', '**/node_modules/**'],
       cleanupOutdatedCaches: true,
@@ -121,7 +121,7 @@ export default defineNuxtConfig({
           }
         },
         {
-          urlPattern: /^https:\/\/api\.rawezhkaraso\.com\/v1/,
+          urlPattern: /^https:\/\/api\.rawezhkaraso\.com\/api/,
           handler: 'NetworkFirst',
           options: {
             cacheName: 'api-cache',
