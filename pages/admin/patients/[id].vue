@@ -77,7 +77,11 @@ const handleUpdate = async () => {
             <FormSelect
               :label="$t('gender')"
               name="gender"
-              :items="['Male', 'Female', 'Other']"
+              :items="[
+                { label: $t('Male'), value: 'Male' },
+                { label: $t('Female'), value: 'Female' },
+                { label: $t('Other'), value: 'Other' },
+              ]"
               class="w-full h-[32px]"
               icon="i-heroicons-users"
             />

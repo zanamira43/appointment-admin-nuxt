@@ -78,6 +78,10 @@ const columns: TableColumn<IAllPatient>[] = [
   {
     accessorKey: "gender",
     header: $t("gender"),
+    cell: (row: any) => {
+      const value = row.getValue("gender");
+      return value === "Male" ? $t("Male") : $t("Female");
+    },
   },
   {
     accessorKey: "age",
@@ -228,6 +232,7 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
             :loading="isLoading"
             :row-selection="rowSelection"
             @select="handleClick"
+            class="cursor-pointer"
           >
           </UTable>
         </div>

@@ -78,5 +78,8 @@
   "Age must be a positive number": " تەمەن پێوویستە بەژمارە بنووسرێت",
   "Gender is required": " ڕەگەز داواکراوە",
   "Profession is required": " پیشە داواکراوە",
-  "Address is required": " ناونیشان داواکراوە"
+  "Address is required": " ناونیشان داواکراوە",
+  "Male": "نێر",
+  "Female": "مێ",
+  "Other": "هیتر"
 }    
