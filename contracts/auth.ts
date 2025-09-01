@@ -1,17 +1,11 @@
 import {initContract} from '@ts-rest/core'
+import type {Profile, UserPassword, UserInfo} from '~/types/IUser'
 
 
 const c = initContract()
 
-export type userInfo = {
-  Id: string,
-  first_name: string,
-  last_name: string,
-  email: string,
-  phone_number: string,
-  created_at: string,
-  updated_at: string,
-}
+
+
 
 export const authContract = c.router({
   // get user inof 
@@ -19,7 +13,7 @@ export const authContract = c.router({
     method: 'GET',
     path: '/user/info',
     responses: {
-      200: c.type<{user: userInfo}>(),
+      200: c.type<{user: UserInfo}>(),
       // 400: c.type<{ message: Record<string, string> }>(),
     }
   },
@@ -40,6 +34,24 @@ export const authContract = c.router({
     body: c.noBody(),
     responses: {
       200: c.type(),
+    }
+  },
+
+  updateProfile: {
+    method: 'POST',
+    path: '/user/updateinfo',
+    body: c.type<Profile>(),
+    responses: {
+      200: c.type(),
+    }
+  },
+  updatePassword: {
+    method: 'POST',
+    path: '/user/updatepassword',
+    body: c.type<UserPassword>(),
+    responses: {
+      200: c.type(),
+      400: c.type<{message: string}>(),
     }
   }
 })

@@ -81,5 +81,14 @@
   "Address is required": " ناونیشان داواکراوە",
   "Male": "نێر",
   "Female": "مێ",
-  "Other": "هیتر"
+  "Other": "هیتر",
+  "first_name": "ناوی یەکەم",
+  "last_name": "ناوی کۆتا",
+  "email": "ئیمەیڵ",
+  "change_password": " گۆڕینی ووشەی نهێنی",
+  "password_confirmation": " دووبارە ووشەی نهێنی",
+  "profile_password_updated_successfully": "ووشەی نهێنی بەسەرکەوتووی تازەکرایەوە",
+  "password is required": " ووشەی نهێنی داواکراوە",
+  "password confirmation is required": " دووبارەی ووشەی نهێنی داواکراوە",
+  "password does not match": " ووشە نهێنیەکان جیاوان"
 }    
