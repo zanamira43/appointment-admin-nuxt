@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import PatientDetail from "~/components/Admin/Patient/PatientDetail.vue";
+// import PatientDetail from "~/components/Admin/Patient/PatientDetail.vue";
 import { useUpdatePatient, useGetPatientbyId } from "~/composables/patients";
 import type { IPatient, IUpdatePatient } from "~/types/IPatient";
 
