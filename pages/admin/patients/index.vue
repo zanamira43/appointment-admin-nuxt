@@ -232,7 +232,7 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
             :loading="isLoading"
             :row-selection="rowSelection"
             @select="handleClick"
-            class="cursor-pointer"
+            class="cursor-pointer border border-gray-200 rounded-md"
           >
           </UTable>
         </div>
