@@ -31,8 +31,12 @@ export const useAuthStore = defineStore("authStore", {
             last_name: body.user?.last_name,
             email: body.user?.email,
             phone_number: body.user?.phone_number,
+            role: body.user?.role,
+            active: body.user?.active,
             created_at: body.user?.created_at,
             updated_at: body.user?.updated_at,
+
+
           })
           
           this.isLoggedIn = true
@@ -60,10 +64,10 @@ export const useAuthStore = defineStore("authStore", {
         await useAuthLogin({phone_number ,  password})
         await this.fetchUser()
         router.replace('/admin')
-      }catch(e){
+      }catch(error: any){
         toast.add({
           color: 'error', 
-          description: t('wrong_credentials'),
+          description: t(error.message),
           ui: {
             description: 'text-xl'
           }

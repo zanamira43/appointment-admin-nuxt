@@ -2,6 +2,8 @@
   "welcome": "بەخێربێیت",
   "hello": "سڵاو",
   "goodbye": "بەخوا حافیزی",
+  "ok": "بەڵێ",
+  "active":" چالاک",
   "yes": "بەڵێ",
   "no": "نەخێر",
   "home": "سەرەتا",
@@ -20,7 +22,9 @@
   "Please enter your Phone Number and password to login": "تکایە ژمارەی مۆبایل و ووشەی نهێنی داخڵ بکە بۆ چوونەژوورەوە",
   "phone_number": "ژمارەی مۆبایل",
   "password": "ووشەی نهێنی",
-  "wrong_credentials": "ژمارەی مۆبایل یان ووشەی نهێنی هەڵەیە",
+  "Incorrect phone number": "ژمارەی مۆبایل هەڵەیە",
+  "user is not active": "بەکارهێنەر چالاک نییە",
+  "incorrect password": "ووشەی نهێنی هەڵەیە",
   "dashboard": "داشبۆرد",
   "patient": "نەخۆش",
   "list_of_all_patients": "لیستی  نەخۆش",
@@ -94,5 +98,12 @@
   "profile_password_updated_successfully": "ووشەی نهێنی بەسەرکەوتووی تازەکرایەوە",
   "password is required": " ووشەی نهێنی داواکراوە",
   "password confirmation is required": " دووبارەی ووشەی نهێنی داواکراوە",
-  "password does not match": " ووشە نهێنیەکان جیاوان"
-}    
+  "password does not match": " ووشە نهێنیەکان جیاوان",
+  "list_of_all_users": " لیستی هەموو بەکارهێنەران",
+  "role": " ئەرک",
+  "admin": "ئەدمین",
+  "First Name is required": " ناوی یەکەم داواکراوە",
+  "Last Name is required": " ناوی کۆتا داواکراوە",
+  "Password is required": " ووشەی نهێنی داواکراوە",
+  "Role is required": " ئەرک داواکراوە"
+}
