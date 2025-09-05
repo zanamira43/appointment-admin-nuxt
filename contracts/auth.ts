@@ -24,7 +24,9 @@ export const authContract = c.router({
     body: c.type<{ phone_number: string; password: string }>(),
     responses: {
       200: c.type<{ jwt: string }>(),
+      404: c.type<{ message: string }>(),
       401: c.type<{ message: string }>(),
+      422: c.type<{ message: string }>(),
     }
   },
   // logout

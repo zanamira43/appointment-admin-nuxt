@@ -15,8 +15,20 @@ export const useAuthLogin = async (body:  AuthenticationFormSchema) => {
     if (status === 200) {
       return response
     }
+    if(status === 404){
+       throw new Error(response.message) 
+    }
 
-    throw 'Login failed'
+    if(status === 401){
+       throw new Error(response.message) 
+    }
+
+
+    if(status === 422){
+       throw new Error(response.message) 
+    }
+
+    return response
 }
 
 // update user information

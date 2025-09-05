@@ -6,6 +6,8 @@ interface User {
   last_name: string
   email: string
   phone_number: string
+  role: string
+  active: boolean
   created_at: string
   updated_at: string
 
@@ -18,6 +20,8 @@ export const useMyUserStore = defineStore("myUserStore", {
     last_name: '',
     email: '',
     phone_number: '',
+    role: '',
+    active: false,
     created_at: '',
     updated_at: '',
 
@@ -25,12 +29,14 @@ export const useMyUserStore = defineStore("myUserStore", {
 
 
   actions: {
-    setUser({first_name, last_name, email, phone_number ,created_at, updated_at, Id}: User) {
+    setUser({first_name, last_name, email, phone_number, role, active ,created_at, updated_at, Id}: User) {
       this.Id = Id
       this.first_name = first_name
       this.last_name =last_name
       this.email = email
       this.phone_number = phone_number
+      this.role = role
+      this.active = active
       this.created_at = created_at
       this.updated_at = updated_at
     }

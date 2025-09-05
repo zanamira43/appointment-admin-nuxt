@@ -1,6 +1,27 @@
 <script setup lang="ts">
-const items = ref([
-  [
+const { role } = useMyUserStore();
+// const items = ref([
+//   [
+//     {
+//       label: $t("dashboard"),
+//       icon: "i-heroicons-home",
+//       to: "/admin",
+//     },
+//     {
+//       label: $t("patient"),
+//       icon: "healthicons:outpatient",
+//       to: "/admin/patients",
+//     },
+//     {
+//       label: $t("user"),
+//       icon: "i-heroicons-users-solid",
+//       to: "/admin/users",
+//     },
+//   ],
+// ]);
+
+const items = computed(() => {
+  const baseItems = [
     {
       label: $t("dashboard"),
       icon: "i-heroicons-home",
@@ -11,13 +32,19 @@ const items = ref([
       icon: "healthicons:outpatient",
       to: "/admin/patients",
     },
-    // {
-    //   label: $t("user"),
-    //   icon: "i-heroicons-users-solid",
-    //   to: "/admin/users",
-    // },
-  ],
-]);
+  ];
+
+  // Only push the 'user' menu if the role is 'admin'
+  if (role === "admin") {
+    baseItems.push({
+      label: $t("user"),
+      icon: "i-heroicons-users-solid",
+      to: "/admin/users",
+    });
+  }
+
+  return [baseItems]; // Keep nested structure for UNavigationMenu
+});
 </script>
 <template>
   <!-- Static sidebar for desktop -->
