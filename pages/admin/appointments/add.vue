@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { CalendarDate, DateFormatter} from "@internationalized/date";
+import { CalendarDate} from "@internationalized/date";
 
 import { type INewAppointments } from "~/types/IAppointment";
 
@@ -91,12 +91,12 @@ const weekdays = ref([
 
 
 /// date picker section
-const df = new DateFormatter("en-US", {
-  dateStyle: "medium",
-});
+// const df = new DateFormatter("en-US", {
+//   dateStyle: "medium",
+// });
 
 const today = new Date();
-const modelValue = ref(
+const modelValue = ref<CalendarDate>(
   new CalendarDate(today.getFullYear(), today.getMonth() + 1, today.getDate())
 );
 
@@ -106,7 +106,7 @@ function formatDateToYYYYMMDD(date: CalendarDate): string {
   const d = String(date.day).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
-watch(modelValue, (newValue: any) => {
+watch(() => modelValue, (newValue: any) => {
   if (newValue) {
       setFieldValue("date" , formatDateToYYYYMMDD(newValue));
   } else {
@@ -152,7 +152,7 @@ watch(modelValue, (newValue: any) => {
                     />
 
                     <template #content>
-                      <UCalendar v-model="modelValue as CalendarDate" class="p-2" />
+                      <UCalendar v-model="modelValue" class="p-2" />
                     </template>
                   </UPopover>
                   <FormInput :label="$t('date')" name="date" class="w-full" />
