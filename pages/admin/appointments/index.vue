@@ -182,7 +182,7 @@ const df = new DateFormatter("en-US", {
 });
 
 const today = new Date();
-const modelValue = ref(
+const modelValue = ref<CalendarDate>(
   new CalendarDate(today.getFullYear(), today.getMonth() + 1, today.getDate())
 );
 
@@ -192,13 +192,16 @@ function formatDateToYYYYMMDD(date: CalendarDate): string {
   const d = String(date.day).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
-watch(modelValue, (newValue: any) => {
-  if (newValue) {
-    search.value = formatDateToYYYYMMDD(newValue);
-  } else {
-    search.value = "";
+watch(
+  () => modelValue,
+  (newValue: any) => {
+    if (newValue) {
+      search.value = formatDateToYYYYMMDD(newValue);
+    } else {
+      search.value = "";
+    }
   }
-});
+);
 
 // pagination
 const page = ref(appointments.value?.page ?? 1);
@@ -228,7 +231,7 @@ const createModal = ref(false);
               </UButton>
 
               <template #content>
-                <UCalendar v-model="modelValue as CalendarDate" class="p-2" />
+                <UCalendar v-model="modelValue" class="p-2" />
               </template>
             </UPopover>
             <UButton
