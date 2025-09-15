@@ -1,24 +1,5 @@
 <script setup lang="ts">
 const { role } = useMyUserStore();
-// const items = ref([
-//   [
-//     {
-//       label: $t("dashboard"),
-//       icon: "i-heroicons-home",
-//       to: "/admin",
-//     },
-//     {
-//       label: $t("patient"),
-//       icon: "healthicons:outpatient",
-//       to: "/admin/patients",
-//     },
-//     {
-//       label: $t("user"),
-//       icon: "i-heroicons-users-solid",
-//       to: "/admin/users",
-//     },
-//   ],
-// ]);
 
 const items = computed(() => {
   const baseItems = [
@@ -31,6 +12,12 @@ const items = computed(() => {
       label: $t("patient"),
       icon: "healthicons:outpatient",
       to: "/admin/patients",
+    },
+
+    {
+      label: $t("appointments"),
+      icon: "healthicons:outpatient",
+      to: "/admin/appointments",
     },
   ];
 

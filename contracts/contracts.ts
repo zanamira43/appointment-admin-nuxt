@@ -5,6 +5,7 @@ import {userContract} from './user'
 import { authContract } from './auth'
 import { sessionContract } from './session'
 import { paymnentContract } from './payment'
+import { appointmentsContract } from './appointments'
 
 const c = initContract()
 export const contract = c.router({
@@ -13,4 +14,5 @@ export const contract = c.router({
   patient: patientContract,
   session: sessionContract,
   payment: paymnentContract,
+  appointment: appointmentsContract
 })

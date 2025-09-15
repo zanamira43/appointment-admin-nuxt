@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const phone_number = ref("");
-const password = ref("");
+const phone_number = ref("07701422683");
+const password = ref("12345678");
 
 const authStore = useAuthStore();
 
