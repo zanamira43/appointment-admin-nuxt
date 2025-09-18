@@ -24,7 +24,7 @@ const schema = yup.object({
 });
 const { values, setValues } = useForm<IRequestUser>({
   validationSchema: schema,
-  initialValues: user.value as IRequestUser | null,
+  initialValues: (user.value as IRequestUser) || null,
 });
 
 const toast = useToast();

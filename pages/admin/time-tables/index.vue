@@ -2,36 +2,55 @@
 import type { TableColumn, TableRow } from "@nuxt/ui";
 import { CalendarDate, DateFormatter, getLocalTimeZone } from "@internationalized/date";
 import { h, resolveComponent } from "vue";
-import type { IAllAppointments } from "~/types/IAppointment";
+import type { IAllTimeTables } from "~/types/ITimeTable";
 
-import { formatDate, formatTimeTo12Hour } from "~/util/util";
+import { formatTimeTo12Hour } from "~/util/util";
+import { useDeleteTimeTable, useGetTimeTables } from "~/composables/timeTables";
 
 // search input
 const search = ref("");
+// search by week day
+const searchByWeekDays = ref("");
 
 const UButton = resolveComponent("UButton");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
-const { appointments, isLoading, fetchAppointments } = useGetAppointments(search);
+
+const page = ref(1);
+const { timeTables, isLoading, fetchTimeTables } = useGetTimeTables(
+  search,
+  searchByWeekDays,
+  page
+);
+
 onMounted(async () => {
-  await fetchAppointments();
+  await fetchTimeTables();
 });
 
 watch(search, () => {
-  fetchAppointments();
+  fetchTimeTables();
 });
 
-const { deleteAppointment, isPending } = useDeleteAppointment();
+const { deleteTimeTable, isPending } = useDeleteTimeTable();
 
 const toast = useToast();
 
-const appointmentLists = computed<IAllAppointments | any>(() => {
-  return appointments?.value?.data ?? [];
+const timeTablesLists = computed<IAllTimeTables | any>(() => {
+  return timeTables?.value?.data ?? [];
 });
 
+// delete time table modal Ref
 const delModal = ref(false);
 const delId = ref<number | null>(null);
 
-const columns: TableColumn<IAllAppointments>[] = [
+/// create time table Modal Ref
+const createModal = ref(false);
+
+// edit time table modal Ref
+
+const EditModal = ref(false);
+const editId = ref<number | null>(0);
+
+const columns: TableColumn<IAllTimeTables>[] = [
   {
     accessorKey: "id",
     header: $t("id"),
@@ -43,17 +62,11 @@ const columns: TableColumn<IAllAppointments>[] = [
   {
     accessorKey: "week_day",
     header: $t("week_day"),
-    cell: ({ row }: any) => {
-      const value = row.getValue("week_day");
-      return $t(value);
-    },
-  },
-  {
-    accessorKey: "date",
-    header: $t("date"),
-    cell: ({ row }: any) => {
-      const value = row.getValue("date");
-      return formatDate(value);
+    cell: ({ row }: { row: TableRow<IAllTimeTables> }) => {
+      const days: string[] = row.getValue("week_day");
+      // Translate and join with "/"
+      const translated = days.map((day) => $t(`${day}`)).join(" / ");
+      return translated;
     },
   },
   {
@@ -73,30 +86,6 @@ const columns: TableColumn<IAllAppointments>[] = [
     },
   },
   {
-    accessorKey: "status",
-    header: $t("status"),
-    cell: ({ row }: any) => {
-      const value = row.getValue("status");
-      if (!value) return "";
-      return h(
-        "span",
-        {
-          class: [
-            "px-2 py-1 rounded-full text-white text-sm w-full inline-block",
-            value === "new_appointment"
-              ? "bg-info"
-              : value === "finished"
-              ? "bg-green-500"
-              : value === "in_progress"
-              ? "bg-yellow-500"
-              : "",
-          ],
-        },
-        $t(value)
-      );
-    },
-  },
-  {
     accessorKey: "user",
     header: $t("user"),
     cell: ({ row }: any) => {
@@ -108,7 +97,7 @@ const columns: TableColumn<IAllAppointments>[] = [
   {
     id: "actions",
     header: $t("actions"),
-    cell: ({ row }: { row: TableRow<IAllAppointments> }) => {
+    cell: ({ row }: { row: TableRow<IAllTimeTables> }) => {
       return h(
         "div",
         { class: "" },
@@ -136,6 +125,16 @@ const columns: TableColumn<IAllAppointments>[] = [
 const getRowItems = (row: any) => [
   [
     {
+      label: $t("edit"),
+      icon: "heroicons:pencil-square-20-solid",
+      iconClass: "text-red-600",
+      class: "text-blue-500",
+      onSelect() {
+        EditModal.value = true;
+        editId.value = row.original.id;
+      },
+    },
+    {
       label: $t("delete"),
       icon: "heroicons:trash-20-solid",
       iconClass: "text-red-600",
@@ -148,8 +147,8 @@ const getRowItems = (row: any) => [
   ],
 ];
 
-const deleteAppoinment = async () => {
-  await deleteAppointment(delId.value as number, {
+const deleteTimeTables = async () => {
+  await deleteTimeTable(delId.value as number, {
     onSuccess: () => {
       toast.add({
         description: $t("appointment_deleted_successfully"),
@@ -157,95 +156,67 @@ const deleteAppoinment = async () => {
       });
     },
   });
-  await fetchAppointments();
+  await fetchTimeTables();
   delModal.value = false;
   delId.value = null;
 };
 
 const rowSelection = ref<Record<string, boolean>>({});
 const lastClickTime = ref<number | null>(null);
-function handleClick(row: TableRow<IAllAppointments>, e?: Event) {
+function handleClick(row: TableRow<IAllTimeTables>, e?: Event) {
   const rowValue = row.getValue("id");
   const now = Date.now();
   if (lastClickTime.value && now - lastClickTime.value <= 360) {
     lastClickTime.value = null;
-    navigateTo(`/admin/appointments/${rowValue}`);
+    editId.value = rowValue as number;
+    EditModal.value = true;
   } else {
     // Store current time for the next click
     lastClickTime.value = now;
   }
 }
 
-// search by date
-const df = new DateFormatter("en-US", {
-  dateStyle: "medium",
-});
-
-const today = new Date();
-const modelValue = ref<CalendarDate>(
-  new CalendarDate(today.getFullYear(), today.getMonth() + 1, today.getDate())
-);
-
-function formatDateToYYYYMMDD(date: CalendarDate): string {
-  const y = date.year;
-  const m = String(date.month).padStart(2, "0");
-  const d = String(date.day).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-watch(
-  () => modelValue,
-  (newValue: any) => {
-    if (newValue) {
-      search.value = formatDateToYYYYMMDD(newValue);
-    } else {
-      search.value = "";
-    }
-  }
-);
-
-// pagination
-const page = ref(appointments.value?.page ?? 1);
-
-// create new appointment modal
-const createModal = ref(false);
+const weekdaysOption = ref([
+  { label: $t("Saturday"), value: "Saturday" },
+  { label: $t("Sunday"), value: "Sunday" },
+  { label: $t("Monday"), value: "Monday" },
+  { label: $t("Tuesday"), value: "Tuesday" },
+  { label: $t("Wednesday"), value: "Wednesday" },
+  { label: $t("Thursday"), value: "Thursday" },
+  { label: $t("Friday"), value: "Friday" },
+]);
 </script>
 <template>
   <NuxtLayout>
     <div class="w-full h-auto">
       <div class="px-4 py-2">
-        <AdminPageHeader :title="$t('appointments')">
+        <AdminPageHeader :title="$t('time_tables')">
           <div class="flex justify-between items-center w-full gap-4">
+            <!-- search by week days -->
+            <USelect
+              arrow
+              :placeholder="$t('search_by_week_day')"
+              v-model="searchByWeekDays"
+              :items="weekdaysOption"
+              size="lg"
+              class="w-full h-[32px]"
+              :search-attributes="['label', 'value']"
+            />
+            <!-- search by patient name -->
             <UInput
               v-model="search"
               type="text"
               icon="heroicons:magnifying-glass-20-solid"
               :placeholder="$t('search')"
+              class="w-full"
             />
-            <UPopover>
-              <UButton color="neutral" variant="subtle" icon="i-lucide-calendar">
-                {{
-                  modelValue
-                    ? df.format(modelValue.toDate(getLocalTimeZone()))
-                    : $t("Select a date")
-                }}
-              </UButton>
 
-              <template #content>
-                <UCalendar v-model="modelValue" class="p-2" />
-              </template>
-            </UPopover>
             <UButton
-              :label="$t('new_appointment')"
-              color="primary"
-              icon="heroicons:plus-20-solid"
-              @click="`${navigateTo('/admin/appointments/add')}`"
-            />
-            <!-- <UButton
               :label="$t('add')"
               color="primary"
               icon="heroicons:plus-20-solid"
               @click="createModal = true"
-            /> -->
+            />
           </div>
         </AdminPageHeader>
         <div class="mt-2">
@@ -254,25 +225,22 @@ const createModal = ref(false);
             loading-color="primary"
             loading-animation="carousel"
             :loading="isLoading"
-            :data="appointmentLists"
+            :data="timeTablesLists"
             :columns="columns"
             :row-selection="rowSelection"
             @select="handleClick"
-            class="cursor-pointer border border-gray-200 rounded-md text-cetner"
-            :ui="{
-              thead: 'bg-gray-50',
-              th:
-                'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider',
-              tbody: 'bg-white divide-y divide-gray-200',
-              tr: 'hover:bg-gray-100',
-              td: 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center',
-            }"
+            class="cursor-pointer border border-gray-200 rounded-md"
           />
 
           <UPagination
             v-model:page="page"
-            :items-per-page="appointments?.limit ?? 1"
-            :total="appointments?.total ?? 0"
+            :items-per-page="timeTables?.limit ?? 1"
+            :total="timeTables?.total ?? 0"
+            :siblingCount="1"
+            variant="soft"
+            active-color="secondary"
+            :next="timeTables?.has_next"
+            :prev="timeTables?.has_prev"
             class="mt-4"
           />
         </div>
@@ -281,7 +249,7 @@ const createModal = ref(false);
           <template #body>
             <div class="flex flex-col justify-center items-center gap-2">
               <h1 class="text-2xl font-bold text-center">
-                {{ $t("delete_appointment") }}
+                {{ $t("delete_time_table") }}
               </h1>
               <p class="text-center">{{ $t("are_you_sure_to_delete") }}</p>
             </div>
@@ -291,28 +259,38 @@ const createModal = ref(false);
               <UButton
                 :label="$t('yes')"
                 color="error"
-                @click="deleteAppoinment"
+                @click="deleteTimeTables"
                 :loading="isPending"
               />
             </div>
           </template>
         </UModal>
 
-        <!-- create new appointment -->
+        <!-- create new time table -->
         <UModal v-model:open="createModal" :ui="{ content: 'min-w-[900px]' }">
           <template #header>
             <div class="flex justify-between items-center w-full">
               <h1 class="text-2xl font-bold text-center">
-                {{ $t("new_appointment") }}
+                {{ $t("new_time_table") }}
               </h1>
-
-              <UButton>
-                {{ $t("create") }}
-              </UButton>
             </div>
           </template>
           <template #body>
-            <AdminAppointmentCreateAppointment @close="createModal = false" />
+            <AdminTimeTableCreate @closeModal="createModal = false" />
+          </template>
+        </UModal>
+
+        <!-- edit time Table -->
+        <UModal v-model:open="EditModal" :ui="{ content: 'min-w-[900px]' }">
+          <template #header>
+            <div class="flex justify-between items-center w-full">
+              <h1 class="text-2xl font-bold text-center">
+                {{ $t("edit_time_table") }}
+              </h1>
+            </div>
+          </template>
+          <template #body>
+            <AdminTimeTableEdit @closeModal="EditModal = false" :id="editId" />
           </template>
         </UModal>
       </div>

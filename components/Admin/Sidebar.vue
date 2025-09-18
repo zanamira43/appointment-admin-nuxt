@@ -15,9 +15,9 @@ const items = computed(() => {
     },
 
     {
-      label: $t("appointments"),
+      label: $t("time_table"),
       icon: "healthicons:outpatient",
-      to: "/admin/appointments",
+      to: "/admin/time-tables",
     },
   ];
 
