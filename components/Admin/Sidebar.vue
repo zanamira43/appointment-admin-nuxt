@@ -16,7 +16,7 @@ const items = computed(() => {
 
     {
       label: $t("time_table"),
-      icon: "healthicons:outpatient",
+      icon: "healthicons:calendar",
       to: "/admin/time-tables",
     },
   ];
