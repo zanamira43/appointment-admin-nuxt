@@ -1,14 +1,15 @@
-export type IAllAppointments ={
+import type { IPatient } from "./IPatient";
+
+export type IAllTimeTables ={
   data: [
     id: number,
     patient_id: number,
     patient_name: string,
-    week_day: string,
-    date: string,
+    week_day: string[],
     start_time: string,
     end_time: string,
     user_id: number,
-    status: string,
+    patient: IPatient | null,
     user: {
       Id: number
       first_name: string;
@@ -34,16 +35,14 @@ export type IAllAppointments ={
 };
 
 
-export type IAppointment = {
+export type ITimeTable = {
     id: number;
     patient_id: number;
     patient_name: string;
-    week_day: string;
-    date: string;
+    week_day: string[];
     start_time: string;
     end_time: string;
     user_id: number;
-    status: string;
     user: {
       Id: number;
       first_name: string;
@@ -60,22 +59,18 @@ export type IAppointment = {
 
 };
 
-export type INewAppointments = { 
-    patient_id?: number,
+export type INewTimeTables = { 
+    patient_id?: number | null,
     patient_name: string,
-    week_day: string,
-    date: string,
+    week_day: string[],
     start_time: string,
     end_time: string,
-    status: string,
 };
           
-export type IEditAppointments = { 
-    patient_id?: number,
+export type IEditTimeTables = { 
+    patient_id: number | null,
     patient_name: string,
-    week_day: string,
-    date: string,
+    week_day: string[],
     start_time: string,
     end_time: string,
-    status: string,
 };
