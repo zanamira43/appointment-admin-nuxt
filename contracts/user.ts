@@ -1,5 +1,5 @@
 import { initContract } from '@ts-rest/core';
-import type{ IRequestUser,  IAllUsers, IUser, IUpdateRequestUser } from '~/types/IUser';
+import type{ IRequestUser,  IAllUsers, IUser, IUpdateRequestUser, UserPassword } from '~/types/IUser';
 
 const c = initContract()
 
@@ -39,6 +39,18 @@ export const userContract = c.router({
     path: '/users/:id',
     pathParams: c.type<{ id: number }>(),
     body: c.type<IUpdateRequestUser>(),
+    responses: {
+      200: c.type(),
+      422: c.type<{ errors: string }>(),
+      400: c.type<{ errors: string }>(),
+      404: c.type<{ errors: string }>(),
+    },
+  },
+  updateUserPassword: {
+    method: 'PUT',
+    path: '/users/:id/password',
+    pathParams: c.type<{ id: number }>(),
+    body: c.type<UserPassword>(),
     responses: {
       200: c.type(),
       422: c.type<{ errors: string }>(),

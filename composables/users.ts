@@ -1,7 +1,7 @@
 import {useQuery, useMutation, useQueryClient} from '@tanstack/vue-query'
 import { apiQueryClient } from "~/api/client";
 
-import type { IRequestUser, IUpdateRequestUser } from '~/types/IUser';
+import type { IRequestUser, IUpdateRequestUser, UserPassword } from '~/types/IUser';
 
 export const GET_USERS_QUERY_KEY = "get-users";
 export const GET_USER_QUERY_KEY = "get-user";
@@ -126,6 +126,48 @@ export const useUpdateUser = () => {
     isUpdateUserLoading
   }
 }
+
+// update user password composable
+export const useUpdateUserPasswordById = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isPending: isUpdateUserLoading } = useMutation({
+    mutationFn: async ({id, body}: {id: number, body: UserPassword}) => {
+      const {body: response, status} = await apiQueryClient.user.updateUserPassword({
+        params: {
+          id: id
+        },
+        body: body
+      });
+
+      if(status === 400) {
+        throw new Error(response.errors as string);
+      }
+
+      if(status === 422) {
+        throw new Error(response.errors as string);
+      }
+
+      if(status === 404) {
+        throw new Error(response.errors as string);
+      }
+
+      return response
+    },
+    onSuccess: async (id) => {
+      await queryClient.invalidateQueries({queryKey: [GET_USER_QUERY_KEY, id]});
+      await apiQueryClient.auth.userInfo()
+    },
+    onError: (error: any) => {
+      console.log("Error update user", error);
+    },
+  });
+
+  return {
+    mutate,
+    isUpdateUserLoading
+  }
+}
+
 
 // delete user composable
 export const useDeleteUser = () => {
