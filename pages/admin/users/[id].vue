@@ -49,15 +49,20 @@ const handleUpdate = async () => {
 
   fetchUser();
 };
+
+const isChagePassword = ref(false);
 </script>
 <template>
   <NuxtLayout>
     <div class="w-full mx-auto">
+      <div class="py-2">
+        <AdminPageHeader :title="$t('edit_user')">
+          <UButton @click="isChagePassword = true">
+            {{ $t("change_password") }}
+          </UButton>
+        </AdminPageHeader>
+      </div>
       <UCard>
-        <template #header>
-          <h2 class="text-2xl font-semibold">{{ $t("edit_user") }}</h2>
-        </template>
-
         <form class="w-full py-5">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-5">
             <FormInput :label="$t('first_name')" name="first_name" class="w-full" />
@@ -102,6 +107,17 @@ const handleUpdate = async () => {
           </div>
         </template>
       </UCard>
+
+      <!-- change user password -->
+      <UModal v-model:open="isChagePassword" class="max-w-[50%]">
+        <template #body>
+          <AdminUserChangePassword
+            class="w-full"
+            @closeModal="isChagePassword = false"
+            :userId="id"
+          />
+        </template>
+      </UModal>
     </div>
   </NuxtLayout>
 </template>

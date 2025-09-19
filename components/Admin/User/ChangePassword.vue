@@ -3,7 +3,9 @@ import { useForm } from "vee-validate";
 import * as yup from "yup";
 import type { UserPassword } from "~/types/IUser";
 
-const { updatePassword, isPending } = await useUpdateUserPassword();
+const props = defineProps(["userId"]);
+
+const { mutate: updatePassword, isUpdateUserLoading } = await useUpdateUserPasswordById();
 const toast = useToast();
 
 const emit = defineEmits(["closeModal"]);
@@ -24,27 +26,33 @@ const { values, handleSubmit } = useForm<UserPassword>({
 });
 
 const handleUpdatePassword = handleSubmit(() => {
-  updatePassword(values, {
-    onSuccess: () => {
-      toast.add({
-        title: $t("profile_password_updated_successfully"),
-        color: "success",
-        icon: "i-heroicons-check-circle",
-      });
-
-      setTimeout(() => {
-        emit("closeModal");
-      }, 200);
+  updatePassword(
+    {
+      id: props.userId,
+      body: values,
     },
+    {
+      onSuccess: () => {
+        toast.add({
+          title: $t("profile_password_updated_successfully"),
+          color: "success",
+          icon: "i-heroicons-check-circle",
+        });
 
-    onError: (error: unknown) => {
-      const err = error;
-      toast.add({
-        description: `${$t(`${err}`)}`,
-        color: "error",
-      });
-    },
-  });
+        setTimeout(() => {
+          emit("closeModal");
+        }, 200);
+      },
+
+      onError: (error: unknown) => {
+        const err = error;
+        toast.add({
+          description: `${$t(`${err}`)}`,
+          color: "error",
+        });
+      },
+    }
+  );
 });
 
 const showPassword = ref(false);
@@ -93,7 +101,11 @@ const showPasswordConfirm = ref(false);
     </div>
     <template #footer>
       <div class="flex justify-end gap-2">
-        <UButton :disabled="isPending" type="button" @click="handleUpdatePassword">
+        <UButton
+          :disabled="isUpdateUserLoading"
+          type="button"
+          @click="handleUpdatePassword"
+        >
           {{ $t("update") }}
         </UButton>
       </div>

@@ -61,6 +61,10 @@ const { value, errorMessage, handleBlur } = useField<string | number>(
       :step="step"
       v-bind="$attrs"
       @blur="handleBlur"
-    />
+    >
+      <template #trailing>
+        <slot name="trailing" />
+      </template>
+    </UInput>
   </UFormField>
 </template>

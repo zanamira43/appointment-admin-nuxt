@@ -104,7 +104,7 @@ const getRowItems = (row: any) => [
       class: "text-red-500",
       onSelect() {
         delModal.value = true;
-        delId.value = row.original.id;
+        delId.value = row.original.Id;
       },
     },
   ],
@@ -205,6 +205,7 @@ function handleClick(row: TableRow<IAllUsers>, e?: Event) {
           </UTable>
         </div>
 
+        <!-- delete user modal -->
         <UModal v-model:open="delModal">
           <template #body>
             <div class="flex flex-col justify-center items-center gap-2">
