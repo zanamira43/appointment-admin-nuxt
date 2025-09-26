@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { TableColumn, TableRow } from "@nuxt/ui";
-import { CalendarDate, DateFormatter, getLocalTimeZone } from "@internationalized/date";
 import { h, resolveComponent } from "vue";
 import type { IAllTimeTables } from "~/types/ITimeTable";
 
