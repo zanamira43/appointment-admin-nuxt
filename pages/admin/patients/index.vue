@@ -1,65 +1,48 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
 import type { TableColumn, TableRow } from "@nuxt/ui";
-import type { IAllPatient, IPatient } from "~/types/IPatient";
+import type { IAllPatient } from "~/types/IPatient";
 import { useGetPatients, useDeletePatient } from "~/composables/patients";
 
 const UButton = resolveComponent("UButton");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
 
-const searchStore = useSearchStore();
-const searchQuery = ref("");
+const search = ref("");
+const searchByCode = ref("");
+const page = ref(1);
 
-const { patients, isLoading, fetchPatients } = useGetPatients();
+const { patients, isLoading, fetchPatients } = useGetPatients(search, searchByCode, page);
 
 const PatientLists = computed<IAllPatient | any>(() => {
-  const body = patients.value?.data ?? [];
-  if (searchStore.query) {
-    return body.filter((patient: any) => {
-      return (
-        patient.slug.includes(searchStore.query) ||
-        patient.phone_number.includes(searchStore.query) ||
-        patient.name.includes(searchStore.query)
-      );
-    });
-  }
-  return body;
+  return patients.value?.data ?? [];
 });
 
-const patientOptions: Ref<{ label: string; value: string }[]> = ref([
-  {
-    label: "",
-    value: "",
-  },
-]);
+const { patients: allPatients } = useGetPatients();
 
-onMounted(async () => {
-  await fetchPatients();
-  if (Array.isArray(PatientLists.value)) {
-    patientOptions.value = PatientLists.value.map<{ label: string; value: string }>(
-      (patient: any) => {
-        return {
-          label: patient.slug,
-          value: patient.slug,
-        };
-      }
-    );
-  }
-});
+const patientOptions: Ref<{ label: string; value: string }[]> = computed(() =>
+  allPatients?.value?.data
+    ? allPatients?.value.data?.map((patient: any) => ({
+        label: patient.slug,
+        value: patient.slug,
+      }))
+    : []
+);
 
 // watch search query any changes
-watch(
-  () => searchQuery.value,
-  () => {
-    if (searchQuery.value) {
-      searchStore.query = searchQuery.value;
-    } else {
-      searchStore.query = "";
-      patientOptions.value = [];
-      fetchPatients();
-    }
-  }
-);
+watch(search, () => {
+  fetchPatients();
+});
+
+// Watch for changes and refetch
+watch(searchByCode, () => {
+  fetchPatients();
+});
+
+const clearSearch = () => {
+  search.value = "";
+  searchByCode.value = "";
+  fetchPatients();
+};
 
 const columns: TableColumn<IAllPatient>[] = [
   {
@@ -187,29 +170,31 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
         <!-- page header -->
         <AdminPageHeader :title="$t('patient')" :subtitle="$t('list_of_all_patients')">
           <div class="flex items-center justify-between gap-4">
+            <!-- search by patient name && phone number -->
+            <UInput
+              v-model="search"
+              type="text"
+              icon="heroicons:magnifying-glass-20-solid"
+              :placeholder="$t('search')"
+              class="w-[200px]"
+            />
+            <USelect
+              arrow
+              :placeholder="$t('search_by_code')"
+              v-model="searchByCode"
+              :items="patientOptions"
+              size="lg"
+              class="w-[200px] h-[32px]"
+              :search-attributes="['label', 'value']"
+            >
+            </USelect>
+
             <UButton
               color="neutral"
               :label="$t('all')"
-              size="sm"
-              class="mr-2 p-2"
-              @click="searchStore.query = ''"
+              class="ml-auto"
+              @click="clearSearch"
             />
-            <USelectMenu
-              id="searchPatient"
-              :searchable="true"
-              arrow
-              :placeholder="$t('search_by_code')"
-              v-model:search-term="searchQuery"
-              :items="patientOptions"
-              size="lg"
-              clear-search-on-close
-              class="w-[200px]"
-              :search-attributes="['label', 'value']"
-            >
-              <template #empty>
-                <div class="text-center text-red-500">{{ $t("no_results_found") }}</div>
-              </template>
-            </USelectMenu>
 
             <UButton
               color="primary"
@@ -235,6 +220,18 @@ function handleClick(row: TableRow<IAllPatient>, e?: Event) {
             class="cursor-pointer border border-gray-200 rounded-md"
           >
           </UTable>
+
+          <UPagination
+            v-model:page="page"
+            :items-per-page="patients?.limit ?? 1"
+            :total="patients?.total ?? 0"
+            :siblingCount="1"
+            variant="soft"
+            active-color="secondary"
+            :next="patients?.has_next"
+            :prev="patients?.has_prev"
+            class="mt-4"
+          />
         </div>
 
         <UModal v-model:open="delModal">

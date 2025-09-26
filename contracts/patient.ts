@@ -1,12 +1,20 @@
 import { initContract } from '@ts-rest/core';
 import type { IPatient, INewPatient, IAllPatient, IUpdatePatient} from '~/types/IPatient';
 
+export type SearchPagination = {
+  search?: string;
+  searchByCode?: string;
+  page?: number;
+  limit?: number;
+};
+
 const c = initContract();
 
 export const patientContract = c.router({
   getPatients: {
     method: 'GET',
     path: '/patients',
+    query: c.type<SearchPagination>(),
     responses: {
       200: c.type<IAllPatient>(),
     },
