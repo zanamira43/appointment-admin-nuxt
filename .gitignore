@@ -29,3 +29,6 @@ plan.txt
 
 localhost-key.pem
 localhost.pem
+
+appointment-admin-nuxt.code-workspace
+mcp.json

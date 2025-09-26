@@ -44,11 +44,18 @@ export const useCreatePatient = () => {
 }
 
 // use get All Patients composable
-export const useGetPatients = () => {
+export const useGetPatients = (search?: Ref<string>, searchByCode?: Ref<string> ,page?: Ref<number>, limit?: Ref<number>) => {
   const { data: patients, isLoading, refetch: fetchPatients } = useQuery({
-    queryKey: [GET_PATIENTS_QUERY_KEY],
+    queryKey: [GET_PATIENTS_QUERY_KEY, search, searchByCode, page, limit],
     queryFn: async () => {
-      const res =  await apiQueryClient.patient.getPatients();
+      const res =  await apiQueryClient.patient.getPatients({
+        query: {
+          search: search?.value,
+          searchByCode: searchByCode?.value,
+          page: page?.value,
+          limit: limit?.value
+        }
+      });
       if(res.status === 200) {
           return res.body
       }
