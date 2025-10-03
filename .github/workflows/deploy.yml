@@ -22,21 +22,44 @@ jobs:
           script: |
             set -e
             cd /var/www/rawezhkaraso-admin
-            # ensure correct permissions and fetch latest
+
+
+            # Pull latest
             git fetch --all
             git reset --hard origin/main
-            # install deps (production)
 
             # Load NVM
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-            # Optional: explicitly use a node version (if needed)
-            nvm use node 22.18.0
+            # Use a stable LTS Node (recommend 20.x for Nuxt + native deps)
+            nvm install 20.17.0
+            nvm use 20.17.0
+            node -v
+            npm -v
 
-            npm i --omit=dev
-            # build
+            # Clean install to avoid optional-deps native binding issues (oxc-parser)
+            rm -rf node_modules package-lock.json
+            npm cache clean --force
+
+            # Primary install
+            npm i --omit=dev || (
+              echo "Primary install failed. Retrying without optional deps..."
+              rm -rf node_modules package-lock.json
+              npm cache clean --force
+              npm i --omit=dev --no-optional
+            )
+
+            # Optional: rebuild native modules if present
+            npm rebuild || true
+
+            # Build
             npm run build
-            # restart (pm2)
-            pm2 startOrRestart ecosystem.config.js --env production || pm2 restart rawezhkaraso-admin || pm2 start "node .output/server/index.mjs" --name rawezhkaraso-admin
+
+            
+            # Restart PM2
+            pm2 startOrRestart ecosystem.config.cjs --env production \
+              || pm2 restart rawezhkaraso-admin \
+              || pm2 start "node .output/server/index.mjs" --name rawezhkaraso-admin
+
             pm2 save
