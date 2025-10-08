@@ -148,3 +148,61 @@ export const useGetProblemsByPatientId = (patientId: Ref<number> | number) => {
     fetchProblems,
   };
 };
+
+
+// upload images 
+export const useUploadPatientImage = () => {
+  const queryClient = useQueryClient();
+  const { mutate: uploadPatientImage, isPending } = useMutation({
+    mutationFn: async (data: FormData) => {
+      const { status , body } = await apiQueryClient.problem.uploadPatientImage({
+        body: data
+      });
+
+      if(status === 400) {
+        throw new Error(body?.message as string);
+      }
+      
+      if(status === 200) {
+        return body
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [GET_PROBLEM_QUERY_KEY] });
+    },
+  });
+
+  return {
+    uploadPatientImage,
+    isPending,
+  };
+}
+
+
+// delete images 
+export const useDeletePatientImage = () => {
+  const queryClient = useQueryClient();
+  const { mutate: deletePatientImage, isPending } = useMutation({
+    mutationFn: async (data: { patient_image_url: string }) => {
+      const { status , body } = await apiQueryClient.problem.deletePatientImage({
+        body: data
+      });
+
+      if(status === 400) {
+        throw new Error(body?.message as string);
+      }
+      
+      if(status === 200) {
+        return body
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [GET_PROBLEM_QUERY_KEY] });
+    },
+  }); 
+
+  return {
+    deletePatientImage,
+    isPending,
+  };
+}

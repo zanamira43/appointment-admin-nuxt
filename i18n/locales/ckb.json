@@ -147,6 +147,8 @@
   "session_total_price": " کۆی نرخی جەلسە",
   "details": " ووردەکاری",
   "upload_image": "بارکردنی وێنە",
+  "delete_image": " سڕینەوەی وێنە",
+  "problem_details": " ووردەکاری کێشە",
   "Depression": "خەمۆکی",
   "Attachment": "⁠هۆگربوون",
   "Obsessive thoughts": "⁠وەسوەسە",
@@ -177,5 +179,8 @@
   "problem_created_successfully": " کێشە بەسەرکەوتووی دروست کرا",
   "problem_updated_successfully": " کێشە بەسەرکەوتووی تازەکرایەوە",
   "problem_deleted_successfully": " کێشە بەسەرکەوتووی سڕایەوە",
-  "please_select_a_valid_image_file": "تکایە وێنەی کەسی مەبەست هەڵبژێرە"
+  "problem_details_updated_successfully": " ووردەکاری کێشە بەسەرکەوتووی تازەکرایەوە",
+  "please_select_a_valid_image_file": "تکایە وێنەی کەسی مەبەست هەڵبژێرە",
+  "image_uploaded_successfully": " وێنە بەسەرکەوتووی بارکرا",
+  "image_deleted_successfully": " وێنە بەسەرکەوتووی سڕایەوە"
 }

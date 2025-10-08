@@ -1,4 +1,6 @@
 import { initContract } from "@ts-rest/core";
+
+
 import type {
   IAllProblem,
   IProblem,
@@ -70,4 +72,26 @@ export const problemsContract = c.router({
       400: c.type<{ message: string }>(),
     },
   },
+
+  uploadPatientImage: {
+    method: "POST",
+    path: "/image/upload",
+    contentType: "multipart/form-data",
+    body: c.type<FormData>(),
+    responses: {
+      200: c.type<{ patient_image_url: string }>(),
+      400: c.type<{ message: string }>(),
+    },
+  },
+
+   deletePatientImage: {
+    method: "POST",
+    path: "/image/delete",
+    body: c.type<{ patient_image_url: string }>(),
+    responses: {
+      200: c.type<{ message: string }>(),
+      400: c.type<{ message: string }>(),
+    },
+  }
 });
+

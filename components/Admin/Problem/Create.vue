@@ -98,6 +98,8 @@ const isFormValid = computed(() => {
 });
 
 // Image upload handler
+const { uploadPatientImage, isPending: isUploadLoading } = useUploadPatientImage();
+
 const fileInput = ref<HTMLInputElement | null>(null);
 const isUploadingImage = ref(false);
 
@@ -118,21 +120,31 @@ const handleImageUpload = async (event: Event) => {
 
   // For now, create a local URL preview
   // You can replace this with actual upload logic to your server
-  const imageUrl = URL.createObjectURL(file);
-  setFieldValue("patient_image", imageUrl);
+  // const imageUrl = URL.createObjectURL(file);
 
-  // TODO: Implement actual image upload to server
-  // isUploadingImage.value = true;
-  // try {
-  //   const formData = new FormData();
-  //   formData.append('image', file);
-  //   const response = await $fetch('/api/upload', { method: 'POST', body: formData });
-  //   setFieldValue('patient_image', response.url);
-  // } catch (error) {
-  //   toast.add({ description: $t('image_upload_failed'), color: 'error' });
-  // } finally {
-  //   isUploadingImage.value = false;
-  // }
+  isUploadingImage.value = true;
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+    await uploadPatientImage(formData, {
+      onSuccess: (data) => {
+        toast.add({ description: $t("image_uploaded_successfully"), color: "success" });
+
+        const imgeUrl = data as {
+          patient_image_url: string;
+        };
+
+        setFieldValue("patient_image", imgeUrl.patient_image_url);
+      },
+      onError: () => {
+        toast.add({ description: $t("image_upload_failed"), color: "error" });
+      },
+    });
+  } catch (error) {
+    toast.add({ description: $t("image_upload_failed"), color: "error" });
+  } finally {
+    isUploadingImage.value = false;
+  }
 };
 
 const triggerFileInput = () => {
@@ -229,15 +241,16 @@ const secondaryProblemOptions = ref([
             class="hidden"
             @change="handleImageUpload"
           />
-          <UButton
+          <!-- <UButton
             color="primary"
             variant="outline"
             block
             @click="triggerFileInput"
-            :loading="isUploadingImage"
+            :loading="isUploadLoading"
+            :disabled="true"
           >
             {{ $t("upload_image") }}
-          </UButton>
+          </UButton> -->
         </div>
 
         <!-- Form Fields -->

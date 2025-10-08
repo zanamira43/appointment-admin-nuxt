@@ -13,6 +13,8 @@ const props = defineProps<{
 const emit = defineEmits(["success"]);
 
 const { problem, fetchProblem } = useGetProblem(props.problemId as number);
+const { uploadPatientImage, isPending: isUploadLoading } = useUploadPatientImage();
+const { deletePatientImage, isPending: isDeleteLoading } = useDeletePatientImage();
 
 // Validation schema
 const schema = yup.object({
@@ -80,7 +82,7 @@ const sessionTotalPrice = computed(() => {
 });
 
 const { updateProblem, isPending } = useUpdateProblem();
-const onSubmit = async () => {
+const updatePatientProblem = async () => {
   if (props.patientId === null) return;
 
   try {
@@ -123,28 +125,57 @@ const handleImageUpload = async (event: Event) => {
     });
     return;
   }
-
   // For now, create a local URL preview
   // You can replace this with actual upload logic to your server
-  const imageUrl = URL.createObjectURL(file);
-  setFieldValue("patient_image", imageUrl);
+  // const imageUrl = URL.createObjectURL(file);
 
   // TODO: Implement actual image upload to server
-  // isUploadingImage.value = true;
-  // try {
-  //   const formData = new FormData();
-  //   formData.append('image', file);
-  //   const response = await $fetch('/api/upload', { method: 'POST', body: formData });
-  //   setFieldValue('patient_image', response.url);
-  // } catch (error) {
-  //   toast.add({ description: $t('image_upload_failed'), color: 'error' });
-  // } finally {
-  //   isUploadingImage.value = false;
-  // }
+  isUploadingImage.value = true;
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    await uploadPatientImage(formData, {
+      onSuccess: (data) => {
+        toast.add({ description: $t("image_uploaded_successfully"), color: "success" });
+
+        const imgeUrl = data as {
+          patient_image_url: string;
+        };
+
+        setFieldValue("patient_image", imgeUrl.patient_image_url);
+        updatePatientProblem();
+      },
+      onError: () => {
+        toast.add({ description: $t("image_upload_failed"), color: "error" });
+      },
+    });
+  } catch (error) {
+    toast.add({ description: $t("image_upload_failed"), color: "error" });
+  } finally {
+    isUploadingImage.value = false;
+  }
 };
 
 const triggerFileInput = () => {
   fileInput.value?.click();
+};
+
+const handleDeleteImage = async () => {
+  if (!values.patient_image) return;
+  await deletePatientImage(
+    { patient_image_url: values.patient_image },
+    {
+      onSuccess: () => {
+        toast.add({ description: $t("image_deleted_successfully"), color: "success" });
+        setFieldValue("patient_image", "");
+        updatePatientProblem();
+      },
+      onError: () => {
+        toast.add({ description: $t("image_delete_failed"), color: "error" });
+      },
+    }
+  );
 };
 
 // Options for problem tags
@@ -200,7 +231,7 @@ const secondaryProblemOptions = ref([
         <div class="flex flex-row justify-between items-center">
           <h2 class="text-2xl font-semibold">{{ $t("edit_problem") }}</h2>
 
-          <UButton type="button" @click="onSubmit()" :loading="isPending">
+          <UButton type="button" @click="updatePatientProblem()" :loading="isPending">
             <span>{{ $t("update") }}</span>
           </UButton>
         </div>
@@ -238,8 +269,19 @@ const secondaryProblemOptions = ref([
             block
             @click="triggerFileInput"
             :loading="isUploadingImage"
+            :disabled="values.patient_image !== ''"
           >
             {{ $t("upload_image") }}
+          </UButton>
+          <UButton
+            color="error"
+            variant="outline"
+            block
+            @click="handleDeleteImage"
+            :loading="isDeleteLoading"
+            :disabled="values.patient_image === ''"
+          >
+            {{ $t("delete_image") }}
           </UButton>
         </div>
 
