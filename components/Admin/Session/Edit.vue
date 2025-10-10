@@ -129,7 +129,6 @@ const isFormValid = computed(() => {
     values.subject &&
     values.communication_types &&
     values.session_date &&
-    values.detail.length > 0 &&
     values.status
   );
 });
