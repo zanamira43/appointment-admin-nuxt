@@ -184,6 +184,8 @@ const weekdaysOption = ref([
   { label: $t("Thursday"), value: "Thursday" },
   { label: $t("Friday"), value: "Friday" },
 ]);
+
+const showTime = ref(false);
 </script>
 <template>
   <NuxtLayout>
@@ -204,11 +206,29 @@ const weekdaysOption = ref([
             <!-- search by patient name -->
             <UInput
               v-model="search"
-              type="text"
+              :type="showTime ? 'time' : 'text'"
               icon="heroicons:magnifying-glass-20-solid"
               :placeholder="$t('search')"
               class="w-full"
-            />
+              :ui="{ trailing: 'pe-1' }"
+            >
+              <template #trailing>
+                <UButton
+                  color="secondary"
+                  variant="link"
+                  size="sm"
+                  :icon="
+                    showTime
+                      ? 'material-symbols:alarm-off-rounded'
+                      : 'material-symbols:alarm-on'
+                  "
+                  :aria-label="showTime ? 'Show Time' : 'Hide Time'"
+                  :aria-pressed="showTime"
+                  aria-controls="time"
+                  @click="showTime = !showTime"
+                />
+              </template>
+            </UInput>
 
             <UButton
               :label="$t('add')"
