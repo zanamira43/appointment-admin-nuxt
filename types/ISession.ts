@@ -2,42 +2,52 @@ import type { IPatient } from "./IPatient";
 
 
 export type IAllSession = {
-  id: string;
-  patient_id: string;
-  duration: number;
-  status: string;
-  notes: string;  
-  session_date: string;
-  created_at?: string;
-  updated_at?: string;
-}[];
+  data:[
+    id: string,
+    patient_id: string,
+    subject: string,  
+    communication_types: string,
+    session_date: string,
+    duration: number,
+    status: string,
+    created_at?: string,
+    updated_at?: string,
+  ];
+
+  page?: number;
+  limit?: number;
+  total: number;
+  total_pages?: number;
+  has_next?: boolean;
+  has_prev?: boolean;
+}
 
 export type ISession = {
   id: string;
-  patient_id: string;
+  patient_id: number;
+  subject: string;  
+  communication_types: string;
+  session_date: string;
   duration: number;
   status: string;
-  result: string;  
-  session_date: string;
   created_at?: string;
   updated_at?: string;
-
-  patient?:IPatient;
-
 }
 
 export type INewSession = {
-  patient_id: string;
+  patient_id: number;
+  subject: string;
+  communication_types: string;
+  session_date: string;
   duration: number;
   status: string;
-  result: string;
-  session_date: string;
 }
 
-export type IUpdateSession = {
-  patient_id: string;
+export type IEditSession = {
+  patient_id: number;
+  subject: string;
+  communication_types: string;
+  session_date: string;
   duration: number;
   status: string;
-  result: string;
-  session_date: string;
 }

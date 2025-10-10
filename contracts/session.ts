@@ -1,28 +1,48 @@
 import { initContract } from '@ts-rest/core';
-import type { IAllSession, INewSession, ISession, IUpdateSession } from '~/types/ISession';
+import type { IAllSession, INewSession, ISession, IEditSession } from '~/types/ISession';
 
+
+
+export type SearchPagination = {
+  search?: string;
+  page?: number;
+  limit?: number;
+};
 
 const c = initContract();
 
 export const sessionContract = c.router({
   getSessions: {
       method: 'GET',
-      path: '/sessions', // or /patients/:id/sessions if nested
+      path: '/sessions',
       responses: { 
         200: c.type<IAllSession>(),
         400: c.type<{ message: Record<string, string> }>(), 
       },
-      query: c.type<{ page?: number; limit?: number }>(), // Optional pagination
+      query: c.type<SearchPagination>(), // Optional pagination
       summary: 'Get all sessions',
   },
+
+  getSessionsByPatient: {
+      method: 'GET',
+      path: '/sessions/patient/:id', // or /patients/:id
+      pathParams: c.type<{ id: number }>(), 
+      responses: { 
+        200: c.type<IAllSession>(),
+        400: c.type<{ message: Record<string, string> }>(), 
+      },
+      query: c.type<SearchPagination>(), // Optional pagination
+      summary: 'Get all sessions',
+  },
+  
   createSession: {
     method: 'POST',
     path: '/sessions',
+    body: c.type<INewSession>(),
     responses: {
       200: c.type(),
       400: c.type(),
     },
-    body: c.type<INewSession>(),
     summary: 'Create a new session',
   },
  
@@ -44,7 +64,7 @@ export const sessionContract = c.router({
       200: c.type<ISession>(),
       400: c.type(),
     },
-    body: c.type<IUpdateSession>(),
+    body: c.type<IEditSession>(),
     summary: 'Update session',
   },
   

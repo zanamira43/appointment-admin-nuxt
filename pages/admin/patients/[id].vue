@@ -48,11 +48,11 @@ const items = computed(() => {
           <PatientDetail :id="id" />
         </template>
         <template v-if="role === 'admin'" #problem>
-          <ProblemDetail :patient-id="id" />
+          <ProblemDetail :patientId="id" />
         </template>
         <template #session="{ item }">
           <div class="text-muted mb-4 mt-2">
-            {{ item.label }}
+            <AdminSessionListByPatient :patientId="id" />
           </div>
         </template>
 

@@ -13,8 +13,8 @@ export const contract = c.router({
   auth: authContract,
   user: userContract,
   patient: patientContract,
+  timeTable: timeTablesContract,
+  problem: problemsContract,
   session: sessionContract,
   payment: paymnentContract,
-  timeTable: timeTablesContract,
-  problem: problemsContract
 })
