@@ -2,7 +2,6 @@
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import type { IEditSession, ISession } from "~/types/ISession";
-import type { IPatient } from "~/types/IPatient";
 
 const toast = useToast();
 
@@ -22,10 +21,7 @@ const schema = yup.object({
     .string()
     .required($t("session date is required"))
     .matches(/^\d{4}-\d{2}-\d{2}$/, $t("invalid date format")),
-  duration: yup
-    .number()
-    .min(1, $t("duration must be at least 1 minute"))
-    .required($t("duration is required")),
+  detail: yup.string().optional(),
   status: yup.string().required($t("status is required")),
 });
 
@@ -34,23 +30,13 @@ const initialForm: IEditSession = {
   subject: "",
   communication_types: "",
   session_date: "",
-  duration: 60,
+  detail: "",
   status: "new_session",
 };
 
 const { values, resetForm, handleSubmit } = useForm<IEditSession>({
   validationSchema: schema,
   initialValues: initialForm,
-});
-
-// Get patients for select dropdown
-const { patients } = useGetPatients();
-const patientOptions = computed(() => {
-  const patientList = (patients?.value?.data ?? []) as IPatient[];
-  return patientList.map((p) => ({
-    label: p.name,
-    value: p.id,
-  }));
 });
 
 // Communication type options
@@ -93,7 +79,7 @@ watch(
           subject: data.subject,
           communication_types: data.communication_types,
           session_date: formattedDate,
-          duration: data.duration,
+          detail: data.detail,
           status: data.status,
         },
       });
@@ -143,7 +129,7 @@ const isFormValid = computed(() => {
     values.subject &&
     values.communication_types &&
     values.session_date &&
-    values.duration > 0 &&
+    values.detail.length > 0 &&
     values.status
   );
 });
@@ -160,16 +146,6 @@ const isFormValid = computed(() => {
       <!-- Form -->
       <form v-else class="w-full" @submit.prevent="onSubmit">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-5">
-          <!-- Patient Selection -->
-          <FormSelect
-            :label="$t('patient')"
-            name="patient_id"
-            :items="patientOptions"
-            :placeholder="$t('select_patient')"
-            :disabled="!!patientId"
-            class="w-full"
-          />
-
           <!-- Subject -->
           <FormInput
             :label="$t('subject')"
@@ -204,15 +180,10 @@ const isFormValid = computed(() => {
             class="w-full"
           />
 
-          <!-- Duration (in minutes) -->
-          <FormInput
-            type="number"
-            :label="$t('duration_minutes')"
-            name="duration"
-            :placeholder="$t('enter_duration')"
-            :min="1"
-            class="w-full"
-          />
+          <!-- Detail -->
+          <div class="w-full col-span-2">
+            <FormTextArea :label="$t('details')" name="detail" class="w-full" :rows="4" />
+          </div>
         </div>
       </form>
 

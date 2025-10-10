@@ -33,7 +33,7 @@ const initialForm: INewSession = {
   subject: "",
   communication_types: "",
   session_date: "",
-  duration: 60, // Default 60 minutes
+  detail: "",
   status: "new_session",
 };
 
@@ -66,16 +66,6 @@ const statusOptions = [
   { label: $t("completed"), value: "completed" },
   { label: $t("cancelled"), value: "cancelled" },
 ];
-
-// Get patients for select dropdown
-const { patients } = useGetPatients();
-const patientOptions = computed(() => {
-  const patientList = (patients?.value?.data ?? []) as IPatient[];
-  return patientList.map((p) => ({
-    label: p.name,
-    value: p.id,
-  }));
-});
 
 // Use TanStack Query mutation for creating session
 const { createNewSession, isPending } = useCreateSession();
@@ -110,7 +100,7 @@ const isFormValid = computed(() => {
     values.subject &&
     values.communication_types &&
     values.session_date &&
-    values.duration > 0 &&
+    values.detail.length > 0 &&
     values.status
   );
 });
@@ -121,16 +111,6 @@ const isFormValid = computed(() => {
     <UCard variant="outline">
       <form class="w-full" @submit.prevent="onSubmit">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-5">
-          <!-- Patient Selection -->
-          <FormSelect
-            :label="$t('patient')"
-            name="patient_id"
-            :items="patientOptions"
-            :placeholder="$t('select_patient')"
-            :disabled="!!patientId"
-            class="w-full"
-          />
-
           <!-- Subject -->
           <FormInput
             :label="$t('subject')"
@@ -165,15 +145,10 @@ const isFormValid = computed(() => {
             class="w-full"
           />
 
-          <!-- Duration (in minutes) -->
-          <FormInput
-            type="number"
-            :label="$t('duration_minutes')"
-            name="duration"
-            :placeholder="$t('enter_duration')"
-            :min="1"
-            class="w-full"
-          />
+          <!-- Detail -->
+          <div class="w-full col-span-2">
+            <FormTextArea :label="$t('details')" name="detail" class="w-full" :rows="4" />
+          </div>
         </div>
       </form>
 

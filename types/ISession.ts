@@ -1,5 +1,3 @@
-import type { IPatient } from "./IPatient";
-
 
 export type IAllSession = {
   data:[
@@ -8,7 +6,7 @@ export type IAllSession = {
     subject: string,  
     communication_types: string,
     session_date: string,
-    duration: number,
+    detail: string,
     status: string,
     created_at?: string,
     updated_at?: string,
@@ -28,7 +26,7 @@ export type ISession = {
   subject: string;  
   communication_types: string;
   session_date: string;
-  duration: number;
+  detail: string;
   status: string;
   created_at?: string;
   updated_at?: string;
@@ -39,7 +37,7 @@ export type INewSession = {
   subject: string;
   communication_types: string;
   session_date: string;
-  duration: number;
+  detail: string;
   status: string;
 }
 
@@ -48,6 +46,6 @@ export type IEditSession = {
   subject: string;
   communication_types: string;
   session_date: string;
-  duration: number;
+  detail: string;
   status: string;
 }
