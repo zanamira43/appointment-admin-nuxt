@@ -214,5 +214,8 @@
   "in_progress": "  لەبەرەو پێشچووندایە",
   "session_creation_failed": "دروستکردنی جەلسە سەرکەوتوو نەبوو",
   "session_update_failed": "تازەکردنەوەی جەلسە سەرکەوتوو نەبوو",
-  "minutes": " خولەک"
+  "minutes": " خولەک",
+  "image_size_too_large_max_10mb": " قەبارەی وێنەکە لە ١٠ مێگابایت زیاترە",
+  "image_upload_failed": " کێشە هەیەلەبارکردنی وێنە",
+  "Image compression failed, uploading original": " سەرکەووتوو نەبوو لە بچوکردنەوەی قەبارەی وێنەکە"
 }
