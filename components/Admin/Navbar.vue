@@ -1,8 +1,8 @@
 <script setup>
-const sidebarOpen = ref(false);
 const { first_name, last_name } = useMyUserStore();
 
 const authStore = useAuthStore();
+const { toggleSidebar } = useSidebarStore();
 
 const items = [
   [
@@ -48,8 +48,8 @@ watch(searchQuery, (newSearch) => {
   >
     <button
       type="button"
-      class="-m-2.5 p-2.5 text-gray-700 lg:hidden"
-      @click="sidebarOpen = true"
+      class="-m-2.5 p-2.5 text-gray-700 lg:hidden cursor-pointer"
+      @click="toggleSidebar()"
     >
       <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
     </button>
