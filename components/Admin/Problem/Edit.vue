@@ -111,6 +111,56 @@ const updatePatientProblem = async () => {
 const fileInput = ref<HTMLInputElement | null>(null);
 const isUploadingImage = ref(false);
 
+// Helper function to compress image for better mobile performance
+const compressImage = (file: File, maxWidth = 1920, maxHeight = 1920, quality = 0.8): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions while maintaining aspect ratio
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error('Canvas to Blob conversion failed'));
+            }
+          },
+          file.type,
+          quality
+        );
+      };
+      img.onerror = reject;
+    };
+    reader.onerror = reject;
+  });
+};
+
 const handleImageUpload = async (event: Event) => {
   const target = event.target as HTMLInputElement;
   const file = target.files?.[0];
@@ -125,14 +175,34 @@ const handleImageUpload = async (event: Event) => {
     });
     return;
   }
-  // For now, create a local URL preview
-  // You can replace this with actual upload logic to your server
-  // const imageUrl = URL.createObjectURL(file);
 
-  // TODO: Implement actual image upload to server
+  // Validate file size (max 10MB for better mobile compatibility)
+  const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+  if (file.size > maxSize) {
+    toast.add({
+      description: $t("image_size_too_large_max_10mb"),
+      color: "error",
+    });
+    return;
+  }
+
+  // Compress image for better mobile performance and faster uploads
   isUploadingImage.value = true;
+  let fileToUpload: File | Blob = file;
+
+  try {
+    // Only compress if file is larger than 500KB
+    if (file.size > 500 * 1024) {
+      const compressedBlob = await compressImage(file);
+      fileToUpload = new File([compressedBlob], file.name, { type: file.type });
+    }
+  } catch (compressionError) {
+    console.warn('Image compression failed, uploading original:', compressionError);
+    // Continue with original file if compression fails
+  }
+
   const formData = new FormData();
-  formData.append("image", file);
+  formData.append("image", fileToUpload);
 
   try {
     await uploadPatientImage(formData, {
@@ -260,6 +330,7 @@ const secondaryProblemOptions = ref([
             ref="fileInput"
             type="file"
             accept="image/*"
+            capture="environment"
             class="hidden"
             @change="handleImageUpload"
           />
