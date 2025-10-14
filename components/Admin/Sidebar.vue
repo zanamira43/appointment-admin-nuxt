@@ -23,11 +23,17 @@ const items = computed(() => {
       icon: "healthicons:calendar",
       to: "/admin/time-tables",
     },
+
+    {
+      label: $t("setting"),
+      icon: "material-symbols:settings",
+      to: "/admin/settings",
+    },
   ];
 
   // Only push the 'user' menu if the role is 'admin'
   if (role === "admin") {
-    baseItems.push({
+    baseItems.splice(1, 0, {
       label: $t("user"),
       icon: "i-heroicons-users-solid",
       to: "/admin/users",

@@ -10,9 +10,11 @@
   "about": "دەربارە",
   "profile": "پروفایل",
   "account": " هەژمار",
-  "settings": " ڕێکخستن",
+  "setting": " ڕێکخستن",
   "contact": "پەیوەندی",
   "language": "زمان",
+  "system_name": "ناوی سیستەم",
+  "invoice_prefix": "پێشگری وەسڵ",
   "menu": "لیست",
   "search": "گەڕان",
   "search_by_code": " گەڕان بەکۆد",
@@ -217,5 +219,8 @@
   "minutes": " خولەک",
   "image_size_too_large_max_10mb": " قەبارەی وێنەکە لە ١٠ مێگابایت زیاترە",
   "image_upload_failed": " کێشە هەیەلەبارکردنی وێنە",
-  "Image compression failed, uploading original": " سەرکەووتوو نەبوو لە بچوکردنەوەی قەبارەی وێنەکە"
+  "Image compression failed, uploading original": " سەرکەووتوو نەبوو لە بچوکردنەوەی قەبارەی وێنەکە",
+  "general_setting": "ڕێکخستنی گشتی",
+  "payment_type": "جۆری پارەدان"
+
 }
