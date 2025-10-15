@@ -33,7 +33,7 @@ const items = computed(() => {
 
         <template #payment_type="{ item }">
           <div>
-            {{ item.label }}
+            <AdminSettingsPaymentType />
           </div>
         </template>
       </UTabs>

@@ -51,3 +51,32 @@ export type IPayment = {
     payment_method: string;
     status: string;
   }
+
+  export type IPaymentTypes = {
+
+    data: [
+      {
+        id: number;
+        name: string;
+      }
+    ]
+    page?: number;
+    limit?: number;
+    total: number;
+    total_pages?: number;
+    has_next?: boolean;
+    has_prev?: boolean;
+  }
+
+  export type IPaymentType = {
+    id: number;
+    name: string;
+  }
+
+  export type INewPaymentType = {
+    name: string;
+  }
+
+  export type IEditPaymentType = {
+    name: string;
+  }

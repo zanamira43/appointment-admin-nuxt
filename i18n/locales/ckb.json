@@ -221,6 +221,15 @@
   "image_upload_failed": " کێشە هەیەلەبارکردنی وێنە",
   "Image compression failed, uploading original": " سەرکەووتوو نەبوو لە بچوکردنەوەی قەبارەی وێنەکە",
   "general_setting": "ڕێکخستنی گشتی",
-  "payment_type": "جۆری پارەدان"
+  "payment_type": "جۆری پارەدان",
+  "list_of_all_payment_types": "لیستی هەموو جۆری پارەدان",
+  "add_payment_type": "زیادکردنی جۆری پارەدان",
+  "edit_payment_type": "دەستکاریکردنی جۆری پارەدان",
+  "enter_name": "ناو داخڵ بکە",
+  "payment_type_deleted_successfully": "جۆری پارەدان بەسەرکەوتووی سڕایەوە",
+  "payment_type_updated_successfully": "جۆری پارەدان بەسەرکەوتووی تازەکرایەوە",
+  "payment_type_created_successfully": "جۆری پارەدان بەسەرکەوتووی دروستکرا",
+  "payment_type_creation_failed": "دروستکردنی جۆری پارەدان سەرکەوتوو نەبوو",
+  "payment_type_update_failed": "تازەکردنەوەی جۆری پارەدان سەرکەوتوو نەبوو"
 
 }
