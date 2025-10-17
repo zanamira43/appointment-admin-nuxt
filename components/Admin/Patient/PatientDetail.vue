@@ -5,16 +5,18 @@ import { useUpdatePatient, useGetPatientbyId } from "~/composables/patients";
 import type { IPatient, IUpdatePatient } from "~/types/IPatient";
 
 const props = defineProps<{
-  id: number;
+  patient: IPatient;
 }>();
 
-const { patient, fetchPatient } = useGetPatientbyId(props.id as number);
-onMounted(async () => {
-  await fetchPatient();
-  if (patient.value?.body) {
-    setValues(patient.value.body);
+// const { patient, fetchPatient } = useGetPatientbyId(props.id as number);
+watch(
+  () => props.patient,
+  (editPatient) => {
+    if (editPatient) {
+      setValues(editPatient);
+    }
   }
-});
+);
 
 // Validation schema
 const schema = yup.object({
@@ -32,7 +34,7 @@ const schema = yup.object({
 
 const { values, setValues } = useForm<IUpdatePatient>({
   validationSchema: schema,
-  initialValues: patient.value?.body as IUpdatePatient | null,
+  initialValues: props.patient,
 });
 
 const toast = useToast();
@@ -41,7 +43,7 @@ const { mutate, isPending } = useUpdatePatient();
 const handleUpdate = async () => {
   await mutate(
     {
-      id: props.id,
+      id: props.patient.id,
       data: values,
     },
     {
@@ -54,8 +56,6 @@ const handleUpdate = async () => {
       },
     }
   );
-
-  fetchPatient();
 };
 </script>
 

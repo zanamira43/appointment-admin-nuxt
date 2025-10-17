@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import PatientDetail from "~/components/Admin/Patient/PatientDetail.vue";
 import ProblemDetail from "~/components/Admin/Problem/Detail.vue";
+import type { IPatient } from "~/types/IPatient";
 
 const { role } = useMyUserStore();
 
 const route = useRoute();
 const id: Ref<number> = ref(parseInt(route.params.id as string));
+const { patient } = useGetPatientbyId(id.value);
+
+const patientDetail = computed(() => {
+  return patient?.value?.body as IPatient;
+});
 
 const items = computed(() => {
   const baseItems = [
     {
-      label: $t("patient"),
+      label: `${$t("patient")} :  ${patientDetail.value.name}`,
       slot: "patient" as const,
     },
     {
@@ -45,7 +51,7 @@ const items = computed(() => {
         color="neutral"
       >
         <template #patient="{ item }">
-          <PatientDetail :id="id" />
+          <PatientDetail :patient="patientDetail" />
         </template>
         <template v-if="role === 'admin'" #problem>
           <ProblemDetail :patientId="id" />
