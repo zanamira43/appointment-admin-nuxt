@@ -113,8 +113,8 @@ export const useUpdatePatient = () => {
 
       return response.body;
     },
-    onSuccess: async (id) => {
-      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_QUERY_KEY, id] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_QUERY_KEY] });
       console.log("Patient updated successfully");
     },
     onError: (error: any) => {
