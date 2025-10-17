@@ -9,11 +9,46 @@ export const GET_PAYMENT_QUERY_KEY = "getPayment";
 
 
 // get all payments composable
-export const useGetPayments = () => {
+export const useGetPayments = (search?: Ref<string> ,page?: Ref<number>, limit?: Ref<number>) => {
   const { data: payments, isLoading, refetch: fetchPayments } = useQuery({
     queryKey: [GET_PAYMENTS_QUERY_KEY],
     queryFn: async () => {
-      return await apiQueryClient.payment.getPayments();
+      return await apiQueryClient.payment.getPayments({
+        query: {
+          search: search?.value,
+          page: page?.value,
+          limit: limit?.value
+        }
+      });
+    },
+  }); 
+
+  return {
+    payments,
+    isLoading,
+    fetchPayments
+  };
+}
+
+// get all payments by Patient composable
+export const useGetPaymentsByPatient = (id: number, search?: Ref<string> ,page?: Ref<number>, limit?: Ref<number>) => {
+  const { data: payments, isLoading, refetch: fetchPayments } = useQuery({
+    queryKey: [GET_PAYMENTS_QUERY_KEY],
+    queryFn: async () => {
+      const {status, body} =  await apiQueryClient.payment.getPaymentsByPatient({
+        params: {
+          id: id
+        },
+        query: {
+          search: search?.value,
+          page: page?.value,
+          limit: limit?.value
+        }
+      });
+
+      if(status === 200){
+        return body
+      }
     },
   }); 
 

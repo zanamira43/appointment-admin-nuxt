@@ -58,7 +58,7 @@ const items = computed(() => {
 
         <template #payment="{ item }">
           <div class="text-muted mb-4">
-            {{ item.label }}
+            <AdminPaymentListByPatient :patient-id="id" />
           </div>
         </template>
       </UTabs>

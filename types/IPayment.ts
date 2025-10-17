@@ -3,54 +3,62 @@ import {  type ISession } from "./ISession";
 
 
 
- export type IAllPayment = {
-    id: number;
-    patient_id: number;
-    session_id: number;
-    amount: number;
-    payment_date: string; // ISO date string
-    payment_method: string;
-    status: string;
-    created_at: string; // ISO date string
-    updated_at: string; // ISO date string
-  }[];
+export type IAllPayment = {
+  data: [
+    {
+      id: number;
+      patient_id: number;
+      payment_type_id: string;
+      payment_type: {
+        id: number;
+        name: string;
+      };
+      amount: number;
+      payment_date: string; // ISO date string
+      created_at: string; // ISO date string
+      updated_at: string; // ISO date string
+    }
+  ]
+
+
+  page?: number;
+  limit?: number;
+  total: number;
+  total_pages?: number;
+  has_next?: boolean;
+  has_prev?: boolean;
+}
 
 export type IPayment = {
+  id: number;
+  patient_id: number;
+  payment_type_id: string;
+  payment_type: {
     id: number;
-    patient_id: number;
-    session_id: number;
-    amount: number;
-    payment_date: string; // ISO date string
-    payment_method: string;
-    status: string;
-    created_at: string; // ISO date string
-    updated_at: string; // ISO date string
-
-    patient?: IPatient; // Optional, if the patient is included
-    session?: ISession; // Optional, if the session is included
+    name: string;
+  };
+  amount: number;
+  payment_date: string; // ISO date string
+  created_at: string; // ISO date string
+  updated_at: string; // ISO date string
     
-  }
+}
 
+export type INewPayment = {
+  patient_id: number;
+  payment_type_id: string;
+  amount: number;
+  payment_date: string; // ISO date string
+}
 
+export type IUpdatePayment = {
+  patient_id: number;
+  payment_type_id: string;
+  amount: number;
+  payment_date: string; // ISO date string
+}
 
- 
-  export type INewPayment = {
-    patient_id: number;
-    session_id: number;
-    amount: number;
-    payment_date: string; // ISO date string
-    payment_method: string;
-    status: string;
-  }
-
-   export type IUpdatePayment = {
-    patient_id: number;
-    session_id: number;
-    amount: number;
-    payment_date: string; // ISO date string
-    payment_method: string;
-    status: string;
-  }
+////////////////////// paymentType  Types  /////////////////////////////////
 
   export type IPaymentTypes = {
 

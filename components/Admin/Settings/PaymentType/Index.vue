@@ -33,7 +33,7 @@ const columns: TableColumn<IPaymentTypes>[] = [
   {
     accessorKey: "id",
     header: $t("id"),
-    cell: ({ row }: any) => `#${row.index + 1}`,
+    cell: ({ row }: any) => row.getValue("id"),
   },
   {
     accessorKey: "name",

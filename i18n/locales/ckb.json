@@ -230,6 +230,16 @@
   "payment_type_updated_successfully": "جۆری پارەدان بەسەرکەوتووی تازەکرایەوە",
   "payment_type_created_successfully": "جۆری پارەدان بەسەرکەوتووی دروستکرا",
   "payment_type_creation_failed": "دروستکردنی جۆری پارەدان سەرکەوتوو نەبوو",
-  "payment_type_update_failed": "تازەکردنەوەی جۆری پارەدان سەرکەوتوو نەبوو"
+  "payment_type_update_failed": "تازەکردنەوەی جۆری پارەدان سەرکەوتوو نەبوو",
+  "list_of_all_payment": " لیستی پارەدان",
+  "amount_money": " بڕی پارە",
+  "payment_date": "بەرواری پارەدان",
+  "payment_type is required": " جۆری پارەدان داواکراوە",
+  "payment_date is required": " بەرواری پارەدان داواکراوە",
+  "amount money must be greator than 0": " بڕی پارە لە ٠ زیاتر بێت",
+  "amount money is required": "بڕی پارە داواکراوە",
+  "select_payment_type": " جۆری پارەدان هەڵبژێرە",
+  "payment_creation_failed": " دروست کردنی پارەدان سەرکەتوو نەبوو",
+  "payment_update_failed": " تازەکردنەوەی پارەدان سەرکەتوو نەبوو"
 
 }

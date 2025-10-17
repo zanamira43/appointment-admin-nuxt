@@ -1,6 +1,11 @@
 import { initContract } from '@ts-rest/core';
 import type { IPayment, INewPayment, IAllPayment, IUpdatePayment} from '~/types/IPayment';
 
+export type SearchPagination = { 
+  search?: string;
+  page?: number; 
+  limit?: number
+ };
 
 const c = initContract();
 
@@ -13,7 +18,19 @@ export const paymnentContract = c.router({
         200: c.type<IAllPayment>(),
         400: c.type(), 
       },
-      query: c.type<{ page?: number; limit?: number }>(), // Optional pagination
+      query: c.type<SearchPagination>(), // Optional pagination
+      summary: 'Get all payments',
+  },
+
+  getPaymentsByPatient: {
+      method: 'GET',
+      path: '/payments/patient/:id', // or /patients/:id if nested
+      pathParams: c.type<{id: number }>(),
+      responses: {
+        200: c.type<IAllPayment>(),
+        400: c.type(), 
+      },
+      query: c.type<SearchPagination>(), // Optional pagination
       summary: 'Get all payments',
   },
 
