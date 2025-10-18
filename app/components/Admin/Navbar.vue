@@ -41,6 +41,16 @@ searchQuery.value = searchStore.query;
 watch(searchQuery, (newSearch) => {
   searchStore.SetSearch(newSearch);
 });
+
+const refreshingPage = ref(false);
+const refreshPage = () => {
+  setTimeout(() => {
+    window.location.reload();
+    refreshingPage.value = true;
+  }, 500);
+
+  refreshingPage.value = false;
+};
 </script>
 <template>
   <div
@@ -72,6 +82,18 @@ watch(searchQuery, (newSearch) => {
       </UFormField>
 
       <div class="flex items-center gap-x-4 lg:gap-x-6">
+        <!-- reolad page button -->
+        <UButton
+          icon="material-symbols:directory-sync"
+          color="secondary"
+          square
+          variant="link"
+          size="xl"
+          @click="refreshPage"
+          :class="`${refreshingPage ? 'animate-spin' : ''}`"
+        />
+
+        <!-- notification button icon -->
         <UButton
           icon="i-heroicons-bell-20-solid"
           color="gray"
