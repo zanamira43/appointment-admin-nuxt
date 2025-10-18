@@ -27,6 +27,10 @@ const items = computed(() => {
       label: $t("payment"),
       slot: "payment",
     },
+    {
+      label: $t("outcome"),
+      slot: "outcome",
+    },
   ];
 
   if (role === "admin") {
@@ -65,6 +69,12 @@ const items = computed(() => {
         <template #payment="{ item }">
           <div class="text-muted mb-4">
             <AdminPaymentListByPatient :patient-id="id" />
+          </div>
+        </template>
+
+        <template #outcome="{ item }">
+          <div class="text-muted mb-4">
+            <AdminOutcome />
           </div>
         </template>
       </UTabs>

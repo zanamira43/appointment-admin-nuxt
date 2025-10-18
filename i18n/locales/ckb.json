@@ -240,6 +240,13 @@
   "amount money is required": "بڕی پارە داواکراوە",
   "select_payment_type": " جۆری پارەدان هەڵبژێرە",
   "payment_creation_failed": " دروست کردنی پارەدان سەرکەتوو نەبوو",
-  "payment_update_failed": " تازەکردنەوەی پارەدان سەرکەتوو نەبوو"
+  "payment_update_failed": " تازەکردنەوەی پارەدان سەرکەتوو نەبوو",
+  "outcome": "دەرئەنجام",
+  "determined_outcome": " دەرئەنجامی دیاری کراو",
+  "completed_outcome": " دەرئەنجام تەواوکراو",
+  "received_session_count": " ژمارەی جەلسەی وەگیراو",
+  "received_session_total_price": " کۆی نرخی جەلسەی وەرگیراو",
+  "total_received_payment": " کۆی گشتی پارەی وەرگیراو",
+  "total_left_money": " کۆی پارەی ماوە"
 
 }
