@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PatientDetail from "@/components/Admin/Patient/PatientDetail.vue";
 import ProblemDetail from "@/components/Admin/Problem/Detail.vue";
-import type { IPatient } from "~/app/types/IPatient";
+import type { IPatient } from "@/types/IPatient";
 
 const { role } = useMyUserStore();
 
