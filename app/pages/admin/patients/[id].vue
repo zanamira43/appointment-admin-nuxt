@@ -13,10 +13,14 @@ const patientDetail = computed(() => {
   return patient?.value?.body as IPatient;
 });
 
+const patientName = computed<string | null>(() => {
+  return (patient?.value?.body as IPatient)?.name ?? null;
+});
+
 const items = computed(() => {
   const baseItems = [
     {
-      label: `${$t("patient")} :  ${patientDetail.value.name}`,
+      label: `${$t("patient")} :  ${patientName.value}`,
       slot: "patient" as const,
     },
     {
