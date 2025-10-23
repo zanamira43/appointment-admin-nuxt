@@ -247,6 +247,8 @@
   "received_session_count": " ژمارەی جەلسەی وەگیراو",
   "received_session_total_price": " کۆی نرخی جەلسەی وەرگیراو",
   "total_received_payment": " کۆی گشتی پارەی وەرگیراو",
-  "total_left_money": " کۆی پارەی ماوە"
+  "total_left_money": " کۆی پارەی ماوە",
+  "is_dollar_payment": " پارەدان بەدۆلار",
+  "iqd": "د.ع"
 
 }

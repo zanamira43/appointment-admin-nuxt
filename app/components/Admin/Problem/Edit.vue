@@ -10,7 +10,7 @@ const props = defineProps<{
   problemId?: number;
 }>();
 
-const emit = defineEmits(["success"]);
+const emit = defineEmits(["success", "delete"]);
 
 const { problem, fetchProblem } = useGetProblem(props.problemId as number);
 const { uploadPatientImage, isPending: isUploadLoading } = useUploadPatientImage();
@@ -30,9 +30,10 @@ const schema = yup.object({
     .number()
     .min(1, `${$t("sessions count must be at least 1")}`)
     .required(`${$t("sessions count is required")}`),
+  is_dollar_payment: yup.bool().optional(),
   session_price: yup
     .number()
-    .min(0, `${$t("session price must be positive")}`)
+    .min(1, `${$t("session price must be positive")}`)
     .required(`${$t("session price is required")}`),
   patient_image: yup.string().optional(),
   details: yup.string().optional(),
@@ -43,7 +44,8 @@ const initialForm: IEditProblem = {
   main_problems: [],
   secondary_problems: [],
   need_sessions_count: 1,
-  session_price: 0,
+  is_dollar_payment: false,
+  session_price: 1,
   patient_image: "",
   details: "",
 };
@@ -56,6 +58,7 @@ const { values, setFieldValue, errors, resetForm } = useForm<IEditProblem>({
 // Create refs for array fields and sync them with form values
 const { value: main_problems } = useField<string[]>("main_problems");
 const { value: secondary_problems } = useField<string[]>("secondary_problems");
+const { value: is_dollar_payment } = useField<boolean>("is_dollar_payment");
 
 onMounted(async () => {
   await fetchProblem();
@@ -104,6 +107,50 @@ const updatePatientProblem = async () => {
     );
   } catch (error) {
     console.log("problem error", error);
+  }
+};
+
+/// delete patient problem
+const problemDeleleteModal = ref(false);
+const { deleteProblem, isPending: isDeleteProblemLoading } = useDeleteProblem();
+const handleDeleteProblem = async () => {
+  if (props.problemId === null) return;
+
+  try {
+    await deleteProblem(props.problemId, {
+      onSuccess: () => {
+        toast.add({
+          description: $t("problem_deleted_successfully"),
+          color: "success",
+        });
+
+        emit("delete");
+
+        if (values.patient_image !== "") {
+          deletePatientImage(
+            { patient_image_url: values.patient_image },
+            {
+              onSuccess: () => {
+                toast.add({
+                  description: $t("image_deleted_successfully"),
+                  color: "success",
+                });
+                setFieldValue("patient_image", "");
+              },
+              onError: () => {
+                toast.add({ description: $t("image_delete_failed"), color: "error" });
+              },
+            }
+          );
+        }
+      },
+    });
+
+    problemDeleleteModal.value = false;
+  } catch (err) {
+    console.error("Failed to delete problem:", err);
+  } finally {
+    // emit("delete");
   }
 };
 
@@ -305,10 +352,24 @@ const secondaryProblemOptions = ref([
       <template #header>
         <div class="flex flex-row justify-between items-center">
           <h2 class="text-2xl font-semibold">{{ $t("edit_problem") }}</h2>
-
-          <UButton type="button" @click="updatePatientProblem()" :loading="isPending">
-            <span>{{ $t("update") }}</span>
-          </UButton>
+          <div class="flex justify-center items-center gap-2">
+            <UButton
+              type="button"
+              @click="problemDeleleteModal = true"
+              variant="ghost"
+              color="error"
+              class="border"
+            >
+              <Icon
+                name="heroicons:trash-20-solid"
+                size="20"
+                class="text-red-500 cursor-pointer"
+              />
+            </UButton>
+            <UButton type="button" @click="updatePatientProblem()" :loading="isPending">
+              <span>{{ $t("update") }}</span>
+            </UButton>
+          </div>
         </div>
       </template>
 
@@ -400,20 +461,48 @@ const secondaryProblemOptions = ref([
                 name="need_sessions_count"
                 class="w-full"
                 :min="1"
+                trailing-icon="mingcute:numbers-90-sort-ascending-line"
               />
 
-              <FormInput
-                type="number"
-                :label="$t('session_price')"
-                name="session_price"
+              <!-- dolar payment field true/false -->
+              <UCheckbox
+                :label="$t('is_dollar_payment')"
+                v-model="is_dollar_payment"
+                size="lg"
+                color="secondary"
+                variant="card"
                 class="w-full"
-                :min="0"
+                indicator="end"
               />
+
+              <div class="flex relative min-w-full">
+                <FormInput
+                  type="number"
+                  :label="$t('session_price')"
+                  name="session_price"
+                  class="w-full"
+                  :min="1"
+                  :trailing-icon="`${
+                    values.is_dollar_payment ? 'lucide:circle-dollar-sign' : $t('iqd')
+                  }`"
+                />
+                <span v-if="!values.is_dollar_payment" class="absolute top-8 left-3">
+                  {{ $t("iqd") }}
+                </span>
+              </div>
 
               <div class="flex flex-col gap-2 w-full">
                 <label class="text-sm font-medium">{{ $t("session_total_price") }}</label>
-                <div class="px-3 py-1 border rounded-md bg-gray-50 dark:bg-gray-800">
+                <div
+                  class="px-3 py-1 border rounded-md bg-gray-50 dark:bg-gray-800 items-center flex justify-between"
+                >
                   {{ sessionTotalPrice }}
+                  <Icon
+                    name="lucide:circle-dollar-sign"
+                    size="20"
+                    v-if="values.is_dollar_payment"
+                  />
+                  <span v-else>{{ $t("iqd") }}</span>
                 </div>
               </div>
             </div>
@@ -430,5 +519,25 @@ const secondaryProblemOptions = ref([
         </form>
       </div>
     </UCard>
+
+    <!-- Problme Delete Modal -->
+    <UModal v-model:open="problemDeleleteModal">
+      <template #body>
+        <div class="flex flex-col justify-center items-center gap-2">
+          <h1 class="text-2xl font-bold text-center">{{ $t("delete_problem") }}</h1>
+          <p class="text-center">{{ $t("are_you_sure_to_delete") }}</p>
+        </div>
+      </template>
+      <template #footer>
+        <div class="flex justify-start items-start gap-2">
+          <UButton
+            :label="$t('yes')"
+            :disabled="isDeleteProblemLoading"
+            color="error"
+            @click="handleDeleteProblem()"
+          />
+        </div>
+      </template>
+    </UModal>
   </div>
 </template>

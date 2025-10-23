@@ -25,9 +25,10 @@ const schema = yup.object({
     .number()
     .min(1, `${$t("sessions count must be at least 1")}`)
     .required(`${$t("sessions count is required")}`),
+  is_dollar_payment: yup.bool().optional(),
   session_price: yup
     .number()
-    .min(0, `${$t("session price must be positive")}`)
+    .min(1, `${$t("session price must be positive")}`)
     .required(`${$t("session price is required")}`),
   patient_image: yup.string().optional(),
   details: yup.string().optional(),
@@ -38,7 +39,8 @@ const initialForm: INewProblem = {
   main_problems: [],
   secondary_problems: [],
   need_sessions_count: 1,
-  session_price: 0,
+  is_dollar_payment: false,
+  session_price: 1,
   patient_image: "",
   details: "",
 };
@@ -51,6 +53,7 @@ const { values, setFieldValue, errors } = useForm<INewProblem>({
 // Create refs for array fields and sync them with form values
 const { value: main_problems } = useField<string[]>("main_problems");
 const { value: secondary_problems } = useField<string[]>("secondary_problems");
+const { value: is_dollar_payment } = useField<boolean>("is_dollar_payment");
 
 // Watch for patientId changes
 watch(
@@ -290,20 +293,48 @@ const secondaryProblemOptions = ref([
                 name="need_sessions_count"
                 class="w-full"
                 :min="1"
+                trailing-icon="mingcute:numbers-90-sort-ascending-line"
               />
 
-              <FormInput
-                type="number"
-                :label="$t('session_price')"
-                name="session_price"
+              <!-- dolar payment field true/false -->
+              <UCheckbox
+                :label="$t('is_dollar_payment')"
+                v-model="is_dollar_payment"
+                size="lg"
+                color="secondary"
+                variant="card"
                 class="w-full"
-                :min="0"
+                indicator="end"
               />
+
+              <div class="flex relative min-w-full">
+                <FormInput
+                  type="number"
+                  :label="$t('session_price')"
+                  name="session_price"
+                  class="w-full"
+                  :trailing-icon="`${
+                    values.is_dollar_payment ? 'lucide:circle-dollar-sign' : ''
+                  }`"
+                  :min="1"
+                />
+                <span v-if="!values.is_dollar_payment" class="absolute top-8 left-3">
+                  {{ $t("iqd") }}
+                </span>
+              </div>
 
               <div class="flex flex-col gap-2 w-full">
                 <label class="text-sm font-medium">{{ $t("session_total_price") }}</label>
-                <div class="px-3 py-1 border rounded-md bg-gray-50 dark:bg-gray-800">
+                <div
+                  class="px-3 py-1 border rounded-md bg-gray-50 dark:bg-gray-800 items-center flex justify-between"
+                >
                   {{ sessionTotalPrice }}
+                  <Icon
+                    name="lucide:circle-dollar-sign"
+                    size="20"
+                    v-if="values.is_dollar_payment"
+                  />
+                  <span v-else>{{ $t("iqd") }}</span>
                 </div>
               </div>
             </div>

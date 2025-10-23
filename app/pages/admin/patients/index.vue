@@ -17,6 +17,10 @@ const PatientLists = computed<IAllPatient | any>(() => {
   return patients.value?.data ?? [];
 });
 
+onMounted(async () => {
+  await fetchPatients();
+});
+
 const { patients: allPatients } = useGetPatients();
 
 const patientOptions: Ref<{ label: string; value: string }[]> = computed(() =>

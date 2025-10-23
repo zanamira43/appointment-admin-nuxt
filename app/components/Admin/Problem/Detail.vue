@@ -12,13 +12,23 @@ const { problem, isLoading, fetchProblems } = useGetProblemsByPatientId(
 );
 
 // Determine which component to show
-const hasExistingProblem = computed(() => {
-  return problem.value && problem.value.id;
-});
+const hasExistingProblem = ref(false);
+watch(
+  () => problem?.value,
+  (newVal) => {
+    if (newVal?.id) {
+      hasExistingProblem.value = true;
+    }
+  }
+);
 
 // Handle success events from child components
 const handleSuccess = async () => {
   await fetchProblems();
+};
+
+const reRenderDetail = () => {
+  hasExistingProblem.value = false;
 };
 </script>
 
@@ -34,12 +44,9 @@ const handleSuccess = async () => {
         :patient-id="patientId"
         :problem-id="problem?.id"
         @success="handleSuccess"
+        @delete="reRenderDetail"
       />
-      <ProblemCreate
-        v-else
-        :patient-id="patientId"
-        @success="handleSuccess"
-      />
+      <ProblemCreate v-else :patient-id="patientId" @success="handleSuccess" />
     </div>
   </div>
 </template>

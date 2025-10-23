@@ -51,16 +51,18 @@ export const problemsContract = c.router({
     responses: {
       200: c.type<IProblem>(),
       400: c.type<{ message: string }>(),
+      404: c.type<{ message: string }>(),
     },
     body: c.type<IEditProblem>(),
   },
   deleteProblem: {
     method: "DELETE",
     path: "/problems/:id",
-    pathParams: c.type<{ id: number }>(),
+    pathParams: c.type<{ id?: number }>(),
     responses: {
       200: c.type<{ message: string }>(),
       400: c.type<{ message: string }>(),
+      404: c.type<{ message: string }>(),
     },
   },
   getProblemsByPatientId: {
@@ -70,6 +72,7 @@ export const problemsContract = c.router({
     responses: {
       200: c.type<IProblem>(),
       400: c.type<{ message: string }>(),
+      404: c.type<{ message: string }>()
     },
   },
 

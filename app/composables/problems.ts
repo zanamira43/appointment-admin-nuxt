@@ -57,7 +57,7 @@ export const useGetProblem = (id: number) => {
 
 // create new problem composable
 export const useCreateProblem = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { mutate: createProblem, isPending } = useMutation({
     mutationFn: async (problemData: INewProblem) => {
       return await apiQueryClient.problem.createProblem({
@@ -65,7 +65,7 @@ export const useCreateProblem = () => {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_PROBLEMS_QUERY_KEY] });
+      // queryClient.invalidateQueries({ queryKey: [GET_PROBLEMS_BY_PATIENT_ID_QUERY_KEY] });
     },
   });
 
@@ -77,18 +77,22 @@ export const useCreateProblem = () => {
 
 // update single problem by ID composable
 export const useUpdateProblem = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { mutate: updateProblem, isPending } = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: IEditProblem}) => {
-      return await apiQueryClient.problem.updateProblem({
+      const {status, body } = await apiQueryClient.problem.updateProblem({
         params: {
           id: id,
         },
         body: data,
       });
+
+      if(status === 404 || status === 400){
+        throw new Error(body.message)
+      }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [GET_PROBLEMS_QUERY_KEY] });
+      // queryClient.invalidateQueries({ queryKey: [GET_PROBLEMS_BY_PATIENT_ID_QUERY_KEY] });
     },
   });
 
@@ -100,18 +104,23 @@ export const useUpdateProblem = () => {
 
 // delete single problem by ID composable
 export const useDeleteProblem = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const { mutate: deleteProblem, isPending } = useMutation({
-    mutationFn: async (id: number) => {
-      return await apiQueryClient.problem.deleteProblem({
+    mutationFn: async (id?: number) => {
+      const {status, body} =  await apiQueryClient.problem.deleteProblem({
         params: {
-          id: id,
+          id: id || undefined,
         },
       });
+
+      if(status === 404 || status === 400){
+        throw new Error(body.message)
+      }
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [GET_PROBLEMS_QUERY_KEY] });
+      // await queryClient.invalidateQueries({ queryKey: [GET_PROBLEM_QUERY_KEY]});
+      // await queryClient.invalidateQueries({ queryKey: [GET_PROBLEMS_BY_PATIENT_ID_QUERY_KEY]});
     },
   });
 
@@ -137,9 +146,13 @@ export const useGetProblemsByPatientId = (patientId: Ref<number> | number) => {
       if (res.status === 200) {
         return res.body;
       }
+
+      if(res.status === 400  || res.status === 404){
+        throw new Error(res.body.message)
+      }
     },
-    enabled: computed(() => !!id.value),
-    retry: 2,
+    enabled: !!id.value,
+    retry: 1
   });
 
   return {
