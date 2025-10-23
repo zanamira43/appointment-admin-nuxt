@@ -294,6 +294,9 @@ const secondaryProblemOptions = ref([
                 class="w-full"
                 :min="1"
                 trailing-icon="mingcute:numbers-90-sort-ascending-line"
+                :ui="{
+                  trailingIcon: 'text-amber-700',
+                }"
               />
 
               <!-- dolar payment field true/false -->
@@ -317,6 +320,9 @@ const secondaryProblemOptions = ref([
                     values.is_dollar_payment ? 'lucide:circle-dollar-sign' : ''
                   }`"
                   :min="1"
+                  :ui="{
+                    trailingIcon: 'text-blue-500',
+                  }"
                 />
                 <span v-if="!values.is_dollar_payment" class="absolute top-8 left-3">
                   {{ $t("iqd") }}
@@ -333,6 +339,7 @@ const secondaryProblemOptions = ref([
                     name="lucide:circle-dollar-sign"
                     size="20"
                     v-if="values.is_dollar_payment"
+                    class="text-blue-500"
                   />
                   <span v-else>{{ $t("iqd") }}</span>
                 </div>
