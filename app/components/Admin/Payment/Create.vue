@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from "vee-validate";
+import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 import type { INewPayment, IPaymentType } from "@/types/IPayment";
 
@@ -30,6 +30,7 @@ const schema = yup.object({
     .string()
     .required($t("payment_date is required"))
     .matches(/^\d{4}-\d{2}-\d{2}$/, $t("invalid date format")),
+  is_dollar_payment: yup.bool().required().default(false),
   amount: yup
     .number()
     .min(1, $t("amount money must be greator than 0 "))
@@ -39,6 +40,7 @@ const schema = yup.object({
 const initialForm: INewPayment = {
   patient_id: props.patientId || 0,
   payment_type_id: "",
+  is_dollar_payment: false,
   amount: 0,
   payment_date: "",
 };
@@ -48,6 +50,7 @@ const { values, setFieldValue } = useForm<INewPayment>({
   initialValues: initialForm,
 });
 
+const { value: is_dollar_payment } = useField<boolean>("is_dollar_payment");
 // Watch for patientId changes
 watch(
   () => props.patientId,
@@ -104,13 +107,35 @@ const isFormValid = computed(() => {
             class="w-full"
           />
 
+          <!-- dolar payment field true/false -->
+          <div class="flex flex-col justify-start items-start w-full rounded-md mx-5">
+            <span>{{ $t("is_dollar_payment") }}</span>
+            <UCheckbox
+              v-model="is_dollar_payment"
+              size="lg"
+              color="secondary"
+              class="w-full flex flex-row mt-2"
+            />
+          </div>
+
           <!-- amount -->
-          <FormInput
-            type="number"
-            :label="$t('amount_money')"
-            name="amount"
-            class="w-full"
-          />
+          <div class="flex relative min-w-full">
+            <FormInput
+              type="number"
+              :label="$t('amount_money')"
+              name="amount"
+              class="w-full"
+              :trailing-icon="`${
+                values.is_dollar_payment ? 'lucide:circle-dollar-sign' : $t('iqd')
+              }`"
+              :ui="{
+                trailingIcon: 'text-blue-500',
+              }"
+            />
+            <span v-if="!values.is_dollar_payment" class="absolute top-8 left-3">
+              {{ $t("iqd") }}
+            </span>
+          </div>
 
           <!-- Session Date -->
           <FormInput

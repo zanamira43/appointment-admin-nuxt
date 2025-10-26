@@ -3,6 +3,8 @@ import { h, resolveComponent } from "vue";
 import type { TableColumn, TableRow } from "@nuxt/ui";
 import type { IAllPayment } from "@/types/IPayment";
 
+const UIcon = resolveComponent("UIcon");
+
 const props = defineProps<{
   patientId: number;
 }>();
@@ -52,11 +54,34 @@ const columns: TableColumn<IAllPayment>[] = [
     },
   },
   {
+    accessorKey: "is_dollar_payment",
+    header: $t("is_dollar_payment"),
+    cell: ({ row }: any) => {
+      const value = row.getValue("is_dollar_payment");
+      return h(
+        UIcon,
+        {
+          name: `${value ? "i-heroicons-check-circle" : "ic:baseline-cancel"}`,
+          class: `${value ? "text-green-500" : "text-red-500"}`,
+          size: "20",
+        },
+        () => {
+          row.getValue("is_dollar_payment");
+        }
+      );
+    },
+  },
+  {
     accessorKey: "amount",
     header: $t("amount_money"),
     cell: ({ row }: any) => {
       const value = row.getValue("amount");
-      return $t(value);
+      const isValueDollar = row.getValue("is_dollar_payment");
+      if (isValueDollar) {
+        return `${"$"}${value} `;
+      } else {
+        return `${value} ${$t("iqd")}`;
+      }
     },
   },
   {

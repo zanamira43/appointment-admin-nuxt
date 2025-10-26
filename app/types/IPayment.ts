@@ -1,7 +1,3 @@
-import { type IPatient } from "./IPatient";
-import {  type ISession } from "./ISession";
-
-
 
 export type IAllPayment = {
   data: [
@@ -13,6 +9,7 @@ export type IAllPayment = {
         id: number;
         name: string;
       };
+      is_dollar_payment: boolean;
       amount: number;
       payment_date: string; // ISO date string
       created_at: string; // ISO date string
@@ -37,6 +34,7 @@ export type IPayment = {
     id: number;
     name: string;
   };
+  is_dollar_payment: boolean;
   amount: number;
   payment_date: string; // ISO date string
   created_at: string; // ISO date string
@@ -47,6 +45,7 @@ export type IPayment = {
 export type INewPayment = {
   patient_id: number;
   payment_type_id: string;
+  is_dollar_payment: boolean;
   amount: number;
   payment_date: string; // ISO date string
 }
@@ -54,6 +53,7 @@ export type INewPayment = {
 export type IUpdatePayment = {
   patient_id: number;
   payment_type_id: string;
+  is_dollar_payment: boolean;
   amount: number;
   payment_date: string; // ISO date string
 }

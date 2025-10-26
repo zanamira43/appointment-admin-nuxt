@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useForm } from "vee-validate";
+import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 import type { IPayment, IPaymentType, IUpdatePayment } from "@/types/IPayment";
 
@@ -31,15 +31,22 @@ const schema = yup.object({
     .string()
     .required($t("payment_date is required"))
     .matches(/^\d{4}-\d{2}-\d{2}$/, $t("invalid date format")),
+  is_dollar_payment: yup.bool().required().default(false),
   amount: yup
     .number()
     .min(1, $t("amount money must be greator than 0 "))
     .required($t("amount money is required")),
 });
 
+// Fetch session data
+const { payment: paymentData, isLoading: isLoadingPaymet, fetchPayments } = useGetPayment(
+  props.id
+);
+
 const initialForm: IUpdatePayment = {
   patient_id: props.patientId as number,
   payment_type_id: "",
+  is_dollar_payment: false,
   amount: 0,
   payment_date: "",
 };
@@ -48,36 +55,33 @@ const { values, resetForm, handleSubmit } = useForm<IUpdatePayment>({
   validationSchema: schema,
   initialValues: initialForm,
 });
-
-// Fetch session data
-const { payment: paymentData, isLoading: isLoadingPaymet } = useGetPayment(props.id);
+const { value: is_dollar_payment } = useField<boolean>("is_dollar_payment");
 
 // Populate form when payment data is loaded
-watch(
-  () => paymentData.value,
-  (paymentData) => {
-    if (paymentData?.body) {
-      const data = paymentData.body as IPayment;
+onMounted(async () => {
+  await fetchPayments();
 
-      // Format the payment_date to match date input format (YYYY-MM-DD)
-      let formattedDate = data.payment_date;
-      if (formattedDate) {
-        // Extract only the date part (YYYY-MM-DD)
-        formattedDate = formattedDate.substring(0, 10);
-      }
+  if (paymentData.value) {
+    const data = paymentData.value as IPayment;
 
-      resetForm({
-        values: {
-          patient_id: data.patient_id,
-          payment_type_id: data.payment_type_id,
-          payment_date: formattedDate,
-          amount: data.amount,
-        },
-      });
+    // Format the payment_date to match date input format (YYYY-MM-DD)
+    let formattedDate = data.payment_date;
+    if (formattedDate) {
+      // Extract only the date part (YYYY-MM-DD)
+      formattedDate = formattedDate.substring(0, 10);
     }
-  },
-  { immediate: true }
-);
+
+    resetForm({
+      values: {
+        patient_id: data.patient_id,
+        payment_type_id: data.payment_type_id,
+        is_dollar_payment: data.is_dollar_payment,
+        payment_date: formattedDate,
+        amount: data.amount,
+      },
+    });
+  }
+});
 
 // Use TanStack Query mutation for updating session
 const { updatePayment, isUpdatePaymentLoading } = useUpdatePaymet();
@@ -141,13 +145,36 @@ const isFormValid = computed(() => {
             class="w-full"
           />
 
+          <!-- dolar payment field true/false -->
+          <div class="flex flex-col justify-start items-start w-full rounded-md mx-5">
+            <span>{{ $t("is_dollar_payment") }}</span>
+            <UCheckbox
+              v-model="is_dollar_payment"
+              size="lg"
+              color="secondary"
+              class="w-full flex flex-row mt-2"
+              variant="list"
+            />
+          </div>
+
           <!-- amount -->
-          <FormInput
-            type="number"
-            :label="$t('amount_money')"
-            name="amount"
-            class="w-full"
-          />
+          <div class="flex relative min-w-full">
+            <FormInput
+              type="number"
+              :label="$t('amount_money')"
+              name="amount"
+              class="w-full"
+              :trailing-icon="`${
+                values.is_dollar_payment ? 'lucide:circle-dollar-sign' : $t('iqd')
+              }`"
+              :ui="{
+                trailingIcon: 'text-blue-500',
+              }"
+            />
+            <span v-if="!values.is_dollar_payment" class="absolute top-8 left-3">
+              {{ $t("iqd") }}
+            </span>
+          </div>
 
           <!-- Payment Date -->
           <FormInput

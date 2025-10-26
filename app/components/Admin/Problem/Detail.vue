@@ -19,7 +19,8 @@ watch(
     if (newVal?.id) {
       hasExistingProblem.value = true;
     }
-  }
+  },
+  { immediate: true }
 );
 
 // Handle success events from child components

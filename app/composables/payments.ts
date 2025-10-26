@@ -64,11 +64,21 @@ export const useGetPayment = (id: number) => {
   const { data: payment, isLoading, refetch: fetchPayments } = useQuery({
     queryKey: [GET_PAYMENT_QUERY_KEY],
     queryFn: async () => {
-      return await apiQueryClient.payment.getPayment({
+      const {status, body} =  await apiQueryClient.payment.getPayment({
         params: {
           id: id
         }
       });
+
+      if(status === 200){
+        return body
+      }
+
+      if(status === 400 || status === 404) {
+        throw new Error(body.message)
+      }
+
+
     },
     enabled: !!id
   }); 
@@ -115,8 +125,8 @@ export const useUpdatePaymet = () => {
         body: data
       })
     },
-    onSuccess: async(_, id) => {
-      await queryClient.invalidateQueries({queryKey: [GET_PAYMENT_QUERY_KEY, id]});
+    onSuccess: async() => {
+      await queryClient.invalidateQueries({queryKey: [GET_PAYMENTS_QUERY_KEY]});
     },
     onError: (error: any) => {
       console.log("Error update payment", error);
