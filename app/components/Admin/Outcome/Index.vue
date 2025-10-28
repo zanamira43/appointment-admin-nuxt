@@ -20,7 +20,17 @@ const remainingBalanceColor = computed(() => {
 });
 </script>
 <template>
-  <AdminPageHeader :title="`${$t('outcome')}`" :subtitle="patientData?.name" />
+  <AdminPageHeader :title="`${$t('outcome')}`" :subtitle="patientData?.name">
+    <div>
+      <UBadge v-if="patientData?.is_dollar_payment" color="neutral">
+        {{ $t("is_dollar_payment") }}
+      </UBadge>
+
+      <UBadge v-else color="neutral">
+        {{ $t("iqd") }}
+      </UBadge>
+    </div>
+  </AdminPageHeader>
   <!-- loading page in fetching process -->
   <div v-if="isPatinetOutcomeLoading" class="flex justify-center items-center py-8">
     <UIcon name="i-heroicons-arrow-path" class="animate-spin text-2xl" />
