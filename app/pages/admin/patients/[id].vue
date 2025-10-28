@@ -78,7 +78,7 @@ const items = computed(() => {
 
         <template #outcome="{ item }">
           <div class="text-muted mb-4">
-            <AdminOutcome />
+            <AdminOutcome :patinet-id="id" />
           </div>
         </template>
       </UTabs>

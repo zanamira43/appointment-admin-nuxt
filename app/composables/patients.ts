@@ -159,3 +159,37 @@ export const useDeletePatient = () => {
     isDeletePatientLoading,
   };
 };
+
+// get patinet outcome calculation
+export const useGetPatientOutcome = (id: number) => {
+  const {
+    data: patientData,
+    isLoading: isPatinetOutcomeLoading,
+    refetch: fetchPatientOutcome,
+  } = useQuery({
+    queryKey: ["getpatientoutcome"],
+    queryFn: async () => {
+      const { status, body } = await apiQueryClient.patient.outcomePatient({
+        params: {
+          id: id,
+        },
+      });
+
+      if (status === 200) {
+        return body;
+      }
+
+      if (status === 404 || status === 400) {
+        throw new Error(body.message);
+      }
+    },
+
+    enabled: !!id,
+  });
+
+  return {
+    patientData,
+    isPatinetOutcomeLoading,
+    fetchPatientOutcome,
+  };
+};

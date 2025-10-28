@@ -62,3 +62,17 @@ export type IUpdatePatient = {
   address: string,
   phone_number: string,
 }
+
+
+export type IPatientOutcome = {
+  id: number;
+  name: string;
+  need_sessions_count: number;
+  is_dollar_payment: boolean
+  session_price: number;
+  session_total_price: number;
+  sum_received_session_count: number;
+  session_received_total_price: number;
+  total_received_payments: number;
+  remaining_balance?: number;
+}

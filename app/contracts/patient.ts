@@ -1,5 +1,5 @@
 import { initContract } from '@ts-rest/core';
-import type { IPatient, INewPatient, IAllPatient, IUpdatePatient} from '@/types/IPatient';
+import type { IPatient, INewPatient, IAllPatient, IUpdatePatient, IPatientOutcome} from '@/types/IPatient';
 
 export type SearchPagination = {
   search?: string;
@@ -64,4 +64,15 @@ export const patientContract = c.router({
     },
     summary: 'Delete patient',
   },
+
+  outcomePatient: {
+    method: "GET",
+    path: "/patients/:id/outcome",
+    pathParams: c.type<{ id: number }>(),
+    responses: {
+      200: c.type<IPatientOutcome>(),
+      400: c.type<{message: string}>(),
+      404: c.type<{message: string}>(),
+    }
+  }
 });
