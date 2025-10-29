@@ -94,6 +94,7 @@ const handleUpdate = async () => {
             name="married_status"
             :items="[
               { label: $t('married'), value: 'married' },
+              { label: $t('divorced'), value: 'divorced' },
               { label: $t('single'), value: 'single' },
               { label: $t('Other'), value: 'other' },
             ]"
