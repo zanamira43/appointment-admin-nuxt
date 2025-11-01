@@ -156,7 +156,7 @@ const deletePatient = async () => {
 const rowSelection = ref<Record<string, boolean>>({});
 const lastClickTime = ref<number | null>(null);
 function handleClick(row: TableRow<IAllPatient>, e?: Event) {
-  const rowValue = row.getValue("id");
+  const rowValue = row?.getValue("id");
   const now = Date.now();
   if (lastClickTime.value && now - lastClickTime.value <= 360) {
     lastClickTime.value = null;
