@@ -250,6 +250,7 @@
   "total_received_payment": " کۆی گشتی پارەی وەرگیراو",
   "total_left_money": " کۆی پارەی ماوە",
   "is_dollar_payment": " پارەدان بەدۆلار",
-  "iqd": "د.ع"
+  "iqd": "د.ع",
+  "system_setting_updated_successfully": " ڕێکخستنی گشتی بەسەرکەوتووی تازەکرایەوە"
 
 }
