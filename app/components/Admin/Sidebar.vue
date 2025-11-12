@@ -23,7 +23,6 @@ const items = computed(() => {
       icon: "healthicons:calendar",
       to: "/admin/time-tables",
     },
-
     {
       label: $t("setting"),
       icon: "material-symbols:settings",
@@ -37,6 +36,13 @@ const items = computed(() => {
       label: $t("user"),
       icon: "i-heroicons-users-solid",
       to: "/admin/users",
+    });
+
+    // only push the 'notebook' menu if the role is 'admin'
+    baseItems.splice(1, 0, {
+      label: $t("note_book"),
+      icon: "mdi:notebook",
+      to: "/admin/notebooks",
     });
   }
 

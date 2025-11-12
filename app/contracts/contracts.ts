@@ -9,6 +9,7 @@ import { timeTablesContract } from './timeTables'
 import { problemsContract } from './problem'
 import { paymentTypeContract } from './payment_type'
 import { settingContract } from './setting'
+import { NotebookContracts } from './noteBook'
 
 const c = initContract()
 export const contract = c.router({
@@ -20,5 +21,6 @@ export const contract = c.router({
   session: sessionContract,
   payment: paymnentContract,
   paymentType: paymentTypeContract,
-  setting: settingContract
+  setting: settingContract,
+  noteBook: NotebookContracts
 })
