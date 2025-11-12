@@ -5,6 +5,10 @@ import * as yup from "yup";
 import { useUpdateUser, useGetUser } from "@/composables/users";
 import type { IRequestUser } from "@/types/IUser";
 
+definePageMeta({
+  middleware: "admin",
+});
+
 const route = useRoute();
 const id: Ref<number> = ref((route.params.id as unknown) as number);
 const { user, fetchUser } = useGetUser(id.value as number);

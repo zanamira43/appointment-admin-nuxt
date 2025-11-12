@@ -11,6 +11,10 @@ const userLists = computed<IAllUsers | any>(() => {
   return users?.value ?? [];
 });
 
+definePageMeta({
+  middleware: "admin",
+});
+
 onMounted(async () => {
   await fetchUsers();
 });

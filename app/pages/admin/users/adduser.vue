@@ -4,6 +4,10 @@ import * as yup from "yup";
 import { useCreateUser } from "@/composables/users";
 import type { IRequestUser } from "@/types/IUser";
 
+definePageMeta({
+  middleware: "admin",
+});
+
 const showPassword = ref(true);
 const toast = useToast();
 const { mutate, isCreateUserLoading } = useCreateUser();
