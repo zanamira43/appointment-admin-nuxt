@@ -33,7 +33,7 @@ export default defineNuxtConfig({
       'favicon.ico',
       'apple-touch-icon.jpeg',
       'robots.txt',
-      // 'index.html'
+      'index.html'
     ],
     manifest: {
       "name": "RawezhkarAso",
@@ -97,7 +97,8 @@ export default defineNuxtConfig({
     },
     workbox: {
       // common sensible defaults; adjust to your needs
-      navigateFallback: '/',
+      navigateFallback: '/index.html',
+      navigateFallbackAllowlist: [/^\/$/],
       globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,jpeg,jpg}'],
       globIgnores: ['**/.*','**/node_modules/**'],
       cleanupOutdatedCaches: true,
@@ -139,6 +140,7 @@ export default defineNuxtConfig({
     },
     devOptions: {
       enabled: true, // enables SW in dev for local testing
+      suppressWarnings: true,
       type: 'module'
     }
   },

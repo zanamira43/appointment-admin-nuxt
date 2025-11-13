@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import type {
-  IAllNotbooks,
-  INewNotbook,
-  INotebook,
-  IUpdateNotbook,
-} from "~/types/INotebook";
+import type { IAllNotbooks, INotebook, IUpdateNotbook } from "~/types/INotebook";
+import { formatDate } from "~/util/util";
 
 definePageMeta({
   middleware: "admin",
@@ -110,8 +106,8 @@ const handelUpdateNote = async () => {
 
         <div class="mt-2">
           <div v-for="notebook in notebooksList" :key="notebook.id">
-            <UCard class="my-3 relative">
-              <div class="flex justify-between items-center">
+            <UCard class="my-3 relative p-0">
+              <div class="flex justify-between items-center p-0">
                 <!-- card title and Icon -->
                 <div v-if="editId === notebook.id" class="flex items-center gap-3 w-full">
                   <div class="flex justify-center items-center gap-3 w-full">
@@ -120,11 +116,13 @@ const handelUpdateNote = async () => {
                 </div>
 
                 <div v-else class="flex items-center gap-3">
-                  <UIcon
-                    name="mdi:notebook"
-                    class="size-8 bg-pink-600 rounded-full p-2"
-                  />
-                  <span>{{ notebook.content }}</span>
+                  <UIcon name="mdi:notebook" class="size-8 bg-pink-600 rounded-full" />
+                  <div class="flex flex-col gap-1">
+                    <span class="text-xl">{{ notebook.content }}</span>
+                    <span class="text-xs text-gray-400 font-extralight">
+                      {{ $t("created_at") }} : {{ formatDate(notebook.created_at) }}</span
+                    >
+                  </div>
                 </div>
                 <!-- card actions -->
                 <div class="flex items-center gap-5">
