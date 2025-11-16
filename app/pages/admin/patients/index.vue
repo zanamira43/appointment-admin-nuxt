@@ -155,12 +155,13 @@ const deletePatient = async () => {
 
 const rowSelection = ref<Record<string, boolean>>({});
 const lastClickTime = ref<number | null>(null);
-function handleClick(row: TableRow<IAllPatient>) {
-  const rowValue = row.getValue("id");
+function handleClick(row: any, event?: Event) {
   const now = Date.now();
-  if (lastClickTime.value && now - lastClickTime.value <= 360) {
+  const id = String(row?.original.id);
+
+  if (lastClickTime.value && now - lastClickTime.value < 300) {
+    navigateTo(`/admin/patients/${id}`);
     lastClickTime.value = null;
-    navigateTo(`/admin/patients/${rowValue}`);
   } else {
     // Store current time for the next click
     lastClickTime.value = now;
@@ -219,7 +220,7 @@ function handleClick(row: TableRow<IAllPatient>) {
             :data="PatientLists"
             :columns="columns"
             :loading="isLoading"
-            :row-selection="rowSelection"
+            v-model:row-selection="rowSelection"
             @select="handleClick"
             class="cursor-pointer border border-gray-200 rounded-md"
           >
