@@ -155,16 +155,23 @@ const deletePatient = async () => {
 
 const rowSelection = ref<Record<string, boolean>>({});
 const lastClickTime = ref<number | null>(null);
-function handleClick(row: any, event?: Event) {
+function handleClick(row: TableRow<IAllPatient>, event?: Event) {
   const now = Date.now();
-  const id = String(row?.original.id);
 
   if (lastClickTime.value && now - lastClickTime.value < 300) {
+    const rowId = row?.getValue("id");
+    const id = String(rowId);
     navigateTo(`/admin/patients/${id}`);
     lastClickTime.value = null;
   } else {
     // Store current time for the next click
     lastClickTime.value = now;
+    setTimeout(() => {
+      if (lastClickTime.value === now) {
+        lastClickTime.value = null;
+        row.toggleSelected();
+      }
+    }, 300);
   }
 }
 </script>
