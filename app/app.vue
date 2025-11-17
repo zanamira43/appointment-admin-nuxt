@@ -29,8 +29,8 @@ useHead({
       content: "Appointments System for the therapy clinic, using Nuxt/Vue 3",
     },
     { name: "theme-color", content: "#0ea5e9" },
-    { name: "apple-mobile-web-app-capable", content: "yes" },
-    { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+    { name: "mobile-web-app-capable", content: "yes" },
+    { name: "mobile-web-app-status-bar-style", content: "default" },
   ],
 
   link: [{ rel: "apple-touch-icon", href: "/apple-touch-icon.jpeg" }],

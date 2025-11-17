@@ -106,7 +106,7 @@ const handelUpdateNote = async () => {
 
         <div class="mt-2">
           <div v-for="notebook in notebooksList" :key="notebook.id">
-            <UCard class="my-3 relative p-0">
+            <UCard class="my-3 relative p-0" @dblclick="handelEditMode(notebook)">
               <div class="flex justify-between items-center p-0">
                 <!-- card title and Icon -->
                 <div v-if="editId === notebook.id" class="flex items-center gap-3 w-full">

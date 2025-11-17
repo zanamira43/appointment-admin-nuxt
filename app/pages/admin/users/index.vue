@@ -142,7 +142,7 @@ const handleDeleteUser = async () => {
 
 const rowSelection = ref<Record<string, boolean>>({});
 const lastClickTime = ref<number | null>(null);
-function handleClick(row: TableRow<IAllUsers>, e?: Event) {
+function handleClick(e: Event, row: TableRow<IAllUsers>) {
   const rowValue = row?.getValue("Id");
   const now = Date.now();
   if (lastClickTime.value && now - lastClickTime.value <= 360) {
