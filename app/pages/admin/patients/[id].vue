@@ -35,6 +35,10 @@ const items = computed(() => {
       label: $t("outcome"),
       slot: "outcome",
     },
+    {
+      label: $t("invoice.invoice"),
+      slot: "invoice",
+    },
   ];
 
   if (role === "admin") {
@@ -79,6 +83,12 @@ const items = computed(() => {
         <template #outcome="{ item }">
           <div class="text-muted mb-4">
             <AdminOutcome :patinet-id="id" />
+          </div>
+        </template>
+
+        <template #invoice="{ item }">
+          <div class="text-muted mb-4">
+            <AdminInvoice />
           </div>
         </template>
       </UTabs>
