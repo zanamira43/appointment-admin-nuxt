@@ -80,6 +80,14 @@ const columns: TableColumn<IAllPatient>[] = [
   },
 
   {
+    accessorKey: "user",
+    header: $t("user"),
+    cell: (row: any) => {
+      return row.getValue("user")?.first_name ?? "";
+    },
+  },
+
+  {
     id: "actions",
     header: $t("actions"),
     cell: ({ row }: any) => {
@@ -196,7 +204,7 @@ function handleClick(e: Event, row: TableRow<IAllPatient>) {
               v-model="searchByCode"
               :items="patientOptions"
               size="lg"
-              class="w-[200px] h-[32px]"
+              class="w-[200px] h-8"
               :search-attributes="['label', 'value']"
             >
             </USelect>
