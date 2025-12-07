@@ -143,7 +143,7 @@ const invoice = {
     {
       description: "24 Psychological Consultation Sessions via Chat/Correspondence", // [cite: 7, 10]
       qty: 24, //
-      unitPrice: 15000, // 15,000 IQD per session
+      unitPrice: 150000, // 15,000 IQD per session
     },
   ],
 };
