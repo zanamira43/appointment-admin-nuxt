@@ -102,6 +102,21 @@ const refreshPage = () => {
           size="xl"
         />
 
+        <!-- notification button icon -->
+        <UTooltip :text="`${$t('logout')}`">
+          <UButton
+            icon="streamline-flex:logout-1-solid"
+            color="gray"
+            square
+            variant="link"
+            size="xl"
+            @click="authStore.logout"
+            :ui="{
+              base: 'cursor-pointer',
+            }"
+          />
+        </UTooltip>
+
         <!-- Separator -->
         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
 
@@ -129,7 +144,7 @@ const refreshPage = () => {
 
             <UIcon
               :name="item.icon"
-              class="flex-shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
+              class="shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
             />
           </template>
         </UDropdownMenu>
