@@ -122,15 +122,16 @@ export default defineNuxtConfig({
           }
         },
         {
-          urlPattern: /^https:\/\/api\.rawezhkaraso\.com\/api/,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-cache',
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 60 * 60 // 1 hour
-            }
-          }
+          urlPattern: /^https:\/\/api\.rawezhkaraso\.com\/api\/.*/,
+           handler: 'NetworkOnly', // do NOT cache API!!!
+          // handler: 'NetworkFirst',
+          // options: {
+          //   cacheName: 'api-cache',
+          //   expiration: {
+          //     maxEntries: 50,
+          //     maxAgeSeconds: 60 * 60 // 1 hour
+          //   }
+          // }
         }
       ]
     },
