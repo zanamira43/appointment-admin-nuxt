@@ -311,6 +311,7 @@ const mainProblemOptions = ref([
   { label: $t("Marrige jealousy"), value: "Marrige jealousy" },
   { label: $t("Sleep problems"), value: "Sleep problems" },
   { label: $t("Homosexual"), value: "Homosexual" },
+  { label: $t("Public speaking fear"), value: "Public speaking fear" },
 ]);
 
 const secondaryProblemOptions = ref([
