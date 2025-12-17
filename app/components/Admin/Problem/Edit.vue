@@ -31,7 +31,7 @@ const schema = yup.object({
     .min(1, `${$t("sessions count must be at least 1")}`)
     .required(`${$t("sessions count is required")}`),
   is_dollar_payment: yup.bool().optional(),
-  session_price: yup
+  session_price_one_month: yup
     .number()
     .min(1, `${$t("session price must be positive")}`)
     .required(`${$t("session price is required")}`),
@@ -45,7 +45,7 @@ const initialForm: IEditProblem = {
   secondary_problems: [],
   need_sessions_count: 1,
   is_dollar_payment: false,
-  session_price: 1,
+  session_price_one_month: 1,
   patient_image: "",
   details: "",
 };
@@ -76,13 +76,6 @@ watch(
     setFieldValue("patient_id", newId);
   }
 );
-
-// Computed property for total price
-const sessionTotalPrice = computed(() => {
-  const price = values.session_price || 0;
-  const count = values.need_sessions_count || 0;
-  return price * count;
-});
 
 const { updateProblem, isPending } = useUpdateProblem();
 const updatePatientProblem = async () => {
@@ -481,8 +474,8 @@ const secondaryProblemOptions = ref([
               <div class="flex relative min-w-full">
                 <FormInput
                   type="number"
-                  :label="$t('session_price')"
-                  name="session_price"
+                  :label="$t('session_price_one_month')"
+                  name="session_price_one_month"
                   class="w-full"
                   :min="1"
                   :trailing-icon="`${
@@ -495,22 +488,6 @@ const secondaryProblemOptions = ref([
                 <span v-if="!values.is_dollar_payment" class="absolute top-8 left-3">
                   {{ $t("iqd") }}
                 </span>
-              </div>
-
-              <div class="flex flex-col gap-2 w-full">
-                <label class="text-sm font-medium">{{ $t("session_total_price") }}</label>
-                <div
-                  class="px-3 py-1 border rounded-md bg-gray-50 dark:bg-gray-800 items-center flex justify-between"
-                >
-                  {{ sessionTotalPrice }}
-                  <Icon
-                    name="lucide:circle-dollar-sign"
-                    size="20"
-                    v-if="values.is_dollar_payment"
-                    class="text-blue-500"
-                  />
-                  <span v-else>{{ $t("iqd") }}</span>
-                </div>
               </div>
             </div>
 

@@ -7,8 +7,7 @@ export type IAllProblem = {
       secondary_problems: string[],
       need_sessions_count: number,
 			is_dollar_payment: boolean,
-      session_price: number,
-      session_total_price: number,
+      session_price_one_month: number,
       patient_image: string,
       details: string,
       created_at: string,
@@ -31,8 +30,7 @@ export type IProblem = {
 	secondary_problems: string[];
 	need_sessions_count: number;
 	is_dollar_payment: boolean,
-	session_price: number;
-	session_total_price: number;
+	session_price_one_month: number;
 	patient_image: string;
 	details: string;
 	created_at: string;
@@ -46,7 +44,7 @@ export type INewProblem = {
 	secondary_problems: string[];
 	need_sessions_count: number;
 	is_dollar_payment: boolean,
-	session_price: number;
+	session_price_one_month: number;
 	patient_image: string;
 	details: string;
 }
@@ -57,7 +55,7 @@ export type IEditProblem = {
 	secondary_problems: string[];
 	need_sessions_count: number;
 	is_dollar_payment: boolean,
-	session_price: number;
+	session_price_one_month: number;
 	patient_image: string;
 	details: string;
 }

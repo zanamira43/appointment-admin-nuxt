@@ -6,6 +6,8 @@ const toast = useToast();
 
 export const GET_PATIENTS_QUERY_KEY = "getPatients";
 export const GET_PATIENT_QUERY_KEY = "getPatient";
+export const GET_PATIENT_OUTCOME_QUERY_KEY = "getpatientoutcome";
+
 // create new patient composable
 export const useCreatePatient = () => {
   const validationError = ref<string | null>(null);
@@ -167,7 +169,7 @@ export const useGetPatientOutcome = (id: number) => {
     isLoading: isPatinetOutcomeLoading,
     refetch: fetchPatientOutcome,
   } = useQuery({
-    queryKey: ["getpatientoutcome"],
+    queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY],
     queryFn: async () => {
       const { status, body } = await apiQueryClient.patient.outcomePatient({
         params: {
