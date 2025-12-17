@@ -76,6 +76,7 @@ export const useCreateSession = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [GET_SESSION_QUERY_KEY_BY_PATIENT_ID] });
+      queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
     },
   });
 
@@ -118,9 +119,10 @@ export const useUpdateSession = () => {
         body: data
       })
     },
-    onSuccess: async() => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: [GET_SESSION_QUERY_KEY]});
       await queryClient.invalidateQueries({queryKey: [GET_SESSION_QUERY_KEY_BY_PATIENT_ID]});
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
     },
     onError: (error: any) => {
       console.log("Error update session", error);
@@ -148,7 +150,7 @@ export const useDeleteSession = () => {
     },
     onSuccess: async (_, id) => {
       await queryClient.invalidateQueries({queryKey: [GET_SESSION_QUERY_KEY_BY_PATIENT_ID]});
-      console.log("Session deleted successfully");
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
     },
     onError: (error: any) => {
       console.log("Error deleting session", error);

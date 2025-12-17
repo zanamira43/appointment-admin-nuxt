@@ -100,6 +100,7 @@ export const useCreatePayment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [GET_PAYMENTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
     },
     onError: (error: any) => {
       console.log("Error create payment", error);
@@ -125,8 +126,9 @@ export const useUpdatePaymet = () => {
         body: data
       })
     },
-    onSuccess: async() => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: [GET_PAYMENTS_QUERY_KEY]});
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
     },
     onError: (error: any) => {
       console.log("Error update payment", error);
@@ -153,6 +155,7 @@ export const useDeletePayment = () => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: [GET_PAYMENTS_QUERY_KEY]});
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
     },
     onError: (error: any) => {
       console.log("Error deleting payment", error);
