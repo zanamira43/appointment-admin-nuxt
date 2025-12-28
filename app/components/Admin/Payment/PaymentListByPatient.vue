@@ -76,11 +76,12 @@ const columns: TableColumn<IAllPayment>[] = [
     header: $t("amount_money"),
     cell: ({ row }: any) => {
       const value = row.getValue("amount");
+      const formattedValue = Number(value).toLocaleString();
       const isValueDollar = row.getValue("is_dollar_payment");
       if (isValueDollar) {
-        return `${"$"}${value} `;
+        return `${"$"}${formattedValue} `;
       } else {
-        return `${value} ${$t("iqd")}`;
+        return `${formattedValue} ${$t("iqd")}`;
       }
     },
   },

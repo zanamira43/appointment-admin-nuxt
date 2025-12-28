@@ -65,6 +65,9 @@ const { value, errorMessage, handleBlur } = useField<string | number>(
       <template #trailing>
         <slot name="trailing" />
       </template>
+      <template #default>
+        <slot />
+      </template>
     </UInput>
   </UFormField>
 </template>

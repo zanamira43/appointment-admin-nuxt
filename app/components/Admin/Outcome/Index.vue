@@ -52,7 +52,7 @@ onMounted(async () => {
         >
           <div class="font-bold">{{ $t("session_price_one_month") }}</div>
           <UBadge color="neutral">
-            {{ patientData?.session_price_one_month }}
+            {{ Number(patientData?.session_price_one_month).toLocaleString() }}
             <span v-if="patientData?.is_dollar_payment">$</span>
             <span v-else>{{ $t("iqd") }}</span>
           </UBadge>
@@ -83,7 +83,7 @@ onMounted(async () => {
         >
           <div class="font-bold">{{ $t("total_received_payment") }}</div>
           <UBadge color="secondary">
-            {{ patientData?.total_received_payments }}
+            {{ Number(patientData?.total_received_payments).toLocaleString() }}
             <span v-if="patientData?.is_dollar_payment">$</span>
             <span v-else>{{ $t("iqd") }}</span>
           </UBadge>

@@ -471,24 +471,25 @@ const secondaryProblemOptions = ref([
                 indicator="end"
               />
 
-              <div class="flex relative min-w-full">
-                <FormInput
-                  type="number"
-                  :label="$t('session_price_one_month')"
-                  name="session_price_one_month"
-                  class="w-full"
-                  :min="1"
-                  :trailing-icon="`${
-                    values.is_dollar_payment ? 'lucide:circle-dollar-sign' : $t('iqd')
-                  }`"
-                  :ui="{
-                    trailingIcon: 'text-blue-500',
-                  }"
-                />
-                <span v-if="!values.is_dollar_payment" class="absolute top-8 left-3">
-                  {{ $t("iqd") }}
-                </span>
-              </div>
+              <FormInput
+                type="number"
+                :label="$t('session_price_one_month')"
+                name="session_price_one_month"
+                class="w-full"
+                :min="1"
+                :trailing-icon="`${
+                  values.is_dollar_payment ? 'lucide:circle-dollar-sign' : $t('iqd')
+                }`"
+                :ui="{
+                  trailingIcon: 'text-blue-500',
+                }"
+              >
+                <template #trailing>
+                  <span v-if="!values.is_dollar_payment">
+                    {{ $t("iqd") }}
+                  </span>
+                </template>
+              </FormInput>
             </div>
 
             <div class="md:col-span-3">
