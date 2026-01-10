@@ -91,7 +91,7 @@ const onSubmit = async () => {
     }, {
       onSuccess: () => {
         toast.add({
-          description: $t('time_table_created_successfully'),
+          description: $t('time_table_updated_successfully'),
           color: 'success'
         })
 

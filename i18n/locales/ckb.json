@@ -261,5 +261,13 @@
   "new_note_created_successfully": " تێبینی نوێ بەسەرکەوتووی دروستکرا",
   "note_deleted_successfully": " تێبینی بەسەرکەوتووی سڕایەوە",
   "note_updated_successfully": " تێبینی بەسەرکەوتووی تازەکرایەوە",
-  "Public speaking fear": "ترسوشەرمی قسەکردن  "
+  "Public speaking fear": "ترسوشەرمی قسەکردن  ",
+  "two_month_plan": "پلانی دوومانگی",
+  "fullName": "ناوی سیانی",
+  "Full name is required": "ناوی سیانی داواکراوە",
+  "new_subscriber_form": " فۆڕمی بەژداربووی نوێ",
+  "edit_subscriber_form": "دەستکاریکردنی فۆڕمی بەژداربوو",
+  "new_subscriber_created_successfully": " بەژداربی نوێ بەسەرکەوتووی دروستکرا",
+  "subscriber_updated_successfully": " بەژداربوو بەسەرکەوتووی نوێ کرایەوە",
+  "delete_person_subscriber": "سڕینەوەی بەژدار بوو "
 }

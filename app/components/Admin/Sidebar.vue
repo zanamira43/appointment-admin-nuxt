@@ -24,6 +24,11 @@ const items = computed(() => {
       to: "/admin/time-tables",
     },
     {
+      label: $t("two_month_plan"),
+      icon: "material-symbols:planner-review",
+      to: "/admin/two-month-plan",
+    },
+    {
       label: $t("setting"),
       icon: "material-symbols:settings",
       to: "/admin/settings",
