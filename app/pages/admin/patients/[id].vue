@@ -88,7 +88,7 @@ const items = computed(() => {
 
         <template #invoice="{ item }">
           <div class="text-muted mb-4">
-            <AdminInvoice />
+            <AdminInvoice :patinet-id="id" />
           </div>
         </template>
       </UTabs>

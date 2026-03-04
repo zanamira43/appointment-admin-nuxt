@@ -67,6 +67,9 @@ export type IUpdatePatient = {
 export type IPatientOutcome = {
   id: number;
   name: string;
+  patient_code: string;
+  patient_address: string;
+  communication_types: string;
   need_sessions_count: number;
   is_dollar_payment: boolean
   session_price_one_month: number;

@@ -1,128 +1,21 @@
-<template>
-  <div class="p-6 bg-gray-50 min-h-screen flex items-start justify-center gap-2">
-    <!-- right side of the invoice -- pape side -->
-    <div class="w-full max-w-3xl bg-white shadow-md rounded-lg" ref="invoiceEl">
-      <div class="p-3 border-b">
-        <div class="flex items-start gap-5">
-          <div>
-            <NuxtImg src="live-organization.jpeg" class="h-30 w-30 rounded-md" />
-          </div>
-          <div class="flex flex-col justify-center items-start my-5 gap-2">
-            <div class="text-4xl! h-auto w-auto font-bold text-gray-500">
-              {{ company.title }}
-            </div>
-            <div class="text-3xl! font-semibold">{{ company.sub_title }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="p-2 border-b">
-        <div class="flex items-center justify-between gap-5">
-          <div class="text-sm text-gray-500">
-            <span>{{ $t("invoice.number") }}</span> :
-            <span>{{ invoice.number }}</span>
-          </div>
-          <div class="text-2xl! font-semibold">{{ $t("invoice.starter_form") }}</div>
-          <div class="text-xl font-semibold">
-            <span>{{ $t("date") }}</span> :
-            <span>{{ invoice.date }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="p-6">
-        <div class="text-gray-900">
-          من، كەژی ئەحمەد قادر دانیشتووی شاری سلێمانی، ڕەزامەندم بە وەرگرتنی جەلسەی
-          بەشێوەی (چات وونامە ) لەگەڵ ڕاوێژکاری دەروونی ئاسۆکامەران
-        </div>
-        <div class="mt-6 text-sm text-gray-600 pt-4">
-          <div class="font-medium text-xl text-gray-900">
-            پابەندم بەم مەرجانەی لای خوارەوە: -
-          </div>
-          <ul class="space-y-3 font-medium text-xl mt-2">
-            <li>
-              ١: پابەندم بە پێدانی بڕی (١٥٠٠٠) پانزە هەزار دینار بۆ هەر جەلسەیەک کە لەگەڵ
-              ڕاوێژکاری دەروونی، ئاسۆ کامەران وەریدەگرم بە شێوەی (قیست).
-            </li>
-            <li>
-              ٢: پێویستم بە وەرگرتنی بیست و چوار جەلسەی ڕاوێژکارییە لەلایەن ڕاوێژکاری
-              دەروونی، ئاسۆ کامەران.
-            </li>
-            <li>
-              ٣: لە ئەگەری بەردەوام نەبوونم لە وەرگرتنی جەلسە ڕاوێژکارییەکان، هیچ ڕێکارێکی
-              یاساییم لە دژ ناگیرێتە بەر لەلایەن ڕێکخراوی زیندووەوە.
-            </li>
-            <li>
-              ٤: لە ئەگەری پەشیمان بوونەوەم لە وەرگرتنی جەلسەکان لە دوای پێدانی بڕی پارەی
-              ئەو جەلسانەی وەرمگرتووە لەگەڵ ڕاوێژکار ئاسۆ، ئەوا خۆم بەرپرسیارم و هیچ بڕە
-              پارەیەکم بۆ ناگەڕێندرێتەوە لەلایەن ڕێکخراوی زیندووەوە.
-            </li>
-            <li>
-              ٥: ئەگەر لەماوەی (١) یەک مانگ لە بەرواری وەرگرتنی فۆڕمی سەرەتایی جەلسەکان
-              وەرنەگرم، پێویستە کارگێڕیی ڕێکخراوی زیندوو ئاگادار بکەم، بە پێچەوانەوە مافی
-              بەشداریکردنم لەدەست دەدەم و پێویستە وەسڵی نوێ ببڕم بۆ وەرگرتنی جەلسەی
-              ڕاوێژکاریی نوێ.
-            </li>
-            <li>
-              ٦: پابەندم بە وەرگرتنی هەر ڕاهێنان و ڕێنمایی و تەکنیکێک کە لە ڕاوێژکار ئاسۆ
-              وەریدەگرم.
-            </li>
-            <li>٧: بە گشتی لە جەلسەی سێیەمەوە چارەسەر دەدرێت بە خزمەتخواز.</li>
-          </ul>
-        </div>
-
-        <div class="mt-10 flex justify-between text-black font-medium">
-          <div class="w-1/3 text-center flex gap-1">
-            <p class="text-sm pb-8 border-dashed">واژۆی خزمەتخوار:</p>
-            <p class="text-sm pb-8 h-20 w-20"></p>
-          </div>
-          <div class="flex flex-col gap-3 w-1/3">
-            <div class="w-full text-center flex gap-1">
-              <p class="text-sm pb-8 border-dashed">مۆری رێکخراو:</p>
-
-              <p class="text-sm pb-8 border-dashed"></p>
-            </div>
-            <div class="w-full text-center flex gap-1">
-              <p class="text-sm pb-8 border-dashed">واژۆی ڕاوێژکار:</p>
-              <p class="text-sm pb-8 border-dashed"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="px-5 py-2 mx-5 mb-5 border-2 border-green-600 rounded-lg text-xs text-black"
-      >
-        <div class="flex flex-col gap-4 justify-start">
-          <div class="text-black font-semibold">
-            ناونیشان: سلێمانی - شەقامی مامۆستایان - تەلاری ئانیا - نهۆمی دووەم - ئۆفیسی
-            ژمارە -٤-
-          </div>
-          <div class="flex justify-between items-center font-semibold">
-            <div>ژ.م: ٠٧٧٣٤٤٥٧٧٨٠ - ٠٧٥٠٣٠٧٢٥٤٠</div>
-            <div>
-              ئیمەیڵ:
-              <span class="text-blue-700">zinduorganization@gmail.com</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- left side of the invoice page -- button side -->
-    <div class="ml-6 flex flex-col gap-3">
-      <button
-        @click="printPdf"
-        class="px-4 py-2 bg-sky-600 text-white rounded print-hide"
-      >
-        Print / Save as PDF
-      </button>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from "vue";
+
+// component props
+const props = defineProps<{
+  patinetId: number;
+}>();
+
+// fetching data from backend
+const {
+  patientData,
+  isPatinetOutcomeLoading,
+  fetchPatientOutcome,
+} = useGetPatientOutcome(props.patinetId);
+
+onMounted(async () => {
+  await fetchPatientOutcome();
+});
 
 const invoiceEl = ref<HTMLElement | null>(null);
 
@@ -133,7 +26,7 @@ const company = {
 };
 
 const invoice = {
-  number: "043", //
+  number: patientData.value?.patient_code, //
   date: new Date()
     .toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })
     .replace(/-/g, "/"), //
@@ -219,6 +112,151 @@ function exportPuppeteer() {
   alert("See server-side Puppeteer example in the component comments (server script).");
 }
 </script>
+
+<template>
+  <div class="p-6 bg-gray-50 min-h-screen flex items-start justify-center gap-2">
+    <!-- right side of the invoice -- pape side -->
+    <div class="w-full max-w-3xl bg-white shadow-md rounded-lg" ref="invoiceEl">
+      <div class="p-3 border-b">
+        <div class="flex items-start gap-5">
+          <div>
+            <NuxtImg src="live-organization.jpeg" class="h-30 w-30 rounded-md" />
+          </div>
+          <div class="flex flex-col justify-center items-start my-5 gap-2">
+            <div class="text-4xl! h-auto w-auto font-bold text-gray-500">
+              {{ company.title }}
+            </div>
+            <div class="text-3xl! font-semibold">{{ company.sub_title }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-2 border-b">
+        <div class="flex items-center justify-between gap-5">
+          <div class="text-sm text-gray-500">
+            <span class="font-bold text-slate-500">{{ $t("invoice.number") }}</span> :
+            <span class="font-bold text-slate-500">{{ patientData?.patient_code }}</span>
+          </div>
+          <div class="text-2xl! font-semibold">{{ $t("invoice.starter_form") }}</div>
+          <div class="text-xl font-semibold">
+            <span>{{ $t("date") }}</span> :
+            <span>{{ invoice.date }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <div class="text-gray-900">
+          من،
+          <span class="font-bold text-slate-500">{{ patientData?.name }}</span> دانیشتووی
+          <span class="font-bold text-slate-500">
+            ({{ patientData?.patient_address }})
+          </span>
+          ، ڕەزامەندم بە وەرگرتنی جەلسەی ڕاوێژکاری بەشێوەی
+          <span class="font-bold text-slate-500">
+            ({{ $t(patientData?.communication_types ?? "") }})
+          </span>
+          لەگەڵ ڕاوێژکاری دەروونی ئاسۆکامەران
+        </div>
+        <div class="mt-6 text-sm text-gray-600 pt-4">
+          <div class="font-medium text-xl text-gray-900">
+            پابەندم بەم مەرجانەی لای خوارەوە: -
+          </div>
+          <ul class="space-y-3 font-medium text-xl mt-2">
+            <li>
+              ١. پێویستم بە وەرگرتنی
+              <span class="font-bold text-slate-500">
+                ({{ patientData?.need_sessions_count }})
+              </span>
+              جەلسەی ڕاوێژکارییە لەلایەن ڕاوێژکاری دەروونی، ئاسۆ کامەران.
+            </li>
+            <li>
+              ٢. لە ئەگەری بەردەوام نەبوونم لە وەرگرتنی جەلسە ڕاوێژکارییەکان، هیچ ڕێکارێکی
+              یاساییم لە دژ ناگیرێتە بەر لەلایەن ڕێکخراوی زیندووەوە.
+            </li>
+            <li>
+              ٣. لە ئەگەری پەشیمان بوونەوەم لە وەرگرتنی جەلسەکان لە دوای پێدانی بڕی پارەی
+              ئەو جەلسانەی وەرمگرتووە لەگەڵ ڕاوێژکار ئاسۆ، ئەوا خۆم بەرپرسیارم و هیچ بڕە
+              پارەیەکم بۆ ناگەڕێندرێتەوە لەلایەن ڕێکخراوی زیندووەوە.
+            </li>
+            <li>
+              ٤. پێویستە بەشداربوو لەماوەی یەک مانگدا هەمووجەلسەکانی تەواو بکات؛ ئەگەر نا،
+              پێویستە وەصڵێکی نوێ ببڕێت.
+            </li>
+            <li>
+              ٥. پابەندم بە وەرگرتنی هەر ڕاهێنان و ڕێنمایی و تەکنیکێک کە لە ڕاوێژکار ئاسۆ
+              وەریدەگرم.
+            </li>
+            <li>٦. بە گشتی لە جەلسەی سێیەمەوە چارەسەر دەدرێت بە خزمەتخواز.</li>
+          </ul>
+        </div>
+        <!-- signiture and stamp -->
+        <div class="mt-16 flex justify-between text-black font-medium">
+          <div class="w-[40%] text-center flex gap-1">
+            <p class="text-sm pb-2 border-dashed">واژۆی خزمەتخوار:</p>
+            <p class="text-sm border-dashed -mt-16">
+              <NuxtImg src="rawezhkar-aso-signature.png" class="h-40 w-40" />
+            </p>
+          </div>
+          <div class="flex flex-col gap-3 w-[40%]">
+            <div class="w-full text-center flex gap-1">
+              <p class="text-sm pb-2 border-dashed">مۆری رێکخراو:</p>
+
+              <p class="text-sm border-dashed -mt-16">
+                <NuxtImg src="rawezhkar-aso-stamp.png" class="h-40 w-40" />
+              </p>
+            </div>
+            <div class="w-full text-center flex gap-1">
+              <p class="text-sm pb-2 border-dashed mt-16">واژۆی ڕاوێژکار:</p>
+              <p class="text-sm border-dashed">
+                <NuxtImg src="rawezhkar-aso-signature.png" class="h-40 w-40" />
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- amount of money -->
+        <div class="mt-2 flex justify-between text-black font-medium w-full">
+          <div class="w-1/3 text-center flex gap-1">
+            <p class="text-sm pb-1 border-dashed">بڕی پارەی وەگیراو:</p>
+            <p class="text-md pb-1 text-slate-500 font-bold">
+              {{ Number(patientData?.total_received_payments).toLocaleString() }}
+            </p>
+            <p class="text-slate-500 text-[10px]">{{ $t("iqd") }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="px-5 py-2 mx-5 mb-5 border-2 border-green-600 rounded-lg text-xs text-black"
+      >
+        <div class="flex flex-col gap-4 justify-start">
+          <div class="text-black font-semibold">
+            ناونیشان: سلێمانی - شەقامی مامۆستایان - تەلاری ئانیا - نهۆمی دووەم - ئۆفیسی
+            ژمارە -٤-
+          </div>
+          <div class="flex justify-between items-center font-semibold">
+            <div>ژ.م: ٠٧٧٣٤٤٥٧٧٨٠ - ٠٧٥٠٣٠٧٢٥٤٠</div>
+            <div>
+              ئیمەیڵ:
+              <span class="text-blue-700">zinduorganization@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- left side of the invoice page -- button side -->
+    <div class="ml-6 flex flex-col gap-3">
+      <button
+        @click="printPdf"
+        class="px-4 py-2 bg-sky-600 text-white rounded print-hide"
+      >
+        Print / Save as PDF
+      </button>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 @media print {
