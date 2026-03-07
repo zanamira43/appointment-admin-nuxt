@@ -16,6 +16,15 @@ export default defineNuxtConfig({
    "@nuxtjs/google-fonts",
   ],
   css: [`~/assets/css/main.css`],
+
+  googleFonts:{
+    families: {
+      Inter: true,
+      'Noto+Sans+Arabic': [400,500,700]
+    },
+    download: true,
+    inject: true
+  },
   
   runtimeConfig: {  
     public: {  

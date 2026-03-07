@@ -39,8 +39,8 @@ useHead({
 <style>
 /* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic&family=Amiri&display=swap"); */
 
-* {
+/* * {
   font-family: "Noto Sans Arabic", sans-serif;
   font-size: 16px;
-}
+} */
 </style>
