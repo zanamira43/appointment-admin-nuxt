@@ -74,5 +74,28 @@ export const patientContract = c.router({
       400: c.type<{message: string}>(),
       404: c.type<{message: string}>(),
     }
+  },
+
+  // upload patient signature
+  uploadPatientSignatureFile: {
+    method: "POST",
+    path: "/signature/image/upload",
+    contentType: "multipart/form-data",
+    body: c.type<FormData>(),
+    responses: {
+      200: c.type<{ signature_file_url: string }>(),
+      400: c.type<{ message: string }>(),
+    },
+  },
+
+  // delete signature file
+  deletePatientSignatureFile: {
+    method: "POST",
+    path: "/signature/image/delete",
+    body: c.type<{ signature_file_url: string }>(),
+    responses: {
+      200: c.type<{ message: string }>(),
+      400: c.type<{ message: string }>(),
+    },
   }
 });

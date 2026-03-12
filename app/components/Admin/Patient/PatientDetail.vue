@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { useUpdatePatient, useGetPatientbyId } from "@/composables/patients";
+import { useUpdatePatient, useUploadPatientSignature, useDeletePatientSignature } from "@/composables/patients";
 import type { IPatient, IUpdatePatient } from "@/types/IPatient";
 
 const props = defineProps<{
   patient: IPatient;
 }>();
 
-// const { patient, fetchPatient } = useGetPatientbyId(props.id as number);
 watch(
   () => props.patient,
   (editPatient) => {
@@ -30,9 +29,10 @@ const schema = yup.object({
   maried_status: yup.string().required(`${$t("Married status is required")}`),
   profession: yup.string().required(`${$t("Profession is required")}`),
   address: yup.string().required(`${$t("Address is required")}`),
+  signature_file: yup.string().optional()
 });
 
-const { values, setValues } = useForm<IUpdatePatient>({
+const { values, setValues, setFieldValue } = useForm<IUpdatePatient>({
   validationSchema: schema,
   initialValues: props.patient,
 });
@@ -57,6 +57,154 @@ const handleUpdate = async () => {
     }
   );
 };
+
+// patient signature
+const SignaturefileInput = ref<HTMLInputElement | null>(null);
+const isUploadingSignatureFile = ref(false);
+const { uploadSignatureFile , isUploadPending} = useUploadPatientSignature()
+const triggerFileInput = () => {
+  SignaturefileInput.value?.click();
+};
+
+// compress file function
+const compressImage = (
+  file: File,
+  maxWidth = 1920,
+  maxHeight = 1920,
+  quality = 0.8
+): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions while maintaining aspect ratio
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error("Canvas to Blob conversion failed"));
+            }
+          },
+          file.type,
+          quality
+        );
+      };
+      img.onerror = reject;
+    };
+    reader.onerror = reject;
+  });
+};
+
+const handleSignatureFileUpload = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+
+  if (!file) return;
+
+  // Validate file type
+  if (!file.type.startsWith("image/")) {
+    toast.add({
+      description: $t("please_select_a_valid_image_file"),
+      color: "error",
+    });
+    return;
+  }
+
+  // Validate file size (max 10MB for better mobile compatibility)
+  const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+  if (file.size > maxSize) {
+    toast.add({
+      description: $t("image_size_too_large_max_10mb"),
+      color: "error",
+    });
+    return;
+  }
+
+  // Compress image for better mobile performance and faster uploads
+  isUploadingSignatureFile.value = true;
+  let fileToUpload: File | Blob = file;
+
+  try {
+    // Only compress if file is larger than 500KB
+    if (file.size > 500 * 1024) {
+      const compressedBlob = await compressImage(file);
+      fileToUpload = new File([compressedBlob], file.name, { type: file.type });
+    }
+  } catch (compressionError) {
+    console.warn("Image compression failed, uploading original:", compressionError);
+    // Continue with original file if compression fails
+  }
+
+  const formData = new FormData();
+  formData.append("signature", fileToUpload);
+
+  try {
+    await uploadSignatureFile(formData, {
+      onSuccess: (data) => {
+        toast.add({ description: $t("signature_file_uploaded_successfully"), color: "success", icon: "i-heroicons-check-circle", });
+
+        const signatureUrl = data as {
+          signature_file_url: string;
+        };
+
+        setFieldValue("signature_file", signatureUrl.signature_file_url);
+        handleUpdate();
+      },
+      onError: () => {
+        toast.add({ description: $t("signature_file_upload_failed"), color: "error" });
+      },
+    });
+  } catch (error) {
+    toast.add({ description: $t("signature_file_upload_failed"), color: "error" });
+  } finally {
+    isUploadingSignatureFile.value = false;
+  }
+};
+
+// delete patient signature
+const {deletePatientSignature, isDeletePending} = useDeletePatientSignature()
+const handleDeleteSignatureFile = async () => {
+  if(!values.signature_file) return
+  await deletePatientSignature({
+    signature_file_url: values.signature_file
+  }, 
+  {
+      onSuccess: () => {
+        toast.add({ description: $t("signature_file_deleted_successfully"), color: "success", icon: "i-heroicons-check-circle", });
+        setFieldValue("signature_file", "");
+        handleUpdate();
+      },
+      onError: () => {
+        toast.add({ description: $t("signature_file_delete_failed"), color: "error" });
+      },
+  })
+}
 </script>
 
 <template>
@@ -78,7 +226,7 @@ const handleUpdate = async () => {
               { label: $t('Female'), value: 'Female' },
               { label: $t('Other'), value: 'Other' },
             ]"
-            class="w-full h-[32px]"
+            class="w-full h-8"
             icon="i-heroicons-users"
           />
           <FormInput
@@ -98,11 +246,44 @@ const handleUpdate = async () => {
               { label: $t('single'), value: 'single' },
               { label: $t('Other'), value: 'other' },
             ]"
-            class="w-full h-[32px]"
+            class="w-full h-8"
           />
 
           <FormInput :label="$t('profession')" name="profession" class="w-full" />
           <FormInput :label="$t('address')" name="address" class="w-full" />
+
+          <div class="flex flex-col">
+            <div class="text-black">{{ $t("signature") }}</div>
+            <input
+              ref="SignaturefileInput"
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="handleSignatureFileUpload"
+            />
+            <UButton
+              v-if="patient?.signature_file == ''"
+              color="secondary"
+              variant="outline"
+              block
+              @click="triggerFileInput"
+              :disabled="isUploadPending"
+              class="mt-1"
+            >
+              {{ $t("upload_signature") }}
+            </UButton>
+            <UButton
+              v-if="patient?.signature_file !== ''"
+              color="error"
+              variant="outline"
+              block
+              @click="handleDeleteSignatureFile"
+              :disabled="isDeletePending"
+              class="mt-1"
+            >
+              {{ $t("delete_signature") }}
+            </UButton>
+          </div>
         </div>
       </form>
       <template #footer>

@@ -194,8 +194,11 @@ function exportPuppeteer() {
         <div class="mt-16 flex justify-between text-black font-medium">
           <div class="w-[40%] text-center flex gap-1">
             <p class="text-sm pb-2 border-dashed">واژۆی خزمەتخوار:</p>
-            <p class="text-sm border-dashed -mt-16">
-              <NuxtImg src="rawezhkar-aso-signature.png" class="h-40 w-40" />
+            <p v-if="patientData?.signature_file_url" class="text-sm border-dashed -mt-16">
+              <NuxtImg :src="patientData?.signature_file_url" class="h-40 w-40 mt-5" />
+            </p>
+            <p v-else class="text-sm border-dashed -mt-16">
+              <Icon name="clarity:digital-signature-line" class="h-20 w-20 mt-5 mx-2 text-slate-500" />
             </p>
           </div>
           <div class="flex flex-col gap-3 w-[40%]">

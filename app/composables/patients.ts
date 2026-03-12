@@ -117,6 +117,7 @@ export const useUpdatePatient = () => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_QUERY_KEY] });
+      await queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] })
       console.log("Patient updated successfully");
     },
     onError: (error: any) => {
@@ -195,3 +196,60 @@ export const useGetPatientOutcome = (id: number) => {
     fetchPatientOutcome,
   };
 };
+
+// upload signature file function composable 
+export const useUploadPatientSignature = () => {
+  const queryClient = useQueryClient();
+  const { mutate: uploadSignatureFile, isPending: isUploadPending } = useMutation({
+    mutationFn: async (data: FormData) => {
+      const { status , body } = await apiQueryClient.patient.uploadPatientSignatureFile({
+        body: data
+      });
+
+      if(status === 400) {
+        throw new Error(body?.message as string);
+      }
+      
+      if(status === 200) {
+        return body
+      }
+    },
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
+    // },
+  });
+
+  return {
+    uploadSignatureFile,
+    isUploadPending,
+  };
+}
+
+
+// delete signature file function composable
+export const useDeletePatientSignature = () => {
+  const queryClient = useQueryClient();
+  const { mutate: deletePatientSignature, isPending: isDeletePending } = useMutation({
+    mutationFn: async (data: { signature_file_url: string }) => {
+      const { status , body } = await apiQueryClient.patient.deletePatientSignatureFile({
+        body: data
+      });
+
+      if(status === 400) {
+        throw new Error(body?.message as string);
+      }
+      
+      if(status === 200) {
+        return body
+      }
+    },
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: [GET_PATIENT_OUTCOME_QUERY_KEY] });
+    // },
+  }); 
+
+  return {
+    deletePatientSignature,
+    isDeletePending,
+  };
+}

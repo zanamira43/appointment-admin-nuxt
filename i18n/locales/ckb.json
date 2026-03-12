@@ -269,5 +269,11 @@
   "edit_subscriber_form": "دەستکاریکردنی فۆڕمی بەژداربوو",
   "new_subscriber_created_successfully": " بەژداربی نوێ بەسەرکەوتووی دروستکرا",
   "subscriber_updated_successfully": " بەژداربوو بەسەرکەوتووی نوێ کرایەوە",
-  "delete_person_subscriber": "سڕینەوەی بەژدار بوو "
+  "delete_person_subscriber": "سڕینەوەی بەژدار بوو ",
+  "signature": "واژۆی نەخۆش",
+  "upload_signature": "بارکردنی واژۆی نەخۆش",
+  "delete_signature": "سڕینەوەی واژۆی نەخۆش",
+  "signature_file_uploaded_successfully": "واژۆی نەخۆش بەسەرکەوتوویی بارکرا",
+  "signature_file_upload_failed": "هەڵەڕویدا لەکاتی بارکردنی واژۆی نەخۆش",
+  "signature_file_deleted_successfully": "واژۆی نەخۆش بەسەرکەوتوویی سڕایەوە"
 }

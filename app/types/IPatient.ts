@@ -34,6 +34,7 @@ export type IPatient ={
   profession: string,
   address: string,
   phone_number: string,
+  signature_file: string;
   created_at: Date,
   updated_at: Date
 
@@ -61,6 +62,7 @@ export type IUpdatePatient = {
   profession: string,
   address: string,
   phone_number: string,
+  signature_file?: string;
 }
 
 
@@ -69,6 +71,7 @@ export type IPatientOutcome = {
   name: string;
   patient_code: string;
   patient_address: string;
+  signature_file_url: string;
   communication_types: string;
   need_sessions_count: number;
   is_dollar_payment: boolean
