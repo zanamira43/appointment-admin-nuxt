@@ -54,24 +54,20 @@ const refreshPage = () => {
 </script>
 <template>
   <div
-    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 w-full"
+    class="sticky top-0 z-40 flex justify-between  h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 w-full"
   >
-    <button
-      type="button"
-      class="-m-2.5 p-2.5 text-gray-700 lg:hidden cursor-pointer"
-      @click="toggleSidebar()"
-    >
-      <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
-    </button>
 
-    <!-- Separator -->
-    <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
+    <div class="flex gap-2">
+      <button
+        type="button"
+        class="-m-2.5 p-2.5 text-gray-700 lg:hidden cursor-pointer"
+        @click="toggleSidebar()"
+      >
+        <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
+      </button>
 
-    <div
-      class="flex flex-1 justify-between items-center gap-x-4 self-stretch lg:gap-x-6 w-full"
-    >
       <!-- Search Bar -->
-      <UFormField class="w-[500px]">
+      <UFormField class="hidden md:block w-125">
         <UInput
           :placeholder="` ${$t('search')} ...`"
           icon="heroicons:magnifying-glass"
@@ -80,7 +76,9 @@ const refreshPage = () => {
           size="lg"
         />
       </UFormField>
+    </div>
 
+    <div class="flex justify-end items-center gap-x-4 lg:gap-x-6 w-full">
       <div class="flex items-center gap-x-4 lg:gap-x-6">
         <!-- reolad page button -->
         <UButton
@@ -100,6 +98,7 @@ const refreshPage = () => {
           square
           variant="link"
           size="xl"
+          class="hidden md:flex"
         />
 
         <!-- notification button icon -->
@@ -110,6 +109,7 @@ const refreshPage = () => {
             square
             variant="link"
             size="xl"
+            class="hidden md:flex"
             @click="authStore.logout"
             :ui="{
               base: 'cursor-pointer',
