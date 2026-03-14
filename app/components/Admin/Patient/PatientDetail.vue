@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { useForm } from "vee-validate";
+import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 import { useUpdatePatient, useUploadPatientSignature, useDeletePatientSignature } from "@/composables/patients";
 import type { IPatient, IUpdatePatient } from "@/types/IPatient";
+
+// call user role 
+const { role } = useMyUserStore();
+
 
 const props = defineProps<{
   patient: IPatient;
@@ -29,13 +33,16 @@ const schema = yup.object({
   maried_status: yup.string().required(`${$t("Married status is required")}`),
   profession: yup.string().required(`${$t("Profession is required")}`),
   address: yup.string().required(`${$t("Address is required")}`),
-  signature_file: yup.string().optional()
+  signature_file: yup.string().optional(),
+  is_private: yup.boolean().default(false)
 });
 
 const { values, setValues, setFieldValue } = useForm<IUpdatePatient>({
   validationSchema: schema,
   initialValues: props.patient,
 });
+
+const { value: is_private } = useField<boolean>("is_private");
 
 const toast = useToast();
 const { mutate, isPending } = useUpdatePatient();
@@ -284,6 +291,17 @@ const handleDeleteSignatureFile = async () => {
               {{ $t("delete_signature") }}
             </UButton>
           </div>
+          
+          <!-- private patient field true/false -->
+          <div v-if="role == 'admin'" class="flex justify-start items-center rounded-md gap-2 mt-5">
+              <UCheckbox
+                v-model="is_private"
+                size="lg"
+                color="secondary"
+                class="flex flex-row"
+              />
+              <span>{{ $t("is_private") }}</span>
+            </div>
         </div>
       </form>
       <template #footer>

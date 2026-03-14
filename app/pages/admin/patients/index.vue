@@ -196,7 +196,7 @@ function handleClick(e: Event, row: TableRow<IAllPatient>) {
               type="text"
               icon="heroicons:magnifying-glass-20-solid"
               :placeholder="$t('search')"
-              class="w-[200px]"
+              class="w-50"
             />
             <USelect
               arrow
@@ -204,7 +204,7 @@ function handleClick(e: Event, row: TableRow<IAllPatient>) {
               v-model="searchByCode"
               :items="patientOptions"
               size="lg"
-              class="w-[200px] h-8"
+              class="w-50 h-8"
               :search-attributes="['label', 'value']"
             >
             </USelect>

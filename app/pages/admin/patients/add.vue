@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { useForm } from "vee-validate";
+import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 import { useCreatePatient } from "@/composables/patients";
 import type { INewPatient } from "@/types/IPatient";
 
 const toast = useToast();
 const { mutate } = useCreatePatient();
+
+// call user role 
+const { role } = useMyUserStore();
 
 // Validation schema
 const schema = yup.object({
@@ -20,6 +23,7 @@ const schema = yup.object({
   married_status: yup.string().required(`${$t("Married status is required")}`),
   profession: yup.string().required(`${$t("Profession is required")}`),
   address: yup.string().required(`${$t("Address is required")}`),
+  is_private: yup.boolean().default(false),
 });
 
 const { handleSubmit, values } = useForm<INewPatient>({
@@ -32,8 +36,11 @@ const { handleSubmit, values } = useForm<INewPatient>({
     gender: "",
     profession: "",
     address: "",
+    is_private: false,
   },
 });
+
+const { value: is_private } = useField<boolean>("is_private");
 
 const submitForm = handleSubmit(async () => {
   try {
@@ -52,6 +59,8 @@ const submitForm = handleSubmit(async () => {
         values.profession = "";
         values.address = "";
         values.phone_number = "";
+        values.is_private = false;
+
 
         navigateTo("/admin/patients");
       },
@@ -82,7 +91,7 @@ const submitForm = handleSubmit(async () => {
                 { label: $t('Female'), value: 'Female' },
                 { label: $t('Other'), value: 'Other' },
               ]"
-              class="w-full h-[32px]"
+              class="w-full h-8"
               icon="i-heroicons-users"
             />
             <FormInput
@@ -102,11 +111,22 @@ const submitForm = handleSubmit(async () => {
                 { label: $t('single'), value: 'single' },
                 { label: $t('Other'), value: 'other' },
               ]"
-              class="w-full h-[32px]"
+              class="w-full h-8"
             />
 
             <FormInput :label="$t('profession')" name="profession" class="w-full" />
             <FormInput :label="$t('address')" name="address" class="w-full" />
+
+            <!-- private patient field true/false -->
+            <div v-if="role == 'admin'" class="flex justify-start items-center rounded-md gap-2 mt-5">
+              <UCheckbox
+                v-model="is_private"
+                size="lg"
+                color="secondary"
+                class="flex flex-row"
+              />
+              <span>{{ $t("is_private") }}</span>
+            </div>
           </div>
         </form>
         <template #footer>

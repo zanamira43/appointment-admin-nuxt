@@ -12,6 +12,7 @@ export type IAllPatient ={
     profession: string,
     address: string,
     phone_number: string,
+    is_private: boolean,
     created_at: Date,
     updated_at: Date
   ]
@@ -35,6 +36,7 @@ export type IPatient ={
   address: string,
   phone_number: string,
   signature_file: string;
+  is_private: boolean;
   created_at: Date,
   updated_at: Date
 
@@ -50,6 +52,7 @@ export type INewPatient = {
   profession: string,
   address: string,
   phone_number: string,
+  is_private: boolean,
 }
 
 
@@ -63,6 +66,7 @@ export type IUpdatePatient = {
   address: string,
   phone_number: string,
   signature_file?: string;
+  is_private: boolean;
 }
 
 
