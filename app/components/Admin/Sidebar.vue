@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const { role } = useMyUserStore();
+import type { DropdownMenuItem } from '@nuxt/ui'
+
+const { role, first_name, last_name } = useMyUserStore();
+const authStore = useAuthStore();
 
 const sidebarStore = useSidebarStore();
 
@@ -53,6 +56,33 @@ const items = computed(() => {
 
   return [baseItems]; // Keep nested structure for UNavigationMenu
 });
+
+const profileItems = ref<DropdownMenuItem[][]>([
+  [
+    {
+      label: first_name + " " + last_name,
+      slot: $t("account"),
+      disabled: true,
+    },
+  ],
+  [
+    {
+      label: $t("profile"),
+      icon: "i-heroicons-user-circle",
+      to: "/admin/profile",
+    },
+  ],
+
+  [
+    {
+      label: $t("logout"),
+      icon: "i-heroicons-arrow-left-on-rectangle",
+      onSelect() {
+        authStore.logout();
+      },
+    },
+  ],
+]);
 </script>
 <template>
   <!-- Static sidebar for desktop -->
@@ -82,6 +112,58 @@ const items = computed(() => {
       <div class="mt-10">
         <UNavigationMenu orientation="vertical" :items="items" class="text-xl">
         </UNavigationMenu>
+      </div>
+
+
+      <div class="md:hidden flex flex-col justify-end items-center h-full">
+          <!-- Profile dropdown -->
+          <UDropdownMenu
+            :items="profileItems"
+            class="md:hidden flex"
+            :content="{
+              align: 'center',
+              side: 'top',
+              sideOffset: 8
+            }"
+            :ui="{
+              content: 'w-60'
+            }"
+          >
+            <UButton 
+              :avatar="{
+                src: '/live-organization.jpeg',
+                loading: 'lazy'
+              }"
+
+              :ui="{
+                leadingAvatarSize: 'lg',
+                leadingAvatar: 'border border-slate-300'
+              }"
+              
+              class="w-full p-2 bg-white text-black hover:bg-mauve-300 border border-mauve-800" 
+              
+            >
+             {{ $t('profile') }}
+            </UButton>
+
+            <template #account="{ item }">
+              <div class="text-left">
+                <p>{{ $t("account") }}</p>
+                <p class="truncate font-medium text-gray-900 dark:text-white">
+                  {{ item }}
+                </p>
+              </div>
+            </template>
+
+            <template #item="{ item }">
+              <span class="truncate">{{ item.label }}</span>
+
+              <UIcon
+                :name="item.icon"
+                class="shrink-0 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto"
+              />
+            </template>
+          </UDropdownMenu>
       </div>
     </div>
   </div>

@@ -57,7 +57,7 @@ const refreshPage = () => {
     class="sticky top-0 z-40 flex justify-between  h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 w-full"
   >
 
-    <div class="flex gap-2">
+    <div class="flex justify-start gap-2 items-center p-2">
       <button
         type="button"
         class="-m-2.5 p-2.5 text-gray-700 lg:hidden cursor-pointer"
@@ -67,7 +67,7 @@ const refreshPage = () => {
       </button>
 
       <!-- Search Bar -->
-      <UFormField class="hidden md:block w-125">
+      <UFormField class="hidden md:flex w-125">
         <UInput
           :placeholder="` ${$t('search')} ...`"
           icon="heroicons:magnifying-glass"
@@ -79,7 +79,7 @@ const refreshPage = () => {
     </div>
 
     <div class="flex justify-end items-center gap-x-4 lg:gap-x-6 w-full">
-      <div class="flex items-center gap-x-4 lg:gap-x-6">
+      <div class="flex items-center gap-x-2 lg:gap-x-6">
         <!-- reolad page button -->
         <UButton
           icon="material-symbols:directory-sync"
@@ -109,7 +109,6 @@ const refreshPage = () => {
             square
             variant="link"
             size="xl"
-            class="hidden md:flex"
             @click="authStore.logout"
             :ui="{
               base: 'cursor-pointer',
@@ -121,11 +120,11 @@ const refreshPage = () => {
         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
 
         <!-- Profile dropdown -->
-
         <UDropdownMenu
           :items="items"
           :ui="{ item: { disabled: 'cursor-text select-text' } }"
           :popper="{ placement: 'bottom-start' }"
+          class="hidden md:flex"
         >
           <!-- <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" /> -->
           <UAvatar class="border border-gray-200" src="/live-organization.jpeg" />
