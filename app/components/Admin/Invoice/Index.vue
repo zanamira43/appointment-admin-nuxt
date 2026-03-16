@@ -114,7 +114,7 @@ function exportPuppeteer() {
 </script>
 
 <template>
-  <div class="p-6 bg-gray-50 min-h-screen flex items-start justify-center gap-2">
+  <div class="p-4 bg-gray-50 min-h-screen flex items-start justify-center gap-2">
     <!-- right side of the invoice -- pape side -->
     <div class="w-full max-w-3xl bg-white shadow-md rounded-lg" ref="invoiceEl">
       <div class="p-3 border-b">
@@ -122,7 +122,7 @@ function exportPuppeteer() {
           <div>
             <NuxtImg src="live-organization.jpeg" class="h-30 w-30 rounded-md" />
           </div>
-          <div class="flex flex-col justify-center items-start my-5 gap-2">
+          <div class="flex flex-col justify-center items-center my-5 gap-2">
             <div class="text-4xl! h-auto w-auto font-bold text-gray-500">
               {{ company.title }}
             </div>
@@ -145,7 +145,7 @@ function exportPuppeteer() {
         </div>
       </div>
 
-      <div class="p-6">
+      <div class="p-4">
         <div class="text-gray-900">
           من،
           <span class="font-bold text-slate-500">{{ patientData?.name }}</span> دانیشتووی
@@ -195,7 +195,7 @@ function exportPuppeteer() {
           <div class="w-[40%] text-center flex gap-2">
             <p class="text-sm pb-2 border-dashed">واژۆی خزمەتخوار:</p>
             <p v-if="patientData?.signature_file_url" class="text-sm border-dashed -mt-18">
-              <NuxtImg :src="patientData?.signature_file_url" class="h-40 w-40 rounded-full" />
+              <NuxtImg :src="patientData?.signature_file_url" class="h-30 w-30 rounded-full" />
             </p>
             <p v-else class="text-sm border-dashed -mt-16">
               <Icon name="clarity:digital-signature-line" class="h-20 w-20 mt-5 mx-2 text-slate-500" />
@@ -206,20 +206,20 @@ function exportPuppeteer() {
               <p class="text-sm pb-2 border-dashed">مۆری رێکخراو:</p>
 
               <p class="text-sm border-dashed -mt-16">
-                <NuxtImg src="rawezhkar-aso-stamp.png" class="h-40 w-40" />
+                <NuxtImg src="rawezhkar-aso-stamp.png" class="h-30 w-30" />
               </p>
             </div>
             <div class="w-full text-center flex gap-1">
               <p class="text-sm pb-2 border-dashed mt-16">واژۆی ڕاوێژکار:</p>
               <p class="text-sm border-dashed">
-                <NuxtImg src="rawezhkar-aso-signature.png" class="h-40 w-40" />
+                <NuxtImg src="rawezhkar-aso-signature.png" class="h-30 w-30" />
               </p>
             </div>
           </div>
         </div>
 
         <!-- amount of money -->
-        <div class="mt-2 flex justify-between text-black font-medium w-full">
+        <div class="flex justify-between text-black font-medium w-full">
           <div class="w-1/3 text-center flex gap-1">
             <p class="text-sm pb-1 border-dashed">بڕی پارەی وەگیراو:</p>
             <p class="text-md pb-1 text-slate-500 font-bold">
@@ -231,7 +231,7 @@ function exportPuppeteer() {
       </div>
 
       <div
-        class="px-5 py-2 mx-5 mb-5 border-2 border-green-600 rounded-lg text-xs text-black"
+        class="px-5 py-0.5 mx-5 mb-2 border-2 border-green-600 rounded-lg text-xs text-black"
       >
         <div class="flex flex-col gap-4 justify-start">
           <div class="text-black font-semibold">

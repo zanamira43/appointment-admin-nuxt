@@ -76,54 +76,65 @@ const triggerFileInput = () => {
 // compress file function
 const compressImage = (
   file: File,
-  maxWidth = 1920,
-  maxHeight = 1920,
-  quality = 0.8
+  maxWidth = 1200,
+  maxHeight = 1200,
+  minSize = 300,
+  quality = 0.9
 ): Promise<Blob> => {
   return new Promise((resolve, reject) => {
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
+
     reader.onload = (e) => {
+
       const img = new Image();
       img.src = e.target?.result as string;
+
       img.onload = () => {
-        const canvas = document.createElement("canvas");
+
         let width = img.width;
         let height = img.height;
 
-        // Calculate new dimensions while maintaining aspect ratio
-        if (width > height) {
-          if (width > maxWidth) {
-            height = Math.round((height * maxWidth) / width);
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width = Math.round((width * maxHeight) / height);
-            height = maxHeight;
-          }
+        // 🔹 Upscale small images (like 99px signatures)
+        if (width < minSize || height < minSize) {
+          const scale = Math.max(minSize / width, minSize / height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
         }
 
+        // 🔹 Compress large images
+        if (width > maxWidth || height > maxHeight) {
+          const scale = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+
+        const canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
 
         const ctx = canvas.getContext("2d");
-        ctx?.drawImage(img, 0, 0, width, height);
+
+        if (ctx) {
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+          ctx.drawImage(img, 0, 0, width, height);
+        }
 
         canvas.toBlob(
           (blob) => {
-            if (blob) {
-              resolve(blob);
-            } else {
-              reject(new Error("Canvas to Blob conversion failed"));
-            }
+            if (blob) resolve(blob);
+            else reject(new Error("Canvas to Blob conversion failed"));
           },
           file.type,
           quality
         );
       };
+
       img.onerror = reject;
     };
+
     reader.onerror = reject;
   });
 };
