@@ -177,4 +177,8 @@ export default defineNuxtConfig({
     },
     vueI18n: './i18n.config.ts',
   },
+
+  devServer: {
+    host: '0.0.0.0'
+  }
 })

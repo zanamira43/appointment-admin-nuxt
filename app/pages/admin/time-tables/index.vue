@@ -186,6 +186,10 @@ const weekdaysOption = ref([
 ]);
 
 const showTime = ref(false);
+
+definePageMeta({
+  titleKey: 'time_tables'
+})
 </script>
 <template>
   <NuxtLayout>

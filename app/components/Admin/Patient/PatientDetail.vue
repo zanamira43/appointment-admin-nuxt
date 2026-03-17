@@ -244,7 +244,7 @@ const handleDeleteSignatureFile = async () => {
               { label: $t('Female'), value: 'Female' },
               { label: $t('Other'), value: 'Other' },
             ]"
-            class="w-full h-8"
+            class="w-full h-full"
             icon="i-heroicons-users"
           />
           <FormInput
@@ -264,7 +264,7 @@ const handleDeleteSignatureFile = async () => {
               { label: $t('single'), value: 'single' },
               { label: $t('Other'), value: 'other' },
             ]"
-            class="w-full h-8"
+            class="w-full h-full"
           />
 
           <FormInput :label="$t('profession')" name="profession" class="w-full" />

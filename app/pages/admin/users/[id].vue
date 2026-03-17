@@ -7,6 +7,7 @@ import type { IRequestUser } from "@/types/IUser";
 
 definePageMeta({
   middleware: "admin",
+  titleKey: 'edit_user'
 });
 
 const route = useRoute();

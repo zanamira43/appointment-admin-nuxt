@@ -182,6 +182,10 @@ function handleClick(e: Event, row: TableRow<IAllPatient>) {
     }, 300);
   }
 }
+
+definePageMeta({
+  titleKey: 'patient'
+})
 </script>
 <template>
   <NuxtLayout>
@@ -189,7 +193,7 @@ function handleClick(e: Event, row: TableRow<IAllPatient>) {
       <div class="px-4 py-2">
         <!-- page header -->
         <AdminPageHeader :title="$t('patient')" :subtitle="$t('list_of_all_patients')">
-          <div class="flex items-center justify-between gap-4">
+          <div class="flex flex-wrap items-center justify-between gap-4">
             <!-- search by patient name && phone number -->
             <UInput
               v-model="search"

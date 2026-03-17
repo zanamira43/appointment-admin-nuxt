@@ -1,7 +1,10 @@
 <script setup>
+
 definePageMeta({
   middleware: ["auth"],
+  titleKey: 'dashboard'
 });
+
 </script>
 <template>
   <NuxtLayout>

@@ -69,12 +69,16 @@ const submitForm = handleSubmit(async () => {
     console.log(error);
   }
 });
+
+definePageMeta({
+  titleKey: 'add_patient'
+})
 </script>
 
 <template>
   <NuxtLayout>
     <div class="w-full mx-auto">
-      <UCard>
+      <UCard variant="outline">
         <template #header>
           <h2 class="text-2xl font-semibold">{{ $t("add_patient") }}</h2>
         </template>
@@ -91,7 +95,7 @@ const submitForm = handleSubmit(async () => {
                 { label: $t('Female'), value: 'Female' },
                 { label: $t('Other'), value: 'Other' },
               ]"
-              class="w-full h-8"
+              class="w-full h-full"
               icon="i-heroicons-users"
             />
             <FormInput
@@ -111,7 +115,7 @@ const submitForm = handleSubmit(async () => {
                 { label: $t('single'), value: 'single' },
                 { label: $t('Other'), value: 'other' },
               ]"
-              class="w-full h-8"
+              class="w-full h-full"
             />
 
             <FormInput :label="$t('profession')" name="profession" class="w-full" />

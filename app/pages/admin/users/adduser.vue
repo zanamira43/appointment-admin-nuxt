@@ -6,6 +6,7 @@ import type { IRequestUser } from "@/types/IUser";
 
 definePageMeta({
   middleware: "admin",
+  titleKey: 'add_user'
 });
 
 const showPassword = ref(true);

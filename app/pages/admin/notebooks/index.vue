@@ -6,6 +6,7 @@ import { formatDate } from "~/util/util";
 
 definePageMeta({
   middleware: "admin",
+  titleKey: 'note_book'
 });
 
 const toast = useToast();

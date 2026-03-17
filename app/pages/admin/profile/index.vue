@@ -44,6 +44,10 @@ const handleUpdateProfile = () => {
     },
   });
 };
+
+definePageMeta({
+  titleKey: 'profile'
+})
 </script>
 <template>
   <NuxtLayout>

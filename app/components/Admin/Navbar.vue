@@ -1,4 +1,17 @@
 <script setup>
+
+const route = useRoute()
+
+// call page title dynamicaly 
+// when user navigate between pages 
+// each page has own title
+const pageTitle = computed(() => {
+  // force reactivity
+  route.fullPath
+  const key = route.meta.titleKey 
+  return key ? $t(key) : ''
+})
+
 const { first_name, last_name } = useMyUserStore();
 
 const authStore = useAuthStore();
@@ -76,6 +89,8 @@ const refreshPage = () => {
           size="lg"
         />
       </UFormField>
+
+      <div class="md:hidden w-40 text-xs font-medium text-slate-500">{{ pageTitle }}</div>
     </div>
 
     <div class="flex justify-end items-center gap-x-4 lg:gap-x-6 w-full">

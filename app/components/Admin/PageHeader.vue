@@ -1,6 +1,10 @@
 <template>
   <UCard
-    class="bg-transparent shadow-none border-none flex flex-row justify-between items-center"
+    class="bg-transparent flex flex-wrap md:justify-between items-center"
+    variant="outline"
+    :ui="{
+      header: 'border-0'
+    }"
   >
     <template #header>
       <h1 class="text-2xl font-semibold px-2">{{ title }}</h1>
@@ -13,9 +17,9 @@
   </UCard>
 </template>
 
-<script setup>
-defineProps({
+<script setup lang="ts">
+defineProps<{
   title: String,
-  subtitle: String,
-});
+  subtitle?: String,
+}>();
 </script>

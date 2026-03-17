@@ -13,6 +13,7 @@ const userLists = computed<IAllUsers | any>(() => {
 
 definePageMeta({
   middleware: "admin",
+  titleKey: 'user'
 });
 
 onMounted(async () => {

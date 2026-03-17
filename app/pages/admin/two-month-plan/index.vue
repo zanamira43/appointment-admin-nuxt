@@ -137,6 +137,10 @@ function handleClick(e: Event, row: TableRow<IAllPersonInfo>) {
     lastClick.value = now;
   }
 }
+
+definePageMeta({
+  titleKey: 'two_month_plan'
+})
 </script>
 <template>
   <NuxtLayout>

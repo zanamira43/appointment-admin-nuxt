@@ -13,6 +13,10 @@ const items = computed(() => {
 
   return baseItems;
 });
+
+definePageMeta({
+  titleKey: 'setting'
+})
 </script>
 <template>
   <NuxtLayout>

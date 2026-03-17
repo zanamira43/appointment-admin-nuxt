@@ -50,6 +50,10 @@ const items = computed(() => {
 
   return baseItems;
 });
+
+definePageMeta({
+  titleKey: 'edit_patient'
+})
 </script>
 <template>
   <NuxtLayout>
