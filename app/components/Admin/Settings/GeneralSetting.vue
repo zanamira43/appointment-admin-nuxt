@@ -49,7 +49,7 @@ const handleUpdateSystemSetting = async () => {
 <template>
   <UCard>
     <template #header>
-      <div class="text-lg font-medium flex flex-row justify-between">
+      <div class="text-lg font-medium flex flex-wrap justify-between w-full">
         <span>{{ $t("general_setting") }}</span>
         <UButton @click="handleUpdateSystemSetting" :disabled="isPending">{{
           $t("update")
@@ -57,7 +57,7 @@ const handleUpdateSystemSetting = async () => {
       </div>
     </template>
 
-    <div class="space-y-4 w-1/2 mx-auto">
+    <div class="space-y-4 md:w-1/2 w-full mx-auto">
       <UFormField :label="$t('system_name')" class="justify-between items-center hidden">
         <FormInput name="id" />
       </UFormField>

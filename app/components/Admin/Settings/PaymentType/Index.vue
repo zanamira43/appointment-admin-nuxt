@@ -138,14 +138,14 @@ function handleClick(e: Event, row: TableRow<IPaymentTypes>) {
         :title="$t('payment_type')"
         :subtitle="$t('list_of_all_payment_types')"
       >
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
           <!-- search by patient name && phone number -->
           <UInput
             v-model="search"
             type="text"
             icon="heroicons:magnifying-glass-20-solid"
             :placeholder="$t('search')"
-            class="w-[200px]"
+            class="w-50"
           />
 
           <UButton
@@ -209,7 +209,7 @@ function handleClick(e: Event, row: TableRow<IPaymentTypes>) {
       </UModal>
 
       <!-- create new session modal -->
-      <UModal v-model:open="createModal" :ui="{ content: 'min-w-[900px]' }">
+      <UModal v-model:open="createModal" :ui="{ content: 'md:min-w-[900px]' }">
         <template #header>
           <div class="flex justify-between items-center w-full">
             <h1 class="text-2xl font-bold text-center">
@@ -223,7 +223,7 @@ function handleClick(e: Event, row: TableRow<IPaymentTypes>) {
       </UModal>
 
       <!-- edit session modal -->
-      <UModal v-model:open="EditModal" :ui="{ content: 'min-w-[900px]' }">
+      <UModal v-model:open="EditModal" :ui="{ content: 'md:min-w-[900px]' }">
         <template #header>
           <div class="flex justify-between items-center w-full">
             <h1 class="text-2xl font-bold text-center">
