@@ -323,6 +323,7 @@ const handleDeleteSignatureFile = async () => {
           <UButton
             type="button"
             :loading="isPending"
+            icon="material-symbols:save-rounded"
             @click="
               async () => {
                 await handleUpdate();

@@ -63,7 +63,7 @@ const showPasswordConfirm = ref(false);
     <template #header>
       <h1 class="text-2xl font-bold text-center">{{ $t("change_password") }}</h1>
     </template>
-    <div class="grid grid-cols-1 w-full px-5 h-[210px]">
+    <div class="grid grid-cols-1 w-full px-5 h-52.5">
       <FormInput
         :type="showPassword ? 'text' : 'password'"
         :label="$t('password')"

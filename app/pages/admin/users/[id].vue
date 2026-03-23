@@ -105,6 +105,7 @@ const isChagePassword = ref(false);
 
             <UButton
               type="button"
+              icon="material-symbols:save-rounded"
               :loading="isUpdateUserLoading"
               @click="
                 async () => {

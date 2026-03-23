@@ -51,7 +51,7 @@ const handleUpdateSystemSetting = async () => {
     <template #header>
       <div class="text-lg font-medium flex flex-wrap justify-between w-full">
         <span>{{ $t("general_setting") }}</span>
-        <UButton @click="handleUpdateSystemSetting" :disabled="isPending">{{
+        <UButton icon="material-symbols:save-rounded" @click="handleUpdateSystemSetting" :disabled="isPending">{{
           $t("update")
         }}</UButton>
       </div>

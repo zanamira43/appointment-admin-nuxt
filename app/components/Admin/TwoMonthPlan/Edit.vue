@@ -86,7 +86,7 @@ const onSubmit = async () => {
       </form>
       <div>
         <div class="flex items-center justify-end gap-2 p-2 w-full mt-5">
-          <UButton type="button" @click="onSubmit()" :loading="isPending">
+          <UButton icon="material-symbols:save-rounded" type="button" @click="onSubmit()" :loading="isPending">
             <span>{{ $t("update") }}</span>
           </UButton>
         </div>

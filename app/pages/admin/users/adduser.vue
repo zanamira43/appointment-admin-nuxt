@@ -114,7 +114,7 @@ const submitForm = handleSubmit(async () => {
                 {{ $t("back") }}
             </UButton>
 
-            <UButton :loading="isCreateUserLoading" type="button" @click="submitForm()">
+            <UButton icon="material-symbols:save-rounded" :loading="isCreateUserLoading" type="button" @click="submitForm()">
               {{ $t("save") }}
             </UButton>
           </div>

@@ -114,6 +114,7 @@ const isFormValid = computed(() => {
             @click="onSubmit"
             :loading="isLoading || isUpdatePaymentTypeLoading"
             :disabled="!isFormValid || isLoading || isUpdatePaymentTypeLoading"
+            icon="material-symbols:save-rounded"
           >
             <span>{{ $t("update") }}</span>
           </UButton>

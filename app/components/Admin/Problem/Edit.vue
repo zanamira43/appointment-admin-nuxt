@@ -360,7 +360,7 @@ const secondaryProblemOptions = ref([
                 class="text-red-500 cursor-pointer"
               />
             </UButton>
-            <UButton type="button" @click="updatePatientProblem()" :loading="isPending">
+            <UButton icon="material-symbols:save-rounded" type="button" @click="updatePatientProblem()" :loading="isPending">
               <span>{{ $t("update") }}</span>
             </UButton>
           </div>

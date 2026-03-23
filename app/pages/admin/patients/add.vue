@@ -138,7 +138,7 @@ definePageMeta({
             <UButton icon="material-symbols:assignment-return" @click="navigateTo('/admin/patients')">
               {{ $t('back') }}
             </UButton>
-            <UButton type="button" @click="submitForm()">{{ $t("save") }}</UButton>
+            <UButton icon="material-symbols:save-rounded" type="button" @click="submitForm()">{{ $t("save") }}</UButton>
           </div>
         </template>
       </UCard>

@@ -93,7 +93,11 @@ const showPasswordConfirm = ref(false);
     </div>
     <template #footer>
       <div class="flex justify-end gap-2">
-        <UButton :disabled="isPending" type="button" @click="handleUpdatePassword">
+        <UButton 
+          type="button"
+          icon="material-symbols:save-rounded" 
+          :disabled="isPending" 
+           @click="handleUpdatePassword">
           {{ $t("update") }}
         </UButton>
       </div>

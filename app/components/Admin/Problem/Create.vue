@@ -206,6 +206,7 @@ const secondaryProblemOptions = ref([
             @click="onSubmit()"
             :loading="isPending"
             :disabled="!isFormValid"
+            icon="material-symbols:save-rounded"
           >
             <span>{{ $t("save") }}</span>
           </UButton>

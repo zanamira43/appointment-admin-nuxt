@@ -71,7 +71,12 @@ definePageMeta({
         </form>
         <template #footer>
           <div class="flex justify-end gap-2">
-            <UButton :disabled="isPending" type="button" @click="handleUpdateProfile">
+            <UButton 
+              type="button" 
+              icon="material-symbols:save-rounded" 
+              :disabled="isPending" 
+              @click="handleUpdateProfile"
+              >
               {{ $t("update") }}
             </UButton>
           </div>
