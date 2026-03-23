@@ -215,6 +215,11 @@ function handleClick(e: Event, row: TableRow<IPaymentTypes>) {
             <h1 class="text-2xl font-bold text-center">
               {{ $t("add_payment_type") }}
             </h1>
+
+            <UButton
+                icon="material-symbols-light:close-rounded"
+                @click="createModal = false"
+              />
           </div>
         </template>
         <template #body>
@@ -229,6 +234,11 @@ function handleClick(e: Event, row: TableRow<IPaymentTypes>) {
             <h1 class="text-2xl font-bold text-center">
               {{ $t("edit_payment_type") }}
             </h1>
+
+            <UButton
+                icon="material-symbols-light:close-rounded"
+                @click="EditModal = false"
+              />
           </div>
         </template>
         <template #body>
