@@ -147,6 +147,14 @@ definePageMeta({
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <AdminPageHeader :title="$t('two_month_plan')">
+            <UButton
+              :label="$t('add')"
+              color="primary"
+              icon="heroicons:plus-20-solid"
+              @click="createModal = true"
+            />
+        </AdminPageHeader>
+        <UCard class="mt-2" variant="outline" >
           <div class="flex w-full gap-4">
             <!-- search by name && phone number -->
             <UInput
@@ -154,18 +162,11 @@ definePageMeta({
               type="text"
               icon="heroicons:magnifying-glass-20-solid"
               :placeholder="$t('search')"
-              class="w-full"
+              
             >
             </UInput>
-
-            <UButton
-              :label="$t('add')"
-              color="primary"
-              icon="heroicons:plus-20-solid"
-              @click="createModal = true"
-            />
           </div>
-        </AdminPageHeader>
+        </UCard>
         <div class="mt-2">
           <UTable
             sticky

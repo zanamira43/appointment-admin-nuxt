@@ -1,6 +1,6 @@
 <template>
   <UCard
-    class="bg-transparent flex flex-wrap md:justify-between items-center"
+    class="bg-transparent flex flex-wrap justify-between items-center"
     variant="outline"
     :ui="{
       header: 'border-0'

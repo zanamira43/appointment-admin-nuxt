@@ -196,7 +196,15 @@ definePageMeta({
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <AdminPageHeader :title="$t('time_tables')">
-          <div class="flex flex-wrap justify-between items-center w-full gap-4">
+            <UButton
+              :label="$t('add')"
+              color="primary"
+              icon="heroicons:plus-20-solid"
+              @click="createModal = true"
+            />
+        </AdminPageHeader>
+        <UCard class="mt-2" variant="outline">
+          <div class="flex flex-wrap items-center w-full gap-4">
             <!-- search by week days -->
             <USelect
               arrow
@@ -204,7 +212,7 @@ definePageMeta({
               v-model="searchByWeekDays"
               :items="weekdaysOption"
               size="lg"
-              class="w-full h-8"
+              class="h-8"
               :search-attributes="['label', 'value']"
             />
             <!-- search by patient name -->
@@ -213,7 +221,6 @@ definePageMeta({
               :type="showTime ? 'time' : 'text'"
               icon="heroicons:magnifying-glass-20-solid"
               :placeholder="$t('search')"
-              class="w-full"
               :ui="{ trailing: 'pe-1' }"
             >
               <template #trailing>
@@ -234,14 +241,8 @@ definePageMeta({
               </template>
             </UInput>
 
-            <UButton
-              :label="$t('add')"
-              color="primary"
-              icon="heroicons:plus-20-solid"
-              @click="createModal = true"
-            />
           </div>
-        </AdminPageHeader>
+        </UCard>
         <div class="mt-2">
           <UTable
             sticky
