@@ -196,7 +196,7 @@ definePageMeta({
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <AdminPageHeader :title="$t('time_tables')">
-          <div class="flex justify-between items-center w-full gap-4">
+          <div class="flex flex-wrap justify-between items-center w-full gap-4">
             <!-- search by week days -->
             <USelect
               arrow
@@ -204,7 +204,7 @@ definePageMeta({
               v-model="searchByWeekDays"
               :items="weekdaysOption"
               size="lg"
-              class="w-full h-[32px]"
+              class="w-full h-8"
               :search-attributes="['label', 'value']"
             />
             <!-- search by patient name -->
@@ -290,12 +290,18 @@ definePageMeta({
         </UModal>
 
         <!-- create new time table -->
-        <UModal v-model:open="createModal" :ui="{ content: 'min-w-[900px]' }">
+        <UModal v-model:open="createModal" :ui="{ content: 'md:min-w-[900px]' }">
           <template #header>
             <div class="flex justify-between items-center w-full">
               <h1 class="text-2xl font-bold text-center">
                 {{ $t("new_time_table") }}
               </h1>
+
+
+              <UButton
+                icon="material-symbols-light:close-rounded"
+                @click="createModal = false"
+              />
             </div>
           </template>
           <template #body>
@@ -304,12 +310,17 @@ definePageMeta({
         </UModal>
 
         <!-- edit time Table -->
-        <UModal v-model:open="EditModal" :ui="{ content: 'min-w-[900px]' }">
+        <UModal v-model:open="EditModal" :ui="{ content: 'md:min-w-[900px]' }">
           <template #header>
             <div class="flex justify-between items-center w-full">
               <h1 class="text-2xl font-bold text-center">
                 {{ $t("edit_time_table") }}
               </h1>
+
+              <UButton
+                icon="material-symbols-light:close-rounded"
+                @click="EditModal = false"
+              />
             </div>
           </template>
           <template #body>
