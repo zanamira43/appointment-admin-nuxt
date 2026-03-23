@@ -316,7 +316,10 @@ const handleDeleteSignatureFile = async () => {
         </div>
       </form>
       <template #footer>
-        <div class="flex justify-end gap-2">
+        <div class="flex justify-between gap-2">
+           <UButton icon="material-symbols:assignment-return" @click="navigateTo('/admin/patients')">
+              {{ $t('back') }}
+            </UButton>
           <UButton
             type="button"
             :loading="isPending"

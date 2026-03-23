@@ -81,7 +81,7 @@ const isChagePassword = ref(false);
                 { label: $t('admin'), value: 'admin' },
                 { label: $t('user'), value: 'user' },
               ]"
-              class="w-full h-[35px]"
+              class="w-full h-full"
               icon="i-heroicons-users"
             />
 
@@ -92,13 +92,17 @@ const isChagePassword = ref(false);
                 { label: $t('yes'), value: true },
                 { label: $t('no'), value: false },
               ]"
-              class="w-full h-[35px]"
+              class="w-full h-full"
               icon="i-heroicons-users"
             />
           </div>
         </form>
         <template #footer>
-          <div class="flex justify-end gap-2">
+          <div class="flex justify-between gap-2">
+            <UButton icon="material-symbols:assignment-return" @click="navigateTo('/admin/users')">
+                {{ $t("back") }}
+            </UButton>
+
             <UButton
               type="button"
               :loading="isUpdateUserLoading"
