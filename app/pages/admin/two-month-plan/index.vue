@@ -147,7 +147,7 @@ definePageMeta({
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <AdminPageHeader :title="$t('two_month_plan')">
-          <div class="flex justify-between items-center w-full gap-4">
+          <div class="flex w-full gap-4">
             <!-- search by name && phone number -->
             <UInput
               v-model="search"
@@ -214,7 +214,7 @@ definePageMeta({
         </UModal>
 
         <!-- create new person info - subscriber -->
-        <UModal v-model:open="createModal" :ui="{ content: 'min-w-255' }">
+        <UModal v-model:open="createModal" :ui="{ content: 'md:min-w-255' }">
           <template #header>
             <div class="flex justify-between items-center w-full">
               <h1 class="text-2xl font-bold text-center">
@@ -233,7 +233,7 @@ definePageMeta({
         </UModal>
 
         <!-- edit time Table -->
-        <UModal v-model:open="EditModal" :ui="{ content: 'min-w-255' }">
+        <UModal v-model:open="EditModal" :ui="{ content: 'md:min-w-255' }">
           <template #header>
             <div class="flex justify-between items-center w-full">
               <h1 class="text-2xl font-bold text-center">
