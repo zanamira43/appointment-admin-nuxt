@@ -1,9 +1,12 @@
 <template>
   <UCard
-    class="bg-transparent flex flex-wrap justify-between items-center"
+    class="bg-transparent flex flex-wrap justify-between items-center w-full"
     variant="outline"
     :ui="{
-      header: 'border-0'
+      root: 'p-0',
+      header: 'border-0 p-0',
+      body: 'p-0',
+      footer: 'p-0'
     }"
   >
     <template #header>
