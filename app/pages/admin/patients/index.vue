@@ -192,19 +192,19 @@ definePageMeta({
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <!-- page header -->
-        <AdminPageHeader :title="$t('patient')" :subtitle="$t('list_of_all_patients')">
-          <div class="flex flex-wrap items-center justify-between gap-4">
+        <AdminPageHeader :title="$t('patient')" :subtitle="$t('list_of_all_patients')">          
+          <template #right>
             <UButton
-              color="primary"
+              color="secondary"
               :label="$t('add')"
               icon="i-heroicons-plus-20-solid"
               class="ml-auto"
               @click="navigateTo('/admin/patients/add')"
             />
-          </div>
+          </template>
         </AdminPageHeader>
 
-        <UCard class="mt-2" variant="outline">
+        <UDashboardToolbar class="my-5 border-transparent">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <!-- search by patient name && phone number -->
             <UInput
@@ -232,7 +232,7 @@ definePageMeta({
               @click="clearSearch"
             />
           </div>
-        </UCard>
+        </UDashboardToolbar>
 
         <!-- patient table  -->
         <div class="mt-2">

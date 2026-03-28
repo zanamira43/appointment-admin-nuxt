@@ -138,16 +138,19 @@ function handleClick(e: Event, row: TableRow<IPaymentTypes>) {
         :title="$t('payment_type')"
         :subtitle="$t('list_of_all_payment_types')"
       >
-        <UButton
-          color="primary"
-          :label="$t('add')"
-          icon="i-heroicons-plus-20-solid"
-          class="ml-auto"
-          @click="createModal = true"
-        />
+
+       <template #right>
+          <UButton
+            color="secondary"
+            :label="$t('add')"
+            icon="i-heroicons-plus-20-solid"
+            class="ml-auto"
+            @click="createModal = true"
+          />
+       </template>
       </AdminPageHeader>
 
-      <UCard class="mt-2" variant="outline">
+      <UDashboardToolbar class="border-transparent">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <!-- search by patient name && phone number -->
           <UInput
@@ -158,7 +161,7 @@ function handleClick(e: Event, row: TableRow<IPaymentTypes>) {
             class="md:w-50"
           />
         </div>
-      </UCard>
+      </UDashboardToolbar>
 
       <!-- patient table  -->
       <div class="mt-2">

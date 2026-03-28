@@ -160,13 +160,15 @@ function handleClick(e: Event, row: TableRow<IAllUsers>) {
     <div claass="w-full h-auto">
       <div class="px-4 py-2">
         <AdminPageHeader :title="$t('user')" :subtitle="$t('list_of_all_users')">
-          <UButton
-            color="primary"
-            :label="$t('add')"
-            icon="i-heroicons-plus-20-solid"
-            class="ml-auto"
-            @click="navigateTo('/admin/users/adduser')"
-          />
+          <template #right>
+            <UButton
+              color="secondary"
+              :label="$t('add')"
+              icon="i-heroicons-plus-20-solid"
+              class="ml-auto"
+              @click="navigateTo('/admin/users/adduser')"
+            />
+          </template>
         </AdminPageHeader>
         <!-- page content -->
         <div class="mt-2">

@@ -196,14 +196,17 @@ definePageMeta({
     <div class="w-full h-auto">
       <div class="px-4 py-2">
         <AdminPageHeader :title="$t('time_tables')">
+          <template #right>
             <UButton
               :label="$t('add')"
-              color="primary"
+              color="secondary"
               icon="heroicons:plus-20-solid"
               @click="createModal = true"
             />
+          </template>
         </AdminPageHeader>
-        <UCard class="mt-2" variant="outline">
+
+        <UDashboardToolbar class="my-5 border-transparent">
           <div class="flex flex-wrap items-center w-full gap-4">
             <!-- search by week days -->
             <USelect
@@ -242,7 +245,9 @@ definePageMeta({
             </UInput>
 
           </div>
-        </UCard>
+        </UDashboardToolbar>
+
+
         <div class="mt-2">
           <UTable
             sticky
