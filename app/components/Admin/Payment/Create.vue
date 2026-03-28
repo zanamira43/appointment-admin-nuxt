@@ -97,7 +97,7 @@ const isFormValid = computed(() => {
   <div class="w-full mx-auto flex flex-col gap-5">
     <UCard variant="outline">
       <form class="w-full" @submit.prevent="onSubmit">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:px-5">
           <!-- Paymnet Type -->
           <FormSelect
             :label="$t('payment_type')"
@@ -150,14 +150,6 @@ const isFormValid = computed(() => {
 
       <template #footer>
         <div class="flex items-center justify-end gap-2 w-full">
-          <UButton
-            type="button"
-            variant="outline"
-            @click="emit('closeModal')"
-            :disabled="isCreatePaymentLoading"
-          >
-            <span>{{ $t("cancel") }}</span>
-          </UButton>
           <UButton
             type="button"
             @click="onSubmit"

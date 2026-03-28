@@ -114,7 +114,7 @@ function exportPuppeteer() {
 </script>
 
 <template>
-  <div class="p-4 bg-gray-50 min-h-screen flex items-start justify-center gap-2">
+  <div class="p-4 bg-gray-50 min-h-screen flex flex-col md:flex-row items-center md:items-start justify-center gap-2">
     <!-- right side of the invoice -- pape side -->
     <div class="w-full max-w-3xl bg-white shadow-md rounded-lg" ref="invoiceEl">
       <div class="p-3 border-b">

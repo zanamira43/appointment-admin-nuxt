@@ -106,10 +106,10 @@ const isFormValid = computed(() => {
 </script>
 
 <template>
-  <div class="w-full mx-auto flex flex-col gap-5">
+  <div class="w-full mx-auto">
     <UCard variant="outline">
       <form class="w-full" @submit.prevent="onSubmit">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:px-5">
           <!-- Subject -->
           <FormInput
             :label="$t('subject')"
@@ -153,14 +153,6 @@ const isFormValid = computed(() => {
 
       <template #footer>
         <div class="flex items-center justify-end gap-2 w-full">
-          <UButton
-            type="button"
-            variant="outline"
-            @click="emit('closeModal')"
-            :disabled="isPending"
-          >
-            <span>{{ $t("cancel") }}</span>
-          </UButton>
           <UButton
             type="button"
             @click="onSubmit"

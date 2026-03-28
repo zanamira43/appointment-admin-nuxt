@@ -193,25 +193,29 @@ function handleClick(e: Event, row: TableRow<IAllPayment>) {
     <div class="px-4 py-2">
       <!-- page header -->
       <AdminPageHeader :title="$t('payment')" :subtitle="$t('list_of_all_payment')">
-        <div class="flex items-center justify-between gap-4">
-          <!-- search by patient name && phone number -->
-          <UInput
-            v-model="search"
-            type="text"
-            icon="heroicons:magnifying-glass-20-solid"
-            :placeholder="$t('search')"
-            class="w-[200px]"
-          />
-
+        <template #right>
           <UButton
-            color="primary"
+            color="secondary"
             :label="$t('add')"
             icon="i-heroicons-plus-20-solid"
             class="ml-auto"
             @click="createModal = true"
           />
-        </div>
+        </template>
       </AdminPageHeader>
+
+      <UDashboardToolbar class="my-2 border-transparent">
+        <div class="flex items-center justify-between gap-4">
+            <!-- search by patient name && phone number -->
+            <UInput
+              v-model="search"
+              type="text"
+              icon="heroicons:magnifying-glass-20-solid"
+              :placeholder="$t('search')"
+              class="w-50"
+            />
+        </div>
+      </UDashboardToolbar>
 
       <!-- patient table  -->
       <div class="mt-2">
@@ -262,12 +266,17 @@ function handleClick(e: Event, row: TableRow<IAllPayment>) {
       </UModal>
 
       <!-- create new  payment  modal -->
-      <UModal v-model:open="createModal" :ui="{ content: 'min-w-[900px]' }">
+      <UModal v-model:open="createModal" :ui="{ content: 'md:min-w-225' }">
         <template #header>
           <div class="flex justify-between items-center w-full">
             <h1 class="text-2xl font-bold text-center">
               {{ $t("add_payment") }}
             </h1>
+
+            <UButton
+                icon="material-symbols-light:close-rounded"
+                @click="createModal = false"
+              />
           </div>
         </template>
         <template #body>
@@ -276,12 +285,17 @@ function handleClick(e: Event, row: TableRow<IAllPayment>) {
       </UModal>
 
       <!-- edit payment modal -->
-      <UModal v-model:open="EditModal" :ui="{ content: 'min-w-[900px]' }">
+      <UModal v-model:open="EditModal" :ui="{ content: 'md:min-w-225' }">
         <template #header>
           <div class="flex justify-between items-center w-full">
             <h1 class="text-2xl font-bold text-center">
               {{ $t("edit_payment") }}
             </h1>
+
+            <UButton
+                icon="material-symbols-light:close-rounded"
+                @click="EditModal = false"
+              />
           </div>
         </template>
         <template #body>

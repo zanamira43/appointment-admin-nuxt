@@ -190,14 +190,6 @@ const isFormValid = computed(() => {
         <div class="flex items-center justify-end gap-2 w-full">
           <UButton
             type="button"
-            variant="outline"
-            @click="emit('closeModal')"
-            :disabled="isSessionUpdating"
-          >
-            <span>{{ $t("cancel") }}</span>
-          </UButton>
-          <UButton
-            type="button"
             @click="onSubmit"
             :loading="isSessionUpdating"
             :disabled="!isFormValid || isSessionUpdating || isLoadingSession"
