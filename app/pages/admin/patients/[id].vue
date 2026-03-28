@@ -60,7 +60,10 @@ definePageMeta({
     <div class="w-full mx-auto">
       <UTabs
         :items="items"
-        :ui="{ trigger: 'grow' }"
+        :ui="{ 
+          list: 'flex overflow-x-auto whitespace-nowrap',
+          trigger: 'shrink-0' 
+        }"
         class="gap-4 w-full"
         :unmount-on-hide="false"
         variant="pill"
