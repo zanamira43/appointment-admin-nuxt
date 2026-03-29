@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useBreakpoints } from '@vueuse/core'
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import type { INewNotbook } from "~/types/INotebook";
@@ -36,6 +37,13 @@ const handleCreateNewNote = async () => {
     },
   });
 };
+
+const breakpoint = useBreakpoints({
+  mobile: 0,
+  tablet: 800,
+});
+
+const isMobile = breakpoint.smaller("tablet");
 </script>
 <template>
   <!-- New Notebook Form -->
@@ -49,10 +57,10 @@ const handleCreateNewNote = async () => {
         <!-- card actions -->
         <div class="flex justify-center items-center gap-5 w-1/4">
           <UButton
-            icon="mdi:plus"
+            icon="material-symbols:save-rounded"
             color="neutral"
             @click="handleCreateNewNote"
-            :label="$t('create_new_note')"
+            :label="isMobile ? '' : $t('create_note')"
             class="w-full text-xl flex justify-center items-center"
             :loading="isCreating"
           />

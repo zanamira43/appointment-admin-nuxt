@@ -96,7 +96,9 @@ const handelUpdateNote = async () => {
       </div>
       <div v-else class="px-4 py-2">
         <AdminPageHeader :title="$t('note_book')">
-          <UButton :label="$t('add')" icon="i-heroicons-plus-20-solid" @click="addForm = !addForm" />
+          <template #right>
+            <UButton :label="$t('add')" icon="i-heroicons-plus-20-solid" color="secondary" @click="addForm = !addForm" />
+          </template> 
         </AdminPageHeader>
         <!-- create notebook form -->
         <AdminNotebookCreate
