@@ -145,7 +145,7 @@ const isFormValid = computed(() => {
           />
 
           <!-- Detail -->
-          <div class="w-full col-span-2">
+          <div class="w-full md:col-span-2">
             <FormTextArea :label="$t('details')" name="detail" class="w-full" :rows="4" />
           </div>
         </div>

@@ -312,9 +312,10 @@ const handleDeleteSignatureFile = async () => {
                 class="flex flex-row"
               />
               <span>{{ $t("is_private") }}</span>
-            </div>
+          </div>
         </div>
       </form>
+
       <template #footer>
         <div class="flex justify-between gap-2">
            <UButton icon="material-symbols:assignment-return" @click="navigateTo('/admin/patients')">
