@@ -11,6 +11,7 @@ import { paymentTypeContract } from './payment_type'
 import { settingContract } from './setting'
 import { NotebookContracts } from './noteBook'
 import { PersonInfoContract } from './personInfo'
+import { licenseContract } from './license'
 
 
 const c = initContract()
@@ -25,5 +26,6 @@ export const contract = c.router({
   paymentType: paymentTypeContract,
   setting: settingContract,
   noteBook: NotebookContracts,
-  PersonInfo: PersonInfoContract
+  PersonInfo: PersonInfoContract,
+  licence: licenseContract
 })

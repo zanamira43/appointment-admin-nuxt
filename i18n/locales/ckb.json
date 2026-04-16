@@ -34,9 +34,6 @@
   "payment": "پارەدان",
   "user": "بەکارهێنەر",
   "rawezhkar_aso": "ڕاوێژکار ئاسۆ",
-  "Manage patients and their information.": " بەڕێوەبردنی زانیاری نەخۆش",
-  "Browse all sessions.": "پانێڵی جەلسەکان",
-  "Track all payments.": " چاودێری کرندی شێوازی پارەدان",
   "all": "هەموو",
   "add": "زیادکردن",
   "patient_deleted_successfully": " زانیاری نەخۆش بەسەرکەوتووی سڕاییەوە",
@@ -277,5 +274,10 @@
   "delete_signature": "سڕینەوەی واژۆی نەخۆش",
   "signature_file_uploaded_successfully": "واژۆی نەخۆش بەسەرکەوتوویی بارکرا",
   "signature_file_upload_failed": "هەڵەڕویدا لەکاتی بارکردنی واژۆی نەخۆش",
-  "signature_file_deleted_successfully": "واژۆی نەخۆش بەسەرکەوتوویی سڕایەوە"
+  "signature_file_deleted_successfully": "واژۆی نەخۆش بەسەرکەوتوویی سڕایەوە",
+  "License": "مۆڵەت",
+  "License_description": " وادەی مۆڵەتی سیستەم لێرە نیشان دەدرێت",
+  "your_license": "مۆڵەتەکەت",
+  "is_active": "چالاکە",
+  "expire_date": "بەرواری بەسەرچوون"
 }

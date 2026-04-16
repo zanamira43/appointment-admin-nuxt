@@ -36,6 +36,11 @@ const items = computed(() => {
       icon: "material-symbols:settings",
       to: "/admin/settings",
     },
+    {
+      label: $t("License"),
+      icon: "material-symbols:license",
+      to: "/admin/license",
+    },
   ];
 
   // Only push the 'user' menu if the role is 'admin'
