@@ -27,7 +27,7 @@ const processStyle = computed(() => {
               iconClass="text-3xl text-secondary size-5"/>
           </template>
 
-          <div class="flex justify-between">
+          <div class="flex justify-between flex-wrap items-center gap-5">
             <div class="mt-5 flex flex-col">
                 <div class="flex gap-3">
                   <span>{{ $t('your_license') }} : </span>
