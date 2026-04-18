@@ -225,7 +225,8 @@ function exportPuppeteer() {
             <p class="text-md pb-1 text-slate-500 font-bold">
               {{ Number(patientData?.total_received_payments).toLocaleString() }}
             </p>
-            <p class="text-slate-500 text-[10px]">{{ $t("iqd") }}</p>
+            <p v-if="patientData?.is_dollar_payment" class="text-slate-500 text-[10px]">$</p>
+            <p v-else class="text-slate-500 text-[10px]">{{ $t("iqd") }}</p>
           </div>
         </div>
       </div>
